@@ -1,16 +1,9 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Login from './components/Login'
-import Nav from './components/Navbar'
-import Banner from "./components/Banner";
+import Login from './container/Login'
 class App extends Component {
   render() {
     return (
-      <div>
-        <Nav/>
-        <Banner/>
-      </div>
+      <Login />
     );
   }
 }
