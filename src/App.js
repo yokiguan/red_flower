@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Login from './container/Login'
+import InfoList from './components/Container/TutorInfoList'
 class App extends Component {
   render() {
     return (
-      <Login />
+      <InfoList/>
     );
   }
 }

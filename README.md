@@ -1,2 +1,4 @@
 # Backstage-Management
-一个用React全家桶 ➕ React-Bootstrap构建的管理平台
+React + Ant Design 构建的一个后台管理平台
+
+
