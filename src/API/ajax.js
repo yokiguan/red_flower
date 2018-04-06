@@ -1,11 +1,11 @@
 function makeRequest(config) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest()
+    console.log(config)
     xhr.open(config.method, config.url)
-
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response)
+        resolve(JSON.parse(xhr.response))
       } else {
         reject({
           status: xhr.status,
@@ -24,13 +24,15 @@ function makeRequest(config) {
         xhr.setRequestHeader(key, config.headers[key]);
       });
     }
-    xhr.send(config.data)
+    if (typeof config.data !== 'undefined') {
+      xhr.send(config.data)
+    }
   })
 }
 
 //  配置url
 function config_url(url) {
-  const baseUrl = 'http://xiaoyaoeden.top:8080'
+  const baseUrl = 'http://admin.xiaoyaoeden.top'
   return baseUrl + url
 }
 
@@ -43,7 +45,7 @@ function config_method(method) {
 //  {name: 'van', age: '18'} --> 'xxx?name=van&age=18'
 function config_queryString(data) {
   let str = ''
-  if (Object.keys(data).length === 0) {
+  if (typeof data === 'undefined' || Object.keys(data).length === 0) {
     return str
   }
   const keys = Object.keys(data)
@@ -65,29 +67,28 @@ function config_restful(data) {
   return str
 }
 //  根据method匹配参数
-function config_params(method, url, data) {
-
-  if (method === 'GET') {
+const config_mothods = {
+  GET: (url, data) => {
     return {
       method: 'GET',
       url: url + config_queryString(data),
       headers: {
         "Content-Type": 'application/json'
-      }
+      },
+      data: {}
     }
-  }
-
-  if (method === 'GET_RESTFUL') {
+  },
+  GET_RESTFUL: (url, data) => {
     return {
       method: 'GET',
-      url: url + config_restful(data),
+      url: url + config_queryString(data),
       headers: {
         "Content-Type": 'application/json'
-      }
+      },
+      data: {}
     }
-  }
-
-  if (method === 'POST') {
+  },
+  POST: (url, data) => {
     return {
       method: 'POST',
       url: url,
@@ -96,19 +97,41 @@ function config_params(method, url, data) {
         "Content-Type": 'application/json'
       }
     }
-  }
-
-  if (method === 'POST_LOGIN') {
-    let str = config_queryString(data)
+  },
+  DELETE_RESTFUL: (url, data) => {
     return {
-      method: 'POST',
-      url: url,
-      transformRequest: str.slice(1, str.length),
+      method: 'DELETE',
+      url: url + '/' + data.id,
+      data: {},
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
+        "Content-Type": 'application/json'
+      }
+    }
+  },
+  PUT: (url) => {
+    return {
+      method: 'PUT',
+      url: url,
+      data: {},
+      headers: {
+        "Content-Type": 'application/json'
+      }
+    }
+  },
+  PUT_RESTFUL: (url, data) => {
+    return {
+      method: 'PUT',
+      url: url + '/' + data.id,
+      data: {},
+      headers: {
+        "Content-Type": 'application/json'
       }
     }
   }
+}
+
+function config_params(method, url, data) {
+  return config_mothods[method](url, data)
 }
 
 const ajax = (method, url, data) => {

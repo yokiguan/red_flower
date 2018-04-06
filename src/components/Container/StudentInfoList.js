@@ -20,7 +20,9 @@ class StudentInfoList extends Component {
         direction: '社会公益',
         score: 100,
         flowerNum: 10,
-        workedTime: 10
+        workedTime: 10,
+        simpleIntro: '我，西电，第一人',
+        personalIntro: '我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，我，西电第一人，牛逼，'
       }
     ]
   }

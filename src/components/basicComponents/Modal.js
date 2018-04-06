@@ -4,12 +4,12 @@ import InfoForm from './InfoForm'
 class BasicModal extends Component {
   constructor(props) {
     super(props)
-    console.log(props.infoData)
     this.hideModal = this.hideModal.bind(this)
     this.showModal = this.showModal.bind(this)
     this.state = {
       visible: false
     }
+    console.log(this.props.style)
   }
   hideModal() {
     this.setState({

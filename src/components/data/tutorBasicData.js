@@ -35,7 +35,7 @@ export const columns = [
     dataIndex: 'isTutor',
     key: 'isTutor',
     render: (value,record) => {
-      if (value == 2) {
+      if (value === 2) {
         return <span>是</span>
       } else {
         return <span>否</span>

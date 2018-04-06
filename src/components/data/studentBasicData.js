@@ -1,5 +1,5 @@
 import React from 'react'
-import BasicModal from "../basicComponents/Modal";
+import BasicModal from "../basicComponents/Modal"
 export const columns = [
   {
     title: '姓名',
@@ -26,10 +26,6 @@ export const columns = [
     dataIndex: 'direction',
     key: 'direction'
   },{
-    title: '分数',
-    dataIndex: 'score',
-    key: 'score'
-  },{
     title: '小红花数',
     dataIndex: 'flowerNum',
     key: 'flowerNum'
@@ -37,7 +33,11 @@ export const columns = [
     title: '已做义工时间',
     dataIndex: 'workedTime',
     key: 'workedTime'
-  }, {
+  },{
+    title: '分数',
+    dataIndex: 'score',
+    key: 'score'
+  },{
     title: '操作',
     dataIndex: 'action',
     key: 'action',
