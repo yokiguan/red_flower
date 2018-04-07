@@ -14,6 +14,24 @@ const agree = (event) => {
       console.log(res)
     })
 }
+const renderAction = (props) => {
+  if (props.status === '审核中') {
+    return (
+      <Row>
+        <Button style={auditButtonStyle} data-name={props.id} onClick={agree}>通过</Button>
+        <Button style={auditButtonStyle} data-id={props.id} onClick={veto} data-record={props}>不通过</Button>
+        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId}/></span>
+      </Row>
+    )
+  } else {
+    return (
+      <Row>
+        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId}/></span>
+      </Row>
+    )
+  }
+
+}
 const auditButtonStyle = {
   marginLeft: 20 + 'px'
 }
@@ -53,14 +71,7 @@ export const columns = [
     key: 'action',
     dataIndex: 'action',
     render: (value, record) => {
-      console.log(record)
-      return (
-        <Row>
-          <Button style={auditButtonStyle} data-name={record.id} onClick={agree}>通过</Button>
-          <Button style={auditButtonStyle} data-id={record.id} onClick={veto} data-record={record}>不通过</Button>
-          <span style={{float: 'left'}}><BasicModal infoData={record.content}/></span>
-        </Row>
-      )
+      return renderAction(record)
     }
   }
 ]

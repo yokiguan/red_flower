@@ -31,8 +31,12 @@ class InfoForm extends Component {
       <section>
         <h3>详细信息</h3>
         <div>
+          <h1>{this.infoDataName.avatar}</h1>
           {
             this.infoDataName.map((item, index) => {
+              if (item === 'avatar') {
+                return
+              }
               if (item === 'score') {
                 return
               }
@@ -56,6 +60,16 @@ class InfoForm extends Component {
                   </div>
                 )
               }
+
+              if (item === 'score') {
+                return (
+                  <Row>
+                    <label>打分</label>
+                    <InputNumber value={this.props['score']}/>
+                    <Button type="primary">提交</Button>
+                  </Row>
+                )
+              }
               return (
                 <div key={item}>
                   <label>{infoDataMap[item]}：</label><Input value={this.props[item]} disabled={true}/>
@@ -64,12 +78,6 @@ class InfoForm extends Component {
             })
           }
         </div>
-        <br/>
-        <Row>
-          <label>打分</label>
-          <InputNumber value={this.props['score']}/>
-          <Button type="primary">提交</Button>
-        </Row>
       </section>
     )
   }

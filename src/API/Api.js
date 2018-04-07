@@ -20,11 +20,44 @@ const ResetCounter = () => {
 const GetNormalArticle = (data) => {
   return ajax('get', '/article/normal', data)
 }
+const GetStudentScore = (data) => {
+  return ajax('get_restful', '', data)
+}
+const UpdateStudentScore = (data) => {
+  return ajax('post', '', data)
+}
+const DownLoad = (data) => {
+  return ajax('get', '', data)
+}
+const UpLoad = (data) => {
+  return ajax('put', '', data)
+}
+const QiNiuDownLoad = (data) => {
+  return ajax('get', '', data)
+}
+const GetStuInfoList = (data) => {
+  return ajax('get', '/stu', data)
+}
+const GetTutorInfoList = (data) => {
+  return ajax('get', '/tutor', data)
+}
+const GetSchoolList = () => {
+  return ajax('get', '/conf/school')
+}
+const GetDirectionList = () => {
+  return ajax('get', '/conf/direction')
+}
 export {
   AccountLogin,
   GetAuditList,
   VetoAuditItem,
   AgreeAuditItem,
   ResetCounter,
-  GetNormalArticle
+  GetNormalArticle,
+  GetStudentScore,
+  UpdateStudentScore,
+  GetStuInfoList,
+  GetTutorInfoList,
+  GetSchoolList,
+  GetDirectionList
 }

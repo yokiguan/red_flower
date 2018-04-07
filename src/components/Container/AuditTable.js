@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table } from 'antd'
+import { Table, Button, Tabs } from 'antd'
 import { columns } from '../data/auditBasicData'
 import { auditType, auditStatus} from "../data/dataMap"
 import { GetAuditList, GetNormalArticle } from "../../API/Api"
@@ -9,10 +9,47 @@ class AuditTable extends Component {
   constructor (props) {
     super(props)
     this.parseData = this.parseData.bind(this)
+    this.changeAuditType = this.changeAuditType.bind(this)
+    this.changeAuditStatus = this.changeAuditStatus.bind(this)
     this.state = {
       type: 1,
-      status: 2
+      status: 2,
+      auditType: {
+        student: 1,
+        tutor: 2,
+        article: 3,
+        activity: 4
+      }
     }
+  }
+  changeAuditType (value) {
+    this.setState({
+      ...this.state,
+      type: this.state.auditType[value]
+    })
+    GetAuditList({type: this.state.auditType[value], status: 1})
+      .then(res => {
+        if (res.code === 1) {
+          this.setState({
+            ...this.state,
+            dataSource: []
+          })
+        } else {
+          this.setState({
+            ...this.state,
+            dataSource: this.parseData(res.data)
+          })
+        }
+      })
+  }
+  changeAuditStatus (e) {
+    GetAuditList({type: this.state.type, status: e.target.dataset.id})
+      .then(res => {
+        this.setState({
+          ...this.state,
+          dataSource: this.parseData(res.data)
+        })
+      })
   }
   parseData (data) {
     const result = []
@@ -27,37 +64,18 @@ class AuditTable extends Component {
     })
     return result
   }
-  componentWillMount() {
-    this.dataSource = [
-      {
-        key: '1',
-        name: '郭德纲',
-        content: '郭德纲提交了信息修改申请',
-        date: '2018-1-2'
-      }, {
-        key: '2',
-        name: '郭德纲',
-        content: '郭德纲提交了信息修改申请',
-        date: '2018-1-2'
-      },{
-        key: '3',
-        name: '郭德纲',
-        content: '郭德纲提交了信息修改申请',
-        date: '2018-1-2'
-      }
-    ]
-    this.dataSource.map((item, index) => {
-      item['number'] = index + 1
-      return item
-    })
-  }
   componentDidMount () {
     GetAuditList({type: this.state.type, status: this.state.status})
       .then(res => {
-        this.setState({
-          dataSource: this.parseData(res.data)
-        })
-        console.log(this.state.dataSource)
+        if (res.code === 1) {
+          this.setState({
+            dataSource: []
+          })
+        } else {
+          this.setState({
+            dataSource: this.parseData(res.data)
+          })
+        }
       })
     GetNormalArticle({page: 1})
       .then(res => {
@@ -65,9 +83,48 @@ class AuditTable extends Component {
       })
   }
   render() {
-
+    const style = {
+      buttonContainer: {
+        marginBottom: 10 + 'px',
+        marginTop: -50 + 'px',
+        marginLeft: 10 + 'px'
+      },
+      button: {
+        marginRight: 10 + 'px'
+      },
+      tabContainer: {
+        maxHeight: 600 + 'px'
+      }
+    }
     return (
-      <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+      <div style={style.tabContainer}>
+        <Tabs size='large' type='line' onChange={this.changeAuditType}>
+          <Tabs.TabPane key='student' tab='学生信息'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+          <Tabs.TabPane key='tutor' tab='导师信息'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+          <Tabs.TabPane key='activity' tab='活动申请'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+          <Tabs.TabPane key='volunteer' tab='义工申请'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+          <Tabs.TabPane key='withdraw' tab='提现申请'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+          <Tabs.TabPane key='article' tab='文章审核'>
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+          </Tabs.TabPane>
+        </Tabs>
+        <div style={style.buttonContainer}>
+          <Button style={style.button} data-id={1} onClick={this.changeAuditStatus}>查看正在审核</Button>
+          <Button style={style.button} data-id={2} onClick={this.changeAuditStatus}>查看已通过</Button>
+          <Button style={style.button} data-id={3} onClick={this.changeAuditStatus}>查看未通过审核</Button>
+        </div>
+      </div>
+
     )
   }
 }

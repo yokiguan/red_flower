@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'antd'
 import InfoForm from './InfoForm'
+import Score from '../Container/Score'
 class BasicModal extends Component {
   constructor(props) {
     super(props)
@@ -9,7 +10,6 @@ class BasicModal extends Component {
     this.state = {
       visible: false
     }
-    console.log(this.props.style)
   }
   hideModal() {
     this.setState({
@@ -34,6 +34,7 @@ class BasicModal extends Component {
           cancelText='取消'
         >
           <InfoForm {...this.props.infoData}/>
+          <Score {...this.props.infoData}/>
         </Modal>
       </div>
     )

@@ -1,14 +1,34 @@
 import React, { Component } from 'react'
 // import BasicInfoList from '../basicComponents/InfoList'
 import { columns } from '../data/studentBasicData'
-import { Table } from 'antd'
+import { Table, Input} from 'antd'
+import { GetStuInfoList} from "../../API/Api"
+import { GetTutorInfoList } from "../../API/Api";
+const Search = Input.Search
 class StudentInfoList extends Component {
   constructor(props) {
     super(props)
     this.showMoreInfo = this.showMoreInfo.bind(this)
   }
+  componentDidMount () {
+    GetStuInfoList()
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+    GetTutorInfoList()
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 
   componentWillMount() {
+
     this.dataSource = [
       {
         key: '1',
@@ -32,6 +52,7 @@ class StudentInfoList extends Component {
   render() {
     return (
       <div>
+        <Search placeholder='ss' onSearch={value => console.log(value)} style={{width: 200}}/>
         <Table dataSource={this.dataSource} columns={columns} bordered={true} />
       </div>
     )

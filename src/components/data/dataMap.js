@@ -30,7 +30,7 @@ export const otherInfoData = ['personalIntro', 'answer', 'problem']
 export const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
 export const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
 export const auditType = ['未知', '学生信息', '导师信息', '文章', '活动']
-export const auditStatus = ['未知', '审核中', '通过审核', '审核中']
+export const auditStatus = ['未知', '审核中', '通过审核', '未通过审核']
 export default {
   infoDataMap,
   otherInfoData,
