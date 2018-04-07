@@ -32,7 +32,7 @@ function makeRequest(config) {
 
 //  配置url
 function config_url(url) {
-  const baseUrl = 'http://admin.xiaoyaoeden.top'
+  const baseUrl = 'http://localhost:3000'
   return baseUrl + url
 }
 

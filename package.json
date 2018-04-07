@@ -2,6 +2,7 @@
   "name": "myproject",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://admin.xiaoyaoeden.top",
   "dependencies": {
     "ajv": "^6.4.0",
     "antd": "^3.4.0",
