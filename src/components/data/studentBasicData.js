@@ -1,5 +1,11 @@
 import React from 'react'
 import BasicModal from "../basicComponents/Modal"
+const degreeData = {
+  '-1': '未填写',
+  '1': '本科',
+  '2': '硕士',
+  '3': '博士'
+}
 export const columns = [
   {
     title: '姓名',
@@ -11,12 +17,15 @@ export const columns = [
     key: 'phone'
   },{
     title: '学校',
-    dataIndex: 'school',
-    key: 'school'
+    dataIndex: 'schoolId',
+    key: 'schoolId'
   },{
     title: '学历',
     dataIndex: 'degree',
-    key: 'degree'
+    key: 'degree',
+    render: (value) => {
+      return degreeData[value]
+    }
   },{
     title: '专业',
     dataIndex: 'profession',

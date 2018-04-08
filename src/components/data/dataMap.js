@@ -9,6 +9,7 @@ export const infoDataMap = {
   position: '职位',
   field: '领域',
   academy: '学院',
+  trade: '行业',
   score: '分数',
   company: '公司',
   direction: '申请方向',
@@ -28,7 +29,7 @@ export const infoDataMap = {
 
 export const otherInfoData = ['personalIntro', 'answer', 'problem']
 export const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
-export const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
+export const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime', 'trade']
 export const auditType = ['未知', '学生信息', '导师信息', '文章', '活动']
 export const auditStatus = ['未知', '审核中', '通过审核', '未通过审核']
 export default {

@@ -1,35 +1,41 @@
 import React, { Component } from 'react'
-// import BasicInfoList from '../basicComponents/InfoList'
+import { GetTutorInfoList, GetSchoolList} from "../../API/Api";
 import { columns } from '../data/tutorBasicData'
 import { Table } from 'antd'
 class TutorInfoList extends Component {
   constructor(props) {
     super(props)
-    this.showMoreInfo = this.showMoreInfo.bind(this)
+    this.state = {
+      dataSource: []
+    }
   }
 
-  componentWillMount() {
-    this.dataSource = [
-      {
-        key: '1',
-        name: '郭德纲',
-        phone: 13279465603,
-        field: '区块链',
-        company: 'Tencent',
-        position: 'CEO',
-        flowerTotalNum: 40,
-        flowerSendNum: 100,
-        isTutor: 2
-      }
-    ]
+  componentDidMount () {
+    GetSchoolList()
+      .then(res => {
+        console.log(res)
+      })
+    GetTutorInfoList()
+      .then(res => {
+        res.data.map(item => {
+          if (typeof item.flowerTotalNum === 'undefined') {
+            item.flowerTotalNum = 0
+          }
+          if (typeof item.flowerSendNum === 'undefined') {
+            item.flowerSendNum = 0
+          }
+        })
+        this.setState({
+          ...this.state,
+          dataSource: res.data
+        })
+      })
   }
-  showMoreInfo (index) {
-    console.log(index)
-  }
+
   render() {
     return (
       <div>
-        <Table dataSource={this.dataSource} columns={columns} bordered={true} />
+        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
       </div>
     )
   }

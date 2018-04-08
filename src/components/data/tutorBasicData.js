@@ -12,8 +12,8 @@ export const columns = [
     key: 'phone'
   },{
     title: '行业',
-    dataIndex: 'field',
-    key: 'field'
+    dataIndex: 'trade',
+    key: 'trade'
   },{
     title: '公司',
     dataIndex: 'company',
