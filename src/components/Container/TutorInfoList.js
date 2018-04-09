@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { GetTutorInfoList, GetSchoolList} from "../../API/Api";
 import { columns } from '../data/tutorBasicData'
-import { Table } from 'antd'
+import { Table, Input} from 'antd'
+const Search = Input.Search
 class TutorInfoList extends Component {
   constructor(props) {
     super(props)
@@ -29,8 +30,14 @@ class TutorInfoList extends Component {
   }
 
   render() {
+    const style = {
+      container: {
+        paddingTop: 20 + 'px'
+      }
+    }
     return (
-      <div>
+      <div style={style.container}>
+        <Search placeholder='搜索姓名、行业、电话号、专业。' onSearch={value => console.log(value)} style={{width: 300, marginBottom: 20 + 'px'}}/>
         <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
       </div>
     )

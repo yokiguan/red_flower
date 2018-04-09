@@ -87,8 +87,8 @@ class AuditTable extends Component {
     const style = {
       buttonContainer: {
         marginBottom: 10 + 'px',
-        marginTop: -50 + 'px',
-        marginLeft: 10 + 'px'
+        marginLeft: 10 + 'px',
+        padding: 20 + 'px'
       },
       button: {
         marginRight: 10 + 'px'

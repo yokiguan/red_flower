@@ -53,9 +53,14 @@ class StudentInfoList extends Component {
   }
 
   render() {
+    const style = {
+      container: {
+        paddingTop: 20 + 'px'
+      }
+    }
     return (
-      <div>
-        <Search placeholder='ss' onSearch={value => console.log(value)} style={{width: 200}}/>
+      <div style={style.container}>
+        <Search placeholder='搜索姓名、学号、电话号、专业。' onSearch={value => console.log(value)} style={{width: 300, marginBottom: 20 + 'px'}}/>
         <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
       </div>
     )

@@ -14,14 +14,38 @@ export const columns = [
   },{
     title: '学校',
     dataIndex: 'schoolId',
-    key: 'schoolId'
+    key: 'schoolId',
+    filters: [
+      {
+        text: '西安电子科技大学',
+        value: '1'
+      }
+    ],
+    filterMultiple: true,
+    onFilter: (value, record) => record.schoolId.toString().indexOf(value) === 0
   },{
     title: '学历',
     dataIndex: 'degree',
     key: 'degree',
+    filters: [
+      {
+        text: '本科',
+        value: 1
+      },
+      {
+        text: '硕士',
+        value: 2
+      },
+      {
+        text: '博士',
+        value: 3
+      }
+    ],
     render: (value) => {
       return degreeData[value]
-    }
+    },
+    filterMultiple: true,
+    onFilter: (value, record) => record.degree.toString().indexOf(value) === 0
   },{
     title: '专业',
     dataIndex: 'profession',
