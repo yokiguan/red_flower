@@ -1,12 +1,17 @@
 // 例: name --> 姓名
 
-export const infoDataMap = {
+const infoDataMap = {
   name: '姓名',
   phone: '手机号',
   degree: '学历',
   profession: '专业',
+  sex: '性别',
   admissionDate: '入学时间',
+  birthday: '出生年月',
   position: '职位',
+  clock: '时间沙漏',
+  userId: '用户ID',
+  balance: '小红花余额',
   field: '领域',
   academy: '学院',
   trade: '行业',
@@ -17,7 +22,7 @@ export const infoDataMap = {
   flowerTotalNum: '小红花充值数量',
   flowerSendNum: '小红花赠送数量',
   workedTime: '义工时间',
-  school: '学校',
+  schoolId: '学校',
   personalIntro: '个人简介',
   simpleIntro: '一句话介绍',
   bankNumber: '银行卡账号',
@@ -27,16 +32,20 @@ export const infoDataMap = {
   problem: '问题'
 }
 
-export const otherInfoData = ['personalIntro', 'answer', 'problem']
-export const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
-export const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime', 'trade']
-export const auditType = ['未知', '学生信息', '导师信息', '文章', '活动']
-export const auditStatus = ['未知', '审核中', '通过审核', '未通过审核']
-export default {
+const otherInfoData = ['personalIntro', 'answer', 'problem']
+const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
+const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime', 'trade']
+const auditType = ['未知', '学生信息', '导师信息', '文章', '活动']
+const auditStatus = ['未知', '审核中', '通过审核', '未通过审核']
+const degreeData = ['未知', '本科', '硕士', '博士']
+const sexData = ['未知', '男', '女']
+export {
   infoDataMap,
   otherInfoData,
   basicInfoData,
   importantInfoData,
   auditStatus,
-  auditType
+  auditType,
+  degreeData,
+  sexData
 }

@@ -11,10 +11,6 @@ class TutorInfoList extends Component {
   }
 
   componentDidMount () {
-    GetSchoolList()
-      .then(res => {
-        console.log(res)
-      })
     GetTutorInfoList()
       .then(res => {
         res.data.map(item => {

@@ -118,6 +118,16 @@ const config_mothods = {
       }
     }
   },
+  GET_CONF: (url) => {
+    return {
+      method: 'GET',
+      url: url,
+      data: {},
+      headers: {
+        "Content-Type": 'application/json'
+      }
+    }
+  },
   PUT_RESTFUL: (url, data) => {
     return {
       method: 'PUT',

@@ -18,7 +18,7 @@ const renderAction = (props) => {
   if (props.status === '审核中') {
     return (
       <Row>
-        <Button style={auditButtonStyle} data-name={props.id} onClick={agree}>通过</Button>
+        <Button style={auditButtonStyle} data-id={props.id} onClick={agree}>通过</Button>
         <Button style={auditButtonStyle} data-id={props.id} onClick={veto} data-record={props}>不通过</Button>
         <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId}/></span>
       </Row>

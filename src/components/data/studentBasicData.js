@@ -1,11 +1,7 @@
 import React from 'react'
 import BasicModal from "../basicComponents/Modal"
-const degreeData = {
-  '-1': '未填写',
-  '1': '本科',
-  '2': '硕士',
-  '3': '博士'
-}
+import { degreeData} from "./dataMap";
+
 export const columns = [
   {
     title: '姓名',
@@ -51,7 +47,6 @@ export const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (value, record) => {
-      console.log(record)
       return <BasicModal index={1} infoData={record}/>
     }
   }

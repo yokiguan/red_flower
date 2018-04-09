@@ -12,6 +12,18 @@ class StudentInfoList extends Component {
     }
   }
   componentDidMount () {
+    GetStuInfoList()
+      .then(res => {
+        res.data.map(item => {
+          item.flowerNum = item.flowerNum || 0
+          // item.school = schoolList[item.schoolId]
+          // item.direction = directionList[item.direction]
+        })
+        this.setState({
+          ...this.state,
+          dataSource: res.data
+        })
+      })
     // let schoolList = []
     // let directionList = []
     // Promise.all([

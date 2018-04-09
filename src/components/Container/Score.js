@@ -7,7 +7,9 @@ export default class Score extends Component {
     super(props)
     this.state = {
       score: 10,
-      userId: props.userId
+      userId: props.userId,
+      isStudent: !props.hasOwnProperty('isTutor'),
+      dataIsFromInfoList: !props.hasOwnProperty('personalIntro')
     }
     this.handleInput = this.handleInput.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -42,12 +44,16 @@ export default class Score extends Component {
       },
 
     }
-    return (
-      <Row gutter={24} style={style.container}>
-        <label>打分</label>
-        <InputNumber value={this.state.score} onChange={this.handleInput} max={100} min={0}/>
-        <Button type="primary" onClick={this.handleSubmit}>提交</Button>
-      </Row>
-    )
+    if (this.state.isStudent && this.state.dataIsFromInfoList) {
+      return (
+        <Row gutter={24} style={style.container}>
+          <label>打分</label>
+          <InputNumber value={this.state.score} onChange={this.handleInput} max={100} min={0}/>
+          <Button type="primary" onClick={this.handleSubmit}>提交</Button>
+        </Row>
+      )
+    } else {
+      return <label></label>
+    }
   }
 }

@@ -42,10 +42,10 @@ const GetTutorInfoList = (data) => {
   return ajax('get', '/tutor', data)
 }
 const GetSchoolList = () => {
-  return ajax('get', '/conf/school')
+  return ajax('get_conf', '/conf/school')
 }
 const GetDirectionList = () => {
-  return ajax('get', '/conf/direction')
+  return ajax('get_conf', '/conf/direction')
 }
 export {
   AccountLogin,

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Button, Tabs } from 'antd'
 import { columns } from '../data/auditBasicData'
-import { auditType, auditStatus} from "../data/dataMap"
+import { auditType, auditStatus, degreeData} from "../data/dataMap"
 import { GetAuditList, GetNormalArticle } from "../../API/Api"
 import { normalizeTime } from '../../common/scripts/utils'
 
@@ -72,6 +72,7 @@ class AuditTable extends Component {
             dataSource: []
           })
         } else {
+          console.log(res)
           this.setState({
             dataSource: this.parseData(res.data)
           })
