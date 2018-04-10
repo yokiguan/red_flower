@@ -5,6 +5,10 @@ const infoDataMap = {
   phone: '手机号',
   degree: '学历',
   profession: '专业',
+  author: '作者',
+  role: '身份',
+  id: '文章ID',
+  createTime: '发表时间',
   sex: '性别',
   admissionDate: '入学时间',
   birthday: '出生年月',
@@ -29,7 +33,9 @@ const infoDataMap = {
   stuNumber: '学号',
   idNum: '身份证号码',
   answer: '回答',
-  problem: '问题'
+  problem: '问题',
+  title: '标题',
+  content: '正文'
 }
 
 const otherInfoData = ['personalIntro', 'answer', 'problem']

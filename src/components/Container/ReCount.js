@@ -49,23 +49,23 @@ export default class ReCount extends Component {
   render() {
     const options = [
       {
-        label: '关闭',
+        label: '重置',
         value: 1
       },
       {
-        label: '关闭',
+        label: '重置',
         value: 2
       },
       {
-        label: '关闭',
+        label: '重置',
         value: 3
       },
       {
-        label: '关闭',
+        label: '重置',
         value: 4
       },
       {
-        label: '关闭',
+        label: '重置',
         value: 5
       }
     ]

@@ -1,17 +1,23 @@
 import AuditTable from './AuditTable'
 import StudentInfoList from './StudentInfoList'
 import TutorInfoList from './TutorInfoList'
-import Counter from './Counter'
 import Rate from './Rate'
 import Switch from './Switch'
 import ReCount from './ReCount'
+import Banner from './Banner'
+import ArticleList from './ArticleList'
+import RubbishList from './RubbishList'
+import OptionLists from './OptionLists'
 
 export {
   AuditTable,
   StudentInfoList,
   TutorInfoList,
   Rate,
-  Counter,
   Switch,
-  ReCount
+  ReCount,
+  Banner,
+  ArticleList,
+  RubbishList,
+  OptionLists
 }

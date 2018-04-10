@@ -70,7 +70,6 @@ export const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (value, record) => {
-      console.log(record)
       return <BasicModal index={1} infoData={record} isTutor={record.isTutor}/>
     }
   }

@@ -69,6 +69,7 @@ class InfoForm extends Component {
                   )
                   break
                 case 'personalIntro':
+                case 'content':
                   return (
                     <div key={item}>
                       <label>{infoDataMap[item]}：</label><Input.TextArea autosize={true} value={this.props[item]}  disabled={true}/>
