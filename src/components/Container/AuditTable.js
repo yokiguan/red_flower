@@ -99,6 +99,8 @@ class AuditTable extends Component {
     }
     return (
       <div style={style.tabContainer}>
+        <br/>
+        <h4>审核管理</h4>
         <Tabs size='large' type='line' onChange={this.changeAuditType}>
           <Tabs.TabPane key='student' tab='学生信息'>
             <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />

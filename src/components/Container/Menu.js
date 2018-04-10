@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon, Divider, Badge, Avatar, Breadcrumb } from 'antd'
 import {  BrowserRouter as Router, Link, Route } from 'react-router-dom'
-import { StudentInfoList, TutorInfoList, AuditTable, Counter, Rate } from './Containers'
+import { StudentInfoList, TutorInfoList, AuditTable, Counter, Rate, Switch, ReCount } from './Containers'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
 
@@ -66,14 +66,15 @@ export default class NavMenu extends Component {
                 <Menu.Item key="stu"><Link to='/info/stu'>学生列表</Link></Menu.Item>
                 <Menu.Item key="tutor"><Link to='/info/tutor'>导师列表</Link></Menu.Item>
               </SubMenu>
-              <SubMenu key="flower" title={<span><Icon type="pay-circle" /><span>小红花管理</span></span>}>
-                <Menu.Item key="rate">小红花汇率</Menu.Item>
-                <Menu.Item key="counter">计数器</Menu.Item>
-              </SubMenu>
               <SubMenu key="message" title={<span><Icon type="message" /><span>消息通知</span></span>}>
                 <Menu.Item key="send">发送短信</Menu.Item>
               </SubMenu>
-              <SubMenu key="setting" title={<span><Icon type="setting" /><span>设置</span></span>}>
+              <SubMenu key="flower" title={<span><Icon type="pay-circle" /><span>小红花管理(超级管理员)</span></span>}>
+                <Menu.Item key="rate"><Link to='/flower/rate'>小红花汇率</Link></Menu.Item>
+                <Menu.Item key="counter"><Link to='/flower/recount'>重置计数器</Link></Menu.Item>
+                <Menu.Item key="safe"><Link to='/flower/switch'>关闭/开启</Link></Menu.Item>
+              </SubMenu>
+              <SubMenu key="setting" title={<span><Icon type="setting" /><span>基础设置(超级管理员)</span></span>}>
                 <Menu.Item key="picker">下拉列表框</Menu.Item>
                 <Menu.Item key="problem">问题</Menu.Item>
                 <Menu.Item key="banner">轮播图</Menu.Item>
@@ -93,6 +94,9 @@ export default class NavMenu extends Component {
                 <Route path='/audit' component={AuditTable} />
                 <Route path='/info/stu' component={StudentInfoList} />
                 <Route path='/info/tutor' component={TutorInfoList} />
+                <Route path='/flower/switch' component={Switch}/>
+                <Route path='/flower/rate' component={Rate}/>
+                <Route path='/flower/recount' component={ReCount}/>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>

@@ -37,7 +37,8 @@ class TutorInfoList extends Component {
     }
     return (
       <div style={style.container}>
-        <Search placeholder='搜索姓名、行业、电话号、专业。' onSearch={value => console.log(value)} style={{width: 300, marginBottom: 20 + 'px'}}/>
+        <h4>导师信息列表</h4>
+        <Search placeholder='搜索姓名、行业、电话号。' onSearch={value => console.log(value)} style={{width: 300, marginBottom: 20 + 'px'}}/>
         <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
       </div>
     )
