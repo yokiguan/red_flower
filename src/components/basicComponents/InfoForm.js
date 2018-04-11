@@ -86,7 +86,6 @@ class InfoForm extends Component {
                         )
                     })
                   )
-                  return
                   break
                 default:
                   return (

@@ -8,6 +8,8 @@ import Banner from './Banner'
 import ArticleList from './ArticleList'
 import RubbishList from './RubbishList'
 import OptionLists from './OptionLists'
+import Login from './Login'
+import NotFound from './NotFound'
 
 export {
   AuditTable,
@@ -19,5 +21,7 @@ export {
   Banner,
   ArticleList,
   RubbishList,
-  OptionLists
+  OptionLists,
+  Login,
+  NotFound
 }

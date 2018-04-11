@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Checkbox, Button, Modal } from 'antd'
+import { ResetCounter } from '../../API/Api'
 const CheckboxGroup = Checkbox.Group
 export default class ReCount extends Component {
   constructor(props) {
@@ -28,10 +29,26 @@ export default class ReCount extends Component {
     }
   }
   handleClickOK() {
-    this.setState({
-      ...this.state,
-      visible: false
-    })
+    ResetCounter()
+      .then(res => {
+        if (res.code && res.code === 0) {
+          alert('重置成功')
+        } else {
+          alert('重置失败')
+        }
+        this.setState({
+          ...this.state,
+          visible: false
+        })
+      })
+      .catch(err => {
+        console.log(err)
+        alert('重置失败')
+        this.setState({
+          ...this.state,
+          visible: false
+        })
+      })
   }
 
   handleClickCancel() {

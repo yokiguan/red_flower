@@ -1,14 +1,42 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon, Divider, Badge, Avatar, Breadcrumb } from 'antd'
-import {  BrowserRouter as Router, Link, Route } from 'react-router-dom'
-import { StudentInfoList, TutorInfoList, AuditTable, Rate, Switch, ReCount, Banner, ArticleList, RubbishList, OptionLists } from './Containers'
+import {  BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
+import { StudentInfoList, TutorInfoList, AuditTable, Rate, Switch, ReCount, Banner, ArticleList, RubbishList, OptionLists, NotFound} from './Containers'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
-
-export default class NavMenu extends Component {
+const fakeAuth = {
+  isAuthenticated: true,
+  isSuper: true,
+  user: localStorage.getItem('userName')
+}
+const PrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    fakeAuth.isAuthenticated ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+const SuperPrivateRoute = ({ component: Component, ...rest }) => (
+  <Route {...rest} render={props => (
+    fakeAuth.isSuper ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/app/404',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
+export default class App extends Component {
   state = {
     theme: 'dark',
-    current: 'audit',
+    current: 'audit'
   }
   handleClick = (e) => {
     this.setState({
@@ -54,28 +82,28 @@ export default class NavMenu extends Component {
               mode="inline"
             >
               <SubMenu key="home" title={<span><Icon type="home" /><span>首页</span></span>}>
-                <Menu.Item key="audit"><Link to='/audit'>审核管理</Link></Menu.Item>
+                <Menu.Item key="audit"><Link to='/app/audit'>审核管理</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="info" title={<span><Icon type="idcard" /><span>信息管理</span></span>}>
-                <Menu.Item key="stu"><Link to='/info/stu'>学生列表</Link></Menu.Item>
-                <Menu.Item key="tutor"><Link to='/info/tutor'>导师列表</Link></Menu.Item>
+                <Menu.Item key="stu"><Link to='/app/info/stu'>学生列表</Link></Menu.Item>
+                <Menu.Item key="tutor"><Link to='/app/info/tutor'>导师列表</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="article" title={<span><Icon type="book" /><span>文章管理</span></span>}>
-                <Menu.Item key="normal"><Link to='/article/normal'>过审文章</Link></Menu.Item>
-                <Menu.Item key="rubbish"><Link to='/article/rubbish'>垃圾箱</Link></Menu.Item>
+                <Menu.Item key="normal"><Link to='/app/article/normal'>过审文章</Link></Menu.Item>
+                <Menu.Item key="rubbish"><Link to='/app/article/rubbish'>垃圾箱</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="message" title={<span><Icon type="notification" /><span>消息通知</span></span>}>
                 <Menu.Item key="send">发送短信</Menu.Item>
               </SubMenu>
               <SubMenu key="flower" title={<span><Icon type="pay-circle" /><span>小红花管理(超级管理员)</span></span>}>
-                <Menu.Item key="rate"><Link to='/flower/rate'>小红花汇率</Link></Menu.Item>
-                <Menu.Item key="counter"><Link to='/flower/recount'>重置计数器</Link></Menu.Item>
-                <Menu.Item key="safe"><Link to='/flower/switch'>关闭/开启</Link></Menu.Item>
+                <Menu.Item key="rate"><Link to='/app/flower/rate'>小红花汇率</Link></Menu.Item>
+                <Menu.Item key="counter"><Link to='/app/flower/recount'>重置计数器</Link></Menu.Item>
+                <Menu.Item key="safe"><Link to='/app/flower/switch'>关闭/开启</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="setting" title={<span><Icon type="setting" /><span>基础设置(超级管理员)</span></span>}>
-                <Menu.Item key="picker"><Link to='/setting/picker'>下拉列表框</Link></Menu.Item>
+                <Menu.Item key="picker"><Link to='/app/setting/picker'>下拉列表框</Link></Menu.Item>
                 <Menu.Item key="problem">问题</Menu.Item>
-                <Menu.Item key="banner"><Link to='/setting/banner'>轮播图</Link></Menu.Item>
+                <Menu.Item key="banner"><Link to='/app/setting/banner'>轮播图</Link></Menu.Item>
                 <Menu.Item key="manager">管理员</Menu.Item>
               </SubMenu>
             </Menu>
@@ -84,21 +112,23 @@ export default class NavMenu extends Component {
             <Header style={style.header}>
               <Badge style={style.badge}>
                 <Avatar icon='user'/>
-                <span>&emsp;管理员1号</span>
+                <span>&emsp;{fakeAuth.user}</span>
+                <span>&emsp;<a href='/'>退出</a></span>
               </Badge>
             </Header>
             <Content style={style.content}>
               <div style={{ background: '#fff', textAlign: 'center' }}>
-                <Route path='/audit' component={AuditTable} />
-                <Route path='/info/stu' component={StudentInfoList} />
-                <Route path='/info/tutor' component={TutorInfoList} />
-                <Route path='/flower/switch' component={Switch}/>
-                <Route path='/flower/rate' component={Rate}/>
-                <Route path='/flower/recount' component={ReCount}/>
-                <Route path='/article/normal' component={ArticleList}/>
-                <Route path='/article/rubbish' component={RubbishList}/>
-                <Route path='/setting/banner' component={Banner}/>
-                <Route path='/setting/picker' component={OptionLists}/>
+                <PrivateRoute path='/app/audit' component={AuditTable} />
+                <PrivateRoute path='/app/info/stu' component={StudentInfoList} />
+                <PrivateRoute path='/app/info/tutor' component={TutorInfoList} />
+                <SuperPrivateRoute path='/app/flower/switch' component={Switch}/>
+                <SuperPrivateRoute path='/app/flower/rate' component={Rate}/>
+                <SuperPrivateRoute path='/app/flower/recount' component={ReCount}/>
+                <PrivateRoute path='/app/article/normal' component={ArticleList}/>
+                <PrivateRoute path='/app/article/rubbish' component={RubbishList}/>
+                <SuperPrivateRoute path='/app/setting/banner' component={Banner}/>
+                <SuperPrivateRoute path='/app/setting/picker' component={OptionLists}/>
+                <Route path='/app/404' component={NotFound}/>
               </div>
             </Content>
             <Footer style={{ textAlign: 'center' }}>
