@@ -1,8 +1,19 @@
 import React from 'react'
-import BasicModal from "../basicComponents/Modal"
-import { degreeData} from "./dataMap";
-
-export const columns = [
+import InfoModal from "../basicComponents/InfoModal"
+import { degreeData} from "./dataMap"
+import { GetSchoolList } from "../../API/Api";
+const SchoolList = []
+GetSchoolList()
+  .then(res => JSON.parse(res))
+  .then(res => {
+    res.data.map(item => {
+      SchoolList.push({
+        text: item.schoolName,
+        id: item.id
+      })
+    })
+  })
+const columns = [
   {
     title: '姓名',
     dataIndex: 'name',
@@ -13,14 +24,9 @@ export const columns = [
     key: 'phone'
   },{
     title: '学校',
-    dataIndex: 'schoolId',
-    key: 'schoolId',
-    filters: [
-      {
-        text: '西安电子科技大学',
-        value: '1'
-      }
-    ],
+    dataIndex: 'school',
+    key: 'school',
+    filters: SchoolList,
     filterMultiple: true,
     onFilter: (value, record) => record.schoolId.toString().indexOf(value) === 0
   },{
@@ -71,7 +77,7 @@ export const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (value, record) => {
-      return <BasicModal index={1} infoData={record}/>
+      return <InfoModal studentId={record.userId} />
     }
   }
 ]

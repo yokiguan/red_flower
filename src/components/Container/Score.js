@@ -22,12 +22,14 @@ export default class Score extends Component {
   handleSubmit() {
     console.log(this.state.score)
     // UpdateStudentScore({userId: this.state.userId, score: this.state.userId})
+    //   .then(res => JSON.parse(res))
     //   .then(res => {
     //     console.log(res)
     //   })
   }
   componentDidMount() {
     // GetStudentScore({userId: this.state.userId})
+    //   .then(res => JSON.parse(res))
     //   .then(res => {
     //     this.setState({
     //       score: res.data

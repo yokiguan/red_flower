@@ -29,6 +29,7 @@ export default class RubbishList extends Component {
   }
   componentDidMount() {
     GetNormalArticle({page: 1})
+      .then(res => JSON.parse(res))
       .then(res => {
         if (res.code === 0) {
           // this.state.dataSource = res.data

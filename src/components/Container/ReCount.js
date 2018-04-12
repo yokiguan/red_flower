@@ -30,8 +30,9 @@ export default class ReCount extends Component {
   }
   handleClickOK() {
     ResetCounter()
+      .then(res => JSON.parse(res))
       .then(res => {
-        if (res.code && res.code === 0) {
+        if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
           alert('重置成功')
         } else {
           alert('重置失败')
@@ -42,8 +43,7 @@ export default class ReCount extends Component {
         })
       })
       .catch(err => {
-        console.log(err)
-        alert('重置失败')
+        alert('无权限')
         this.setState({
           ...this.state,
           visible: false

@@ -26,7 +26,7 @@ const infoDataMap = {
   flowerTotalNum: '小红花充值数量',
   flowerSendNum: '小红花赠送数量',
   workedTime: '义工时间',
-  schoolId: '学校',
+  school: '学校',
   personalIntro: '个人简介',
   simpleIntro: '一句话介绍',
   bankNumber: '银行卡账号',
@@ -35,9 +35,20 @@ const infoDataMap = {
   answer: '回答',
   problem: '问题',
   title: '标题',
-  content: '正文'
+  content: '正文',
+  campaignName: '活动名称',
+  idealTime: '理想时间',
+  flowerBalance: '小红花余额',
+  flowerCounter: '小红花总数',
+  attachNum: '附件数'
 }
-
+const articleData = {
+  id: '文章ID',
+  title: '标题',
+  content: '正文',
+  createTime: '创建时间',
+  pageView: '阅读量'
+}
 const otherInfoData = ['personalIntro', 'answer', 'problem']
 const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
 const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime', 'trade']
@@ -53,5 +64,6 @@ export {
   auditStatus,
   auditType,
   degreeData,
-  sexData
+  sexData,
+  articleData
 }

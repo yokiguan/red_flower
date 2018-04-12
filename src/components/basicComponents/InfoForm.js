@@ -8,19 +8,7 @@ class InfoForm extends Component {
     super(props)
     this.infoDataName = Object.keys(props)
     this.infoDataValue = Object.values(props)
-    // this.importantInfoDataName = []
-    // this.otherInfoDataName = []
-    // this.basicInfoDataName = []
     this.handleInput = this.handleInput.bind(this)
-    // this.infoDataName.map((item, index) => {
-    //     if (importantInfoData.indexOf(item) !== -1) {
-    //       this.importantInfoDataName.push(item)
-    //     } else if (otherInfoData.indexOf(item) !== -1) {
-    //       this.otherInfoDataName.push(item)
-    //     } else {
-    //       this.basicInfoDataName.push(item)
-    //   }
-    // })
   }
   handleInput(event) {
     console.log(event)

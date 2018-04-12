@@ -2,31 +2,34 @@ import React from 'react'
 import { Button, Row } from 'antd'
 import BasicModal from "../basicComponents/Modal"
 import { VetoAuditItem, AgreeAuditItem} from '../../API/Api'
+const tableMark = (info) => {
+  return info.hasOwnProperty('title')? 'article': 'info'
+}
 const veto = (event) => {
   VetoAuditItem({id: event.target.dataset.id})
+    .then(res => JSON.parse(res))
     .then(res => {
-      if (res.code && res.code === 0) {
+      if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
         alert('审核成功')
       } else {
         alert('审核失败')
       }
     })
     .catch(err => {
-      console.log(err)
       alert('审核失败')
     })
 }
 const agree = (event) => {
   AgreeAuditItem({id: event.target.dataset.id})
+    .then(res => JSON.parse(res))
     .then(res => {
-      if (res.code && res.code === 0) {
+      if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
         alert('审核成功')
       } else {
         alert('审核失败')
       }
     })
     .catch(err => {
-      console.log(err)
       alert('审核失败')
     })
 }
@@ -36,13 +39,13 @@ const renderAction = (props) => {
       <Row>
         <Button style={auditButtonStyle} data-id={props.id} onClick={agree} data-record={props}>通过</Button>
         <Button style={auditButtonStyle} data-id={props.id} onClick={veto} data-record={props}>不通过</Button>
-        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId}/></span>
+        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId} mark={tableMark(props.content)}/></span>
       </Row>
     )
   } else {
     return (
       <Row>
-        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId}/></span>
+        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId} mark={tableMark(props.content)}/></span>
       </Row>
     )
   }

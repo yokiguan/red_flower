@@ -1,10 +1,20 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'antd'
 import InfoForm from './InfoForm'
+import ArticleForm from './ArticleForm'
 import Score from '../Container/Score'
+const Forms = (props) => {
+  if (props.mark === 'info') {
+    return <InfoForm {...props.infoData}/>
+  } else if (props.mark === 'article') {
+    return <ArticleForm {...props.infoData}/>
+  }
+}
+
 class BasicModal extends Component {
   constructor(props) {
     super(props)
+    console.log(props.infoData)
     this.hideModal = this.hideModal.bind(this)
     this.showModal = this.showModal.bind(this)
     this.state = {
@@ -33,8 +43,7 @@ class BasicModal extends Component {
           okText='确认'
           cancelText='取消'
         >
-          <InfoForm {...this.props.infoData}/>
-          <Score {...this.props.infoData}/>
+          <Forms mark={this.props.mark} infoData={this.props.infoData}/>
         </Modal>
       </div>
     )

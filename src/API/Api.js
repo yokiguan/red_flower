@@ -47,6 +47,12 @@ const GetSchoolList = () => {
 const GetDirectionList = () => {
   return ajax('get_conf', '/conf/direction')
 }
+const GetStuInfo = (data) => {
+  return ajax('get_restful', '/stu', data)
+}
+const GetTutorInfo = (data) => {
+  return ajax('get_restful', '/tutor', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -59,5 +65,7 @@ export {
   GetStuInfoList,
   GetTutorInfoList,
   GetSchoolList,
-  GetDirectionList
+  GetDirectionList,
+  GetStuInfo,
+  GetTutorInfo
 }

@@ -13,6 +13,7 @@ class TutorInfoList extends Component {
 
   componentDidMount () {
     GetTutorInfoList()
+      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           if (typeof item.flowerTotalNum === 'undefined') {

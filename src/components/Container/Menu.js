@@ -58,15 +58,11 @@ export default class App extends Component {
         backgroundColor: '#f5f5f5',
         height: 50 + 'px',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flexEnd'
+        alignItems: 'center'
       },
       badge: {
         float: 'right',
         fontSize: 14 + 'px',
-      },
-      content: {
-        overflow: 'initial'
       }
     }
     return (
@@ -116,24 +112,19 @@ export default class App extends Component {
                 <span>&emsp;<a href='/'>退出</a></span>
               </Badge>
             </Header>
-            <Content style={style.content}>
-              <div style={{ background: '#fff', textAlign: 'center' }}>
-                <PrivateRoute path='/app/audit' component={AuditTable} />
-                <PrivateRoute path='/app/info/stu' component={StudentInfoList} />
-                <PrivateRoute path='/app/info/tutor' component={TutorInfoList} />
-                <SuperPrivateRoute path='/app/flower/switch' component={Switch}/>
-                <SuperPrivateRoute path='/app/flower/rate' component={Rate}/>
-                <SuperPrivateRoute path='/app/flower/recount' component={ReCount}/>
-                <PrivateRoute path='/app/article/normal' component={ArticleList}/>
-                <PrivateRoute path='/app/article/rubbish' component={RubbishList}/>
-                <SuperPrivateRoute path='/app/setting/banner' component={Banner}/>
-                <SuperPrivateRoute path='/app/setting/picker' component={OptionLists}/>
-                <Route path='/app/404' component={NotFound}/>
-              </div>
+            <Content style={{ background: '#fff', textAlign: 'center' }}>
+              <PrivateRoute path='/app/audit' component={AuditTable} />
+              <PrivateRoute path='/app/info/stu' component={StudentInfoList} />
+              <PrivateRoute path='/app/info/tutor' component={TutorInfoList} />
+              <SuperPrivateRoute path='/app/flower/switch' component={Switch}/>
+              <SuperPrivateRoute path='/app/flower/rate' component={Rate}/>
+              <SuperPrivateRoute path='/app/flower/recount' component={ReCount}/>
+              <PrivateRoute path='/app/article/normal' component={ArticleList}/>
+              <PrivateRoute path='/app/article/rubbish' component={RubbishList}/>
+              <SuperPrivateRoute path='/app/setting/banner' component={Banner}/>
+              <SuperPrivateRoute path='/app/setting/picker' component={OptionLists}/>
+              <Route path='/app/404' component={NotFound}/>
             </Content>
-            <Footer style={{ textAlign: 'center' }}>
-              海鲸小红花后台管理程序 ©2018 Created by 海鲸教育基金集团
-            </Footer>
           </Layout>
         </Layout>
       </Router>

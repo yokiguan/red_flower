@@ -69,6 +69,7 @@ class Banner extends Component {
 
   deleteBannerItem () {
     // AccountLogin({username: 'hwding', password: 'abc'})
+    //   .then(res => JSON.parse(res))
     //   .then(res => {
     //     console.log(res)
     //   })
@@ -76,6 +77,7 @@ class Banner extends Component {
     //     console.log(err)
     //   })
     // GetAuditList({type: 1, status: 1})
+    //   .then(res => JSON.parse(res))
     //   .then(res => {
     //     console.log(res)
     //   })

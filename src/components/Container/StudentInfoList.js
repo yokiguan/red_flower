@@ -12,44 +12,41 @@ class StudentInfoList extends Component {
     }
   }
   componentDidMount () {
-    GetStuInfoList()
+    let schoolList = []
+    let directionList = []
+    Promise.all([
+      GetSchoolList()
+        .then(res => JSON.parse(res))
+        .then(res => {
+          res.data.map(item => {
+            console.log(item)
+            schoolList[item.id] = item.schoolName
+          })
+        }),
+      GetDirectionList()
+        .then(res => JSON.parse(res))
+        .then(res => {
+          res.data.map(item => {
+            console.log(item)
+            directionList[item.id] = item.directionName
+          })
+        }),
+    ])
       .then(res => {
-        res.data.map(item => {
-          item.flowerNum = item.flowerNum || 0
-          // item.school = schoolList[item.schoolId]
-          // item.direction = directionList[item.direction]
-        })
-        this.setState({
-          ...this.state,
-          dataSource: res.data
-        })
+        GetStuInfoList()
+          .then(res => JSON.parse(res))
+          .then(res => {
+            res.data.map(item => {
+              item.flowerNum = item.flowerNum || 0
+              item.school = item.schoolId !== -1? schoolList[item.schoolId]: '未填写'
+              item.direction = item.direction !== -1? directionList[item.direction]: '未填写'
+            })
+            this.setState({
+              ...this.state,
+              dataSource: res.data
+            })
+          })
       })
-    // let schoolList = []
-    // let directionList = []
-    // Promise.all([
-    //   GetDirectionList()
-    //     .then(res => {
-    //       schoolList = res.data
-    //     }),
-    //   GetSchoolList()
-    //     .then(res => {
-    //       directionList = res.data
-    //     })
-    // ])
-    //   .then(res => {
-    //     GetStuInfoList()
-    //       .then(res => {
-    //         res.data.map(item => {
-    //           item.flowerNum = item.flowerNum || 0
-    //           item.school = schoolList[item.schoolId]
-    //           item.direction = directionList[item.direction]
-    //         })
-    //         this.setState({
-    //           ...this.state,
-    //           dataSource: res.data
-    //         })
-    //       })
-    //   })
   }
 
   render() {

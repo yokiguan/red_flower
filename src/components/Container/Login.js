@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { AccountLogin } from '../../API/Api'
 import '../../styles/login.css'
 const FormItem = Form.Item;
 
@@ -19,9 +20,15 @@ class Login extends Component {
         localStorage.setItem('userName', values.username)
       }
     })
+    console.log(123)
+    AccountLogin({username: 'hwding', password: 'abc'})
+      .then(res => {
+        console.log(res)
+        window.location.href = '/app'
+      })
     localStorage.setItem('isLogin', true)
     localStorage.setItem('userName', 123)
-    window.location.href = '/app'
+
   };
   render() {
     const { getFieldDecorator } = this.props.form;

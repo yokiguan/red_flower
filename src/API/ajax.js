@@ -5,7 +5,7 @@ function makeRequest(config) {
     xhr.open(config.method, config.url)
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(JSON.parse(xhr.response))
+        resolve(xhr.response)
       } else {
         reject({
           status: xhr.status,
@@ -81,7 +81,7 @@ const config_mothods = {
   GET_RESTFUL: (url, data) => {
     return {
       method: 'GET',
-      url: url + config_queryString(data),
+      url: url + config_restful(data),
       headers: {
         "Content-Type": 'application/json'
       },

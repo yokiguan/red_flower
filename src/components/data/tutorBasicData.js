@@ -1,5 +1,5 @@
 import React from 'react'
-import BasicModal from "../basicComponents/Modal";
+import InfoModal from "../basicComponents/InfoModal";
 
 export const columns = [
   {
@@ -70,7 +70,7 @@ export const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (value, record) => {
-      return <BasicModal index={1} infoData={record} isTutor={record.isTutor}/>
+      return <InfoModal tutorId={record.userId} />
     }
   }
 ]

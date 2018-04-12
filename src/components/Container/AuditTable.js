@@ -28,6 +28,7 @@ class AuditTable extends Component {
       type: this.state.auditType[value]
     })
     GetAuditList({type: this.state.auditType[value], status: 1})
+      .then(res => JSON.parse(res))
       .then(res => {
         if (res.code === 1) {
           this.setState({
@@ -44,11 +45,17 @@ class AuditTable extends Component {
   }
   changeAuditStatus (e) {
     GetAuditList({type: this.state.type, status: e.target.dataset.id})
+      .then(res => JSON.parse(res))
       .then(res => {
-        this.setState({
-          ...this.state,
-          dataSource: this.parseData(res.data)
-        })
+        if (res.code === 0 && res.data.length > 0) {
+          this.setState({
+            dataSource: this.parseData(res.data)
+          })
+        } else {
+          this.setState({
+            dataSource: []
+          })
+        }
       })
   }
   parseData (data) {
@@ -66,19 +73,20 @@ class AuditTable extends Component {
   }
   componentDidMount () {
     GetAuditList({type: this.state.type, status: this.state.status})
+      .then(res => JSON.parse(res))
       .then(res => {
-        if (res.code === 1) {
-          this.setState({
-            dataSource: []
-          })
-        } else {
-          console.log(res)
+        if (res.code === 0 && res.data.length > 0) {
           this.setState({
             dataSource: this.parseData(res.data)
+          })
+        } else {
+          this.setState({
+            dataSource: []
           })
         }
       })
     GetNormalArticle({page: 1})
+      .then(res => JSON.parse(res))
       .then(res => {
         console.log(res)
       })
@@ -94,11 +102,11 @@ class AuditTable extends Component {
         marginRight: 10 + 'px'
       },
       tabContainer: {
-        maxHeight: 600 + 'px'
+        maxHeight: 1200 + 'px'
       }
     }
     return (
-      <div style={style.tabContainer}>
+      <div>
         <br/>
         <h4>审核管理</h4>
         <Tabs size='large' type='line' onChange={this.changeAuditType}>
