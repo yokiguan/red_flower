@@ -1,5 +1,32 @@
 import React, { Component } from 'react'
 import Option from '../basicComponents/Option'
+import { GetSchoolList, GetDirectionList, GetTradeList, AddTradeList, AddSchoolList, AddDirectionList, EditTradeList, EditSchoolList, EditDirectionList, DeleteSchoolList, DeleteTradeList, DeleteDirectionList, GetQuestionList, AddProblemList, DeleteQuestionList, EditQuestionList } from "../../API/Api";
+const asyncOption = {
+  direction: {
+    'get': GetDirectionList,
+    'put': EditDirectionList,
+    'post': AddDirectionList,
+    'delete': DeleteDirectionList
+  },
+  school: {
+    'get': GetSchoolList,
+    'put': EditSchoolList,
+    'post': AddSchoolList,
+    'delete': DeleteSchoolList
+  },
+  trade: {
+    'get': GetTradeList,
+    'put': EditTradeList,
+    'post': AddTradeList,
+    'delete': DeleteTradeList
+  },
+  question: {
+    'get': GetQuestionList,
+    'put': EditQuestionList,
+    'post': AddProblemList,
+    'delete': DeleteQuestionList
+  }
+}
 export default class OptionList extends Component{
   constructor(props) {
     super(props)
@@ -7,40 +34,67 @@ export default class OptionList extends Component{
       listData: [],
       listDataLength: 0
     }
-    this.handleChange = this.handleChange.bind(this)
   }
-  handleChange(key, value) {
-    this.state.listData[parseInt(key) - 1].value = value
+  GetData = (asyncFunc, value) => {
+    asyncFunc()
+      .then(res => JSON.parse(res))
+      .then(res => {
+        if (typeof res.code !== 'undefined' && res.code === 0 && res.data.length > 0) {
+          const list = []
+          res.data.map(item => {
+            list.push({
+              id: item.id,
+              value: item[value + 'Name'] || item.title
+            })
+          })
+          this.setState({
+            listData: list,
+            listDataLength: list.length
+          })
+        }
+      })
+  }
+  handleChange = (newState) => {
+    this.setState({
+      listData: newState
+    })
+  }
+  handleDelete = (id) => {
+    console.log(id)
+    asyncOption[this.props.kind]['delete']({id: id})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        console.log(res)
+      })
+  }
+  handleUpdate = (source) => {
+    let data = {}
+    console.log(source)
+    if (typeof source.id === 'undefined' || source.id.toString().length > 10) {
+      data[this.props.kind] = source.value
+      console.log(data)
+      asyncOption[this.props.kind]['post'](JSON.stringify(data))
+        .then(res => JSON.parse(res))
+        .then(res => {
+          console.log(res)
+        })
+    } else {
+      data.value = {
+        [this.props.kind]: source.value
+      }
+      data['id'] = source.id
+      asyncOption[this.props.kind]['put'](data)
+    }
   }
   componentDidMount() {
-    this.setState({
-      listData: [
-        {
-          id: 1,
-          value: '哈'
-        },
-        {
-          id: 2,
-          value: '23'
-        },
-        {
-          id: 3,
-          value: '哈哈哈'
-        },
-      ],
-      listDataLength: this.state.listData.length
-    })
-    setTimeout(() => {
-      this.state.listData[0].value = 'fuck'
-      console.log(this.state.listData[0])
-    }, 2000)
+    this.GetData(asyncOption[this.props.kind]['get'], this.props.kind)
   }
   render() {
     return(
       <section style={{padding: 20 + 'px'}}>
         <h4>{this.props.data.title}</h4>
         <p>{this.props.data.info}</p>
-        <Option data={this.state.listData} edit={value => this.handleChange(value)}/>
+        <Option data={this.state.listData} edit={this.handleChange} delete={this.handleDelete} update={this.handleUpdate}/>
       </section>
     )
   }

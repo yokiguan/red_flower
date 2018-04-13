@@ -128,7 +128,32 @@ const config_mothods = {
       }
     }
   },
+  /*
+  PUT_RESTFUL:
+   {
+      id: 1,
+      value: {
+        school: 'van'
+      }
+   }
+   ---> PUT 'url/1' send({"school": "van"})
+   */
   PUT_RESTFUL: (url, data) => {
+    if (typeof data.id !== 'undefined') {
+      let name = Object.keys(data.value)[0]
+      let value = Object.values(data.value)[0]
+      let params= {}
+      params[name] = value
+      console.log(params)
+      return {
+        method: 'PUT',
+        url: url + '/' + data.id,
+        data: JSON.stringify(params),
+        headers: {
+          "Content-Type": 'application/json'
+        }
+      }
+    }
     return {
       method: 'PUT',
       url: url + '/' + data.id,

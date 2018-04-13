@@ -19,7 +19,6 @@ class StudentInfoList extends Component {
         .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
-            console.log(item)
             schoolList[item.id] = item.schoolName
           })
         }),
@@ -27,7 +26,6 @@ class StudentInfoList extends Component {
         .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
-            console.log(item)
             directionList[item.id] = item.directionName
           })
         }),

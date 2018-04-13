@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { GetTutorInfoList, GetSchoolList} from "../../API/Api";
+import { GetTutorInfoList, GetTradeList} from "../../API/Api";
 import { columns } from '../data/tutorBasicData'
 import { Table, Input} from 'antd'
 const Search = Input.Search
@@ -12,22 +12,29 @@ class TutorInfoList extends Component {
   }
 
   componentDidMount () {
-    GetTutorInfoList()
+    let tradeList = []
+    GetTradeList()
       .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
-          if (typeof item.flowerTotalNum === 'undefined') {
-            item.flowerTotalNum = 0
-          }
-          if (typeof item.flowerSendNum === 'undefined') {
-            item.flowerSendNum = 0
-          }
+          tradeList[item.id] = item.tradeName
         })
-        this.setState({
-          ...this.state,
-          dataSource: res.data
-        })
+        return 1
       })
+      .then(res =>{
+        GetTutorInfoList()
+          .then(res => JSON.parse(res))
+          .then(res => {
+            res.data.map(item => {
+              item.trade = item.trade !== -1? tradeList[item.trade]: '未填写'
+            })
+            this.setState({
+              ...this.state,
+              dataSource: res.data
+            })
+          })
+      })
+
   }
 
   render() {

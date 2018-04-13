@@ -3,7 +3,14 @@ import { Modal, Button } from 'antd'
 import { GetStuInfo, GetTutorInfo } from '../../API/Api'
 import InfoForm from './InfoForm'
 import Score from '../Container/Score'
-
+const IsStudent = (props) => {
+  console.log(props)
+  if( typeof props.studentId !== 'undefined') {
+    return <Score studentId={props.studentId}/>
+  } else {
+    return <span/>
+  }
+}
 class InfoModal extends Component {
   constructor(props) {
     super(props)
@@ -18,7 +25,6 @@ class InfoModal extends Component {
       GetStuInfo({id: this.props.studentId})
         .then(res => JSON.parse(res))
         .then(res => {
-          console.log(res.data)
           this.setState({
             data: res.data
           })
@@ -56,7 +62,7 @@ class InfoModal extends Component {
           cancelText='取消'
         >
           <InfoForm {...this.state.data}/>
-          <Score/>
+          <IsStudent {...this.props}/>
         </Modal>
       </div>
     )

@@ -3,7 +3,7 @@ import { Button, Row } from 'antd'
 import BasicModal from "../basicComponents/Modal"
 import { VetoAuditItem, AgreeAuditItem} from '../../API/Api'
 const tableMark = (info) => {
-  return info.hasOwnProperty('title')? 'article': 'info'
+  return info.hasOwnProperty('pageView')? 'article': 'info'
 }
 const veto = (event) => {
   VetoAuditItem({id: event.target.dataset.id})

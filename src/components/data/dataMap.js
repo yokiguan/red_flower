@@ -4,12 +4,14 @@ const infoDataMap = {
   name: '姓名',
   phone: '手机号',
   degree: '学历',
+  id: '编号',
   profession: '专业',
+  intro: '简介',
   author: '作者',
-  role: '身份',
-  id: '文章ID',
-  createTime: '发表时间',
+  userRole: '身份',
+  createTime: '创建时间',
   sex: '性别',
+  roleId: '用户角色',
   admissionDate: '入学时间',
   birthday: '出生年月',
   position: '职位',
@@ -25,6 +27,10 @@ const infoDataMap = {
   flowerNum: '小红花',
   flowerTotalNum: '小红花充值数量',
   flowerSendNum: '小红花赠送数量',
+  clockBalance: '沙漏余额',
+  clockNum: '消耗沙漏数量',
+  giftedFlowerNum: '小红花赠送数量',
+  donatedFlowerNum: '小红花充值数量',
   workedTime: '义工时间',
   school: '学校',
   personalIntro: '个人简介',
@@ -40,7 +46,8 @@ const infoDataMap = {
   idealTime: '理想时间',
   flowerBalance: '小红花余额',
   flowerCounter: '小红花总数',
-  attachNum: '附件数'
+  attachNum: '附件数',
+  schoolId: '学校'
 }
 const articleData = {
   id: '文章ID',

@@ -97,8 +97,7 @@ export default class App extends Component {
                 <Menu.Item key="safe"><Link to='/app/flower/switch'>关闭/开启</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="setting" title={<span><Icon type="setting" /><span>基础设置(超级管理员)</span></span>}>
-                <Menu.Item key="picker"><Link to='/app/setting/picker'>下拉列表框</Link></Menu.Item>
-                <Menu.Item key="problem">问题</Menu.Item>
+                <Menu.Item key="picker"><Link to='/app/setting/picker'>下拉列表框/问题</Link></Menu.Item>
                 <Menu.Item key="banner"><Link to='/app/setting/banner'>轮播图</Link></Menu.Item>
                 <Menu.Item key="manager">管理员</Menu.Item>
               </SubMenu>

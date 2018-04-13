@@ -6,6 +6,7 @@ import {transformTime} from "../../common/scripts/utils"
 class InfoForm extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.infoDataName = Object.keys(props)
     this.infoDataValue = Object.values(props)
     this.handleInput = this.handleInput.bind(this)
@@ -38,6 +39,13 @@ class InfoForm extends Component {
                   return (
                     <div key={item}>
                       <label>{infoDataMap[item]}：</label><Input value={sexData[this.props[item]]} disabled={true}/>
+                    </div>
+                  )
+                  break
+                case 'idealTime':
+                  return (
+                    <div key={item}>
+                      <label>{infoDataMap[item]}：</label><Input value={transformTime((this.props[item] / 1000),'year_month_day')} disabled={true}/>
                     </div>
                   )
                   break

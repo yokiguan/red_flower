@@ -2,17 +2,22 @@ import React from 'react'
 import InfoModal from "../basicComponents/InfoModal"
 import { degreeData} from "./dataMap"
 import { GetSchoolList } from "../../API/Api";
-const SchoolList = []
-GetSchoolList()
-  .then(res => JSON.parse(res))
-  .then(res => {
-    res.data.map(item => {
-      SchoolList.push({
-        text: item.schoolName,
-        id: item.id
-      })
-    })
-  })
+const SchoolList = [
+  {
+    text: '西安电子科技大学',
+    value: '1'
+  }
+]
+// GetSchoolList()
+//   .then(res => JSON.parse(res))
+//   .then(res => {
+//     res.data.map(item => {
+//       SchoolList.push({
+//         text: item.schoolName,
+//         id: item.id
+//       })
+//     })
+//   })
 const columns = [
   {
     title: '姓名',
@@ -82,6 +87,6 @@ const columns = [
   }
 ]
 
-export default {
+export {
   columns
 }

@@ -28,9 +28,9 @@ const transformTime = (data, option) => {
   }
   const date = new Date(parseInt(data) * 1000)
   if (option && option === 'year_month_day') {
-    return date.getFullYear() + '-' + date.getMonth() + 1 + '-' + (date.getDate() > 9 ? date.getDate() : '0' + date.getDate())
+    return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + (date.getDate() > 9 ? date.getDate() : '0' + date.getDate())
   }
-  return date.getFullYear() + '-' + date.getMonth() + 1
+  return date.getFullYear() + '-' + (date.getMonth() + 1)
 }
 
 export {
