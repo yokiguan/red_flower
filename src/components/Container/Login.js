@@ -16,19 +16,19 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
+      console.log(values)
       if (!err) {
-        localStorage.setItem('userName', values.username)
+        localStorage.setItem('username', values.username)
       }
+      AccountLogin({username: values.userName, password: values.password})
+        .then(res => {
+          alert('登录成功')
+          window.location.href = '/app'
+        })
+        .catch(err => {
+          alert('登录失败')
+        })
     })
-    console.log(123)
-    AccountLogin({username: 'hwding', password: 'abc'})
-      .then(res => {
-        console.log(res)
-        window.location.href = '/app'
-      })
-    localStorage.setItem('isLogin', true)
-    localStorage.setItem('userName', 123)
-
   };
   render() {
     const { getFieldDecorator } = this.props.form;

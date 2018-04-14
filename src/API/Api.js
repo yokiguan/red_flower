@@ -93,8 +93,11 @@ const EditQuestionList = (data) => {
 const DeleteQuestionList = (data) => {
   return ajax('delete_restful', '/conf/question', data)
 }
-const GetFlowerRate = () => {
-  return ajax('get', '/conf/exchangeRate')
+const GetFlowerRateAndMaxFlowerPerYear = () => {
+  return ajax('get', '/op')
+}
+const EditFlowerRateAndMaxFlowerPerYear = (data) => {
+  return ajax('put', '/op', data)
 }
 const GetStuAnswer = (data) => {
   return ajax('get_restful', '/stu', data)
@@ -128,6 +131,7 @@ export {
   DeleteQuestionList,
   DeleteSchoolList,
   DeleteTradeList,
-  GetFlowerRate,
-  GetStuAnswer
+  GetStuAnswer,
+  GetFlowerRateAndMaxFlowerPerYear,
+  EditFlowerRateAndMaxFlowerPerYear
 }

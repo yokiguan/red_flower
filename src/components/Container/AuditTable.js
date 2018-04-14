@@ -3,7 +3,7 @@ import { Table, Button, Tabs } from 'antd'
 import { columns } from '../data/auditBasicData'
 import { auditType, auditStatus, degreeData} from "../data/dataMap"
 import { GetAuditList, GetNormalArticle } from "../../API/Api"
-import { normalizeTime } from '../../common/scripts/utils'
+import { normalizeTime, judgePullAjax, judgePushAjax } from '../../common/scripts/utils'
 
 class AuditTable extends Component {
   constructor (props) {
@@ -30,25 +30,26 @@ class AuditTable extends Component {
     GetAuditList({type: this.state.auditType[value], status: 1})
       .then(res => JSON.parse(res))
       .then(res => {
-        if (res.code === 1) {
-          this.setState({
-            ...this.state,
-            dataSource: []
-          })
-        } else {
+        if (judgePullAjax(res) && res.data.length > 0) {
           this.setState({
             ...this.state,
             dataSource: this.parseData(res.data)
           })
         }
       })
+      .catch(err => {
+        this.setState({
+          dataSource: []
+        })
+      })
   }
   changeAuditStatus (e) {
     GetAuditList({type: this.state.type, status: e.target.dataset.id})
       .then(res => JSON.parse(res))
       .then(res => {
-        if (res.code === 0 && res.data.length > 0) {
+        if (judgePullAjax(res) && res.data.length > 0) {
           this.setState({
+            ...this.state,
             dataSource: this.parseData(res.data)
           })
         } else {
@@ -56,6 +57,11 @@ class AuditTable extends Component {
             dataSource: []
           })
         }
+      })
+      .catch(err => {
+        this.setState({
+          dataSource: []
+        })
       })
   }
   parseData (data) {
@@ -72,24 +78,20 @@ class AuditTable extends Component {
     return result
   }
   componentDidMount () {
-    GetAuditList({type: this.state.type, status: this.state.status})
-      .then(res => JSON.parse(res))
-      .then(res => {
-        if (res.code === 0 && res.data.length > 0) {
-          this.setState({
-            dataSource: this.parseData(res.data)
-          })
-        } else {
-          this.setState({
-            dataSource: []
-          })
-        }
-      })
-    GetNormalArticle({page: 1})
-      .then(res => JSON.parse(res))
-      .then(res => {
-        console.log(res)
-      })
+    this.changeAuditType('student')
+    // GetAuditList({type: this.state.type, status: this.state.status})
+    //   .then(res => JSON.parse(res))
+    //   .then(res => {
+    //     if (res.code === 0 && res.data.length > 0) {
+    //       this.setState({
+    //         dataSource: this.parseData(res.data)
+    //       })
+    //     } else {
+    //       this.setState({
+    //         dataSource: []
+    //       })
+    //     }
+    //   })
   }
   render() {
     const style = {

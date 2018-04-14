@@ -25,7 +25,7 @@ class InfoList extends Component {
     ]
   }
   showMoreInfo (index) {
-    console.log(index)
+    // console.log(index)
   }
   render() {
     return (

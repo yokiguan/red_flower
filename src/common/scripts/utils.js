@@ -33,8 +33,20 @@ const transformTime = (data, option) => {
   return date.getFullYear() + '-' + (date.getMonth() + 1)
 }
 
+const judgePushAjax = (res) => {
+  if (typeof res !== 'undefined' && typeof res.code !== 'undefined' && res.code === 0) {
+    alert('成功')
+  } else {
+    alert('失败')
+  }
+}
+const judgePullAjax = (res) => {
+  return typeof res !== 'undefined' && typeof res.code !== 'undefined' && res.code === 0
+}
 export {
   filtrate,
   normalizeTime,
-  transformTime
+  transformTime,
+  judgePullAjax,
+  judgePushAjax
 }

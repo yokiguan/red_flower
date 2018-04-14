@@ -6,13 +6,11 @@ import {transformTime} from "../../common/scripts/utils"
 class InfoForm extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.infoDataName = Object.keys(props)
     this.infoDataValue = Object.values(props)
     this.handleInput = this.handleInput.bind(this)
   }
   handleInput(event) {
-    console.log(event)
   }
   render() {
     return (

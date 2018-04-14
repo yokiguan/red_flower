@@ -1,7 +1,7 @@
 function makeRequest(config) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest()
-    console.log(config)
+  
     xhr.open(config.method, config.url)
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
@@ -144,7 +144,6 @@ const config_mothods = {
       let value = Object.values(data.value)[0]
       let params= {}
       params[name] = value
-      console.log(params)
       return {
         method: 'PUT',
         url: url + '/' + data.id,

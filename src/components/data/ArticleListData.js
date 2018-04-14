@@ -40,7 +40,6 @@ export const columns = [
     dataIndex: 'action',
     key: 'action',
     render: (value, record) => {
-      console.log(record)
       if (record.state === 1) {
         return (
           <Row style={{display: 'flex', alignItems: 'center'}}>

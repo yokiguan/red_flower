@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { columns } from '../data/ArticleListData'
 import { Table, Button} from 'antd'
-import { GetNormalArticle } from "../../API/Api";
+import { GetNormalArticle } from "../../API/Api"
+import { judgePullAjax, judgePushAjax} from '../../common/scripts/utils'
 class ArticleList extends Component {
   constructor(props) {
     super(props)
@@ -31,8 +32,7 @@ class ArticleList extends Component {
     GetNormalArticle({page: 1})
       .then(res => JSON.parse(res))
       .then(res => {
-        // console.log(res)
-        // if (res.code === 0) {
+        // if (judgePushAjax(res)) {
         //   this.state.dataSource = res.data
         // }
       })

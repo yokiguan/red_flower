@@ -4,7 +4,6 @@ import { GetStuInfo, GetTutorInfo } from '../../API/Api'
 import InfoForm from './InfoForm'
 import Score from '../Container/Score'
 const IsStudent = (props) => {
-  console.log(props)
   if( typeof props.studentId !== 'undefined') {
     return <Score studentId={props.studentId}/>
   } else {

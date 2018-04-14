@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Option from '../basicComponents/Option'
-import { GetSchoolList, GetDirectionList, GetTradeList, AddTradeList, AddSchoolList, AddDirectionList, EditTradeList, EditSchoolList, EditDirectionList, DeleteSchoolList, DeleteTradeList, DeleteDirectionList, GetQuestionList, AddProblemList, DeleteQuestionList, EditQuestionList } from "../../API/Api";
+import { GetSchoolList, GetDirectionList, GetTradeList, AddTradeList, AddSchoolList, AddDirectionList, EditTradeList, EditSchoolList, EditDirectionList, DeleteSchoolList, DeleteTradeList, DeleteDirectionList, GetQuestionList, AddProblemList, DeleteQuestionList, EditQuestionList } from "../../API/Api"
+import { judgePushAjax } from '../../common/scripts/utils'
 const asyncOption = {
   direction: {
     'get': GetDirectionList,
@@ -60,23 +61,20 @@ export default class OptionList extends Component{
     })
   }
   handleDelete = (id) => {
-    console.log(id)
     asyncOption[this.props.kind]['delete']({id: id})
       .then(res => JSON.parse(res))
       .then(res => {
-        console.log(res)
+        judgePushAjax()
       })
   }
   handleUpdate = (source) => {
     let data = {}
-    console.log(source)
     if (typeof source.id === 'undefined' || source.id.toString().length > 10) {
       data[this.props.kind] = source.value
-      console.log(data)
       asyncOption[this.props.kind]['post'](JSON.stringify(data))
         .then(res => JSON.parse(res))
         .then(res => {
-          console.log(res)
+          judgePushAjax()
         })
     } else {
       data.value = {
