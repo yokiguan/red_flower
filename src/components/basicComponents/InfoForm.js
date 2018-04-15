@@ -70,12 +70,13 @@ class InfoForm extends Component {
                     </div>
                   )
                   break
-                case 'answer':
+                case 'question':
                   return (
-                    JSON.parse(this.infoDataValue[index]).map(item => {
+                    this.infoDataValue[index].map((item, index) => {
+                      console.log(item.problem)
                       return (
-                          <div key={'问题' + Object.keys(item)[0] }>
-                            <label>{'问题' + Object.keys(item)[0] }：</label><Input.TextArea autosize={true} value={Object.values(item)[0]}  disabled={true}/>
+                          <div key={'problem-' + index }>
+                            <label>{item.problem }：</label><Input.TextArea autosize={true} value={item.answer}  disabled={true}/>
                           </div>
                         )
                     })

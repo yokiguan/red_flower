@@ -6,6 +6,7 @@ import { articleData} from "../data/dataMap"
 import {transformTime} from "../../common/scripts/utils"
 
 const isArticleElement = (item) => {
+  console.log(Object.keys(articleData))
   return item[1] !== null && Object.keys(articleData).indexOf(item[0]) !== -1
 }
 class ArticleForm extends Component {
@@ -16,9 +17,9 @@ class ArticleForm extends Component {
   render() {
     return (
       <section>
-        <h4 style={{textAlign: 'center'}}>{JSON.parse(this.ArticleData[0][1])}</h4>
+        <h4 style={{textAlign: 'center'}}>{this.ArticleData[0][1]}</h4>
         <ReactQuill
-          value={JSON.parse(this.ArticleData[1][1])}
+          value= {this.ArticleData[1][1]}
         />
       </section>
     )

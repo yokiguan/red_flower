@@ -139,7 +139,7 @@ const config_mothods = {
    ---> PUT 'url/1' send({"school": "van"})
    */
   PUT_RESTFUL: (url, data) => {
-    if (typeof data.id !== 'undefined') {
+    if (typeof data.value !== 'undefined') {
       let name = Object.keys(data.value)[0]
       let value = Object.values(data.value)[0]
       let params= {}

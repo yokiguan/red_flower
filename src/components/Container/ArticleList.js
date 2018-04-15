@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { columns } from '../data/ArticleListData'
 import { Table, Button} from 'antd'
 import { GetNormalArticle } from "../../API/Api"
-import { judgePullAjax, judgePushAjax} from '../../common/scripts/utils'
+import { normalizeTime, judgePullAjax, judgePushAjax } from '../../common/scripts/utils'
 class ArticleList extends Component {
   constructor(props) {
     super(props)
@@ -11,16 +11,6 @@ class ArticleList extends Component {
       selectedRowKeys: []
     }
     this.onSelectChange = this.onSelectChange.bind(this)
-    let article = {
-      id: 2,
-      title: '干',
-      author: 'fuck',
-      role: 1,
-      content: '哈哈哈哈哈',
-      createTime: '2018-8-8',
-      state: 1
-    }
-    this.state.dataSource.push(article)
   }
   onSelectChange(selectedRowKeys) {
     this.setState({
@@ -29,12 +19,17 @@ class ArticleList extends Component {
     })
   }
   componentDidMount() {
-    GetNormalArticle({page: 1})
+    GetNormalArticle({page: 0})
       .then(res => JSON.parse(res))
       .then(res => {
-        // if (judgePushAjax(res)) {
-        //   this.state.dataSource = res.data
-        // }
+        if (typeof res.data !== 'undefined') {
+          res.data.map(item => {
+            item.createTime = normalizeTime(item.createTime)
+          })
+          this.setState({
+            dataSource: res.data
+          })
+        }
       })
   }
 

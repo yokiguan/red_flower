@@ -2,16 +2,17 @@ import React from 'react'
 import { Row } from 'antd'
 import SelectOption from '../basicComponents/SelectOption'
 import BasicModal from '../basicComponents/Modal'
+import {} from '../../common/scripts/utils'
 export const columns = [
   {
-    title: 'ID',
+    title: '文章ID',
     dataIndex: 'id',
     key: 'id'
   },
   {
-    title: '作者',
-    dataIndex: 'author',
-    key: 'author'
+    title: '用户ID',
+    dataIndex: 'userId',
+    key: 'userId'
   }, {
     title: '身份',
     dataIndex: 'role',
@@ -50,7 +51,7 @@ export const columns = [
       } else {
         return (
           <Row style={{display: 'flex', alignItems: 'center'}}>
-            <BasicModal infoData={record}/>
+            <BasicModal infoData={record} mark='article'/>
           </Row>
         )
       }

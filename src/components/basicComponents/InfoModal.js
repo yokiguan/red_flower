@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'antd'
-import { GetStuInfo, GetTutorInfo } from '../../API/Api'
+import { GetStuInfo, GetTutorInfo, GetStuAnswer, GetQuestionList } from '../../API/Api'
 import InfoForm from './InfoForm'
 import Score from '../Container/Score'
 const IsStudent = (props) => {
@@ -18,15 +18,43 @@ class InfoModal extends Component {
     this.state = {
       visible: false
     }
+    GetQuestionList()
+      .then(res => JSON.parse(res))
+      .then(res => {
+        this.questionList = res.data
+      })
   }
   componentDidMount() {
     if (typeof this.props.studentId !== 'undefined') {
+      let studentData = {}
       GetStuInfo({id: this.props.studentId})
         .then(res => JSON.parse(res))
         .then(res => {
+          studentData = res.data
           this.setState({
-            data: res.data
+            data: studentData
           })
+          return GetStuAnswer({id: this.props.studentId, answer: 'answer'})
+        })
+        .then(res => JSON.parse(res))
+        .then(res => {
+          let questionAndAnswer = []
+          if (typeof res !== 'undefined' && typeof res.data !== 'undefined' && res.data.length > 0) {
+            res.data.map(item => {
+              this.questionList.map(value => {
+                if (value.id === item['questionId']) {
+                  questionAndAnswer.push({
+                    problem: value.title,
+                    answer: item['answerContent']
+                  })
+                }
+              })
+            })
+            studentData['question'] = questionAndAnswer
+            this.setState({
+              data: studentData
+            })
+          }
         })
     } else if( typeof this.props.tutorId !== 'undefined') {
       GetTutorInfo({id: this.props.tutorId})

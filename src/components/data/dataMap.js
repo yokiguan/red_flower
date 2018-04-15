@@ -50,11 +50,8 @@ const infoDataMap = {
   schoolId: '学校'
 }
 const articleData = {
-  id: '文章ID',
   title: '标题',
   content: '正文',
-  createTime: '创建时间',
-  pageView: '阅读量'
 }
 const otherInfoData = ['personalIntro', 'answer', 'problem']
 const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
