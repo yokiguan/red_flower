@@ -99,8 +99,22 @@ const config_mothods = {
     }
   },
   DELETE_RESTFUL: (url, data) => {
+    if (typeof data.value !== 'undefined') {
+      let name = Object.keys(data.value)[0]
+      let value = Object.values(data.value)[0]
+      let params= {}
+      params[name] = value
+      return {
+        method: 'DELETE',
+        url: url + '/' + data.id,
+        data: JSON.stringify(params),
+        headers: {
+          "Content-Type": 'application/json'
+        }
+      }
+    }
     return {
-      method: 'DELETE',
+      method: 'PUT',
       url: url + '/' + data.id,
       data: {},
       headers: {

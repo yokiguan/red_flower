@@ -6,10 +6,11 @@ import Switch from './Switch'
 import ReCount from './ReCount'
 import Banner from './Banner'
 import ArticleList from './ArticleList'
-import RubbishList from './RubbishList'
 import OptionLists from './OptionLists'
 import Login from './Login'
 import NotFound from './NotFound'
+import ArticleGarbage from './ArticleGarbage'
+import TradeAudit from './TradeAudit'
 
 export {
   AuditTable,
@@ -20,8 +21,9 @@ export {
   ReCount,
   Banner,
   ArticleList,
-  RubbishList,
   OptionLists,
   Login,
-  NotFound
+  NotFound,
+  ArticleGarbage,
+  TradeAudit
 }

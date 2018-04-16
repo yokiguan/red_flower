@@ -1,16 +1,14 @@
 import React from 'react'
 import { Button, Row } from 'antd'
-import BasicModal from "../basicComponents/Modal"
-import { VetoAuditItem, AgreeAuditItem} from '../../API/Api'
-const tableMark = (info) => {
-  return info.hasOwnProperty('pageView')? 'article': 'info'
-}
-const Activity = {
-  '1': '活动',
-  '2': '义工'
+import { auditStatus } from './dataMap'
+import { VetoTrade, AgreeTrade} from '../../API/Api'
+const transformTime = (time) => {
+  if (typeof time !== 'undefined') {
+    return time.split('.')[0].replace(/T/g, ' ')
+  }
 }
 const veto = (event) => {
-  VetoAuditItem({id: event.target.dataset.id})
+  VetoTrade({id: event.target.dataset.id})
     .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
@@ -24,7 +22,7 @@ const veto = (event) => {
     })
 }
 const agree = (event) => {
-  AgreeAuditItem({id: event.target.dataset.id})
+  AgreeTrade({id: event.target.dataset.id})
     .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
@@ -38,63 +36,69 @@ const agree = (event) => {
     })
 }
 const renderAction = (props) => {
-  if (props.status === '审核中') {
+  if (props.status === 1) {
     return (
       <Row>
         <Button style={auditButtonStyle} data-id={props.id} onClick={agree} data-record={props}>通过</Button>
         <Button style={auditButtonStyle} data-id={props.id} onClick={veto} data-record={props}>不通过</Button>
-        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId} mark={tableMark(props.content)}/></span>
       </Row>
     )
   } else {
     return (
       <Row>
-        <span style={{float: 'left'}}><BasicModal infoData={props.content} userId={props.userId} mark={tableMark(props.content)}/></span>
+        <span style={{float: 'left'}}></span>
       </Row>
     )
   }
 }
 
-const renderName = (value, record) => {
-  if (value !== '活动') {
-    return <span>{value}</span>
-  } else if (typeof record.content.userRole !== 'undefined') {
-    return <span>{Activity[record.content.userRole]}</span>
-  } else {
-    return <span>学生/导师</span>
-  }
-}
 const auditButtonStyle = {
   marginLeft: 20 + 'px'
 }
 export const columns = [
   {
-    title: '序号',
-    key: 'number',
-    dataIndex: 'number'
-  },
-  {
-    title: '用户ID',
+    title: '提现人ID',
     key: 'userId',
     dataIndex: 'userId'
   },
   {
-    title: '类型',
-    key: 'type',
-    dataIndex: 'type',
-    render: (value, record) => {
-      return renderName(value, record)
+    title: '审核员ID',
+    key: 'adminId',
+    dataIndex: 'adminId'
+  },
+  {
+    title: '提现小红花数额',
+    key: 'amount',
+    dataIndex: 'amount'
+  },
+  {
+    title: '小红花汇率',
+    key: 'exchangeRate',
+    dataIndex: 'exchangeRate'
+  },
+  {
+    title: '提交时间',
+    key: 'createTime',
+    dataIndex: 'createTime',
+    render: (value) => {
+      return <span>{transformTime(value)}</span>
     }
   },
   {
-    title: '日期',
-    key: 'applyTime',
-    dataIndex: 'applyTime'
+    title: '审核时间',
+    key: 'checkTime',
+    dataIndex: 'checkTime',
+    render: (value) => {
+      return <span>{transformTime(value)}</span>
+    }
   },
   {
     title: '状态',
     key: 'status',
-    dataIndex: 'status'
+    dataIndex: 'status',
+    render: (value) => {
+      return <span>{auditStatus[value]}</span>
+    }
   },
   {
     title: '操作',

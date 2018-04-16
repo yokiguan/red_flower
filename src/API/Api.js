@@ -12,6 +12,12 @@ const VetoAuditItem = (data) => {
 const AgreeAuditItem = (data) => {
   return ajax('put_restful', '/audit/general', data)
 }
+const VetoTrade = (data) => {
+  return ajax('delete_restful', '/audit/asset/', data)
+}
+const AgreeTrade = (data) => {
+  return ajax('put_restful', '/audit/asset/', data)
+}
 const ResetCounter = () => {
   return ajax('put', '/reset/counter')
 }
@@ -102,6 +108,15 @@ const EditFlowerRateAndMaxFlowerPerYear = (data) => {
 const GetStuAnswer = (data) => {
   return ajax('get_restful', '/stu', data)
 }
+const GetArticleGarbage = (data) => {
+  return ajax('get', '/article/garbage', data)
+}
+const DeleteArticle = (data) => {
+  return ajax('delete_restful', '/article', data)
+}
+const GetWithdrawList = (data) => {
+  return ajax('get', '/audit/asset', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -133,5 +148,10 @@ export {
   DeleteTradeList,
   GetStuAnswer,
   GetFlowerRateAndMaxFlowerPerYear,
-  EditFlowerRateAndMaxFlowerPerYear
+  EditFlowerRateAndMaxFlowerPerYear,
+  GetArticleGarbage,
+  DeleteArticle,
+  GetWithdrawList,
+  VetoTrade,
+  AgreeTrade
 }

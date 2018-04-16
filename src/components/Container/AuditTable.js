@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Tabs } from 'antd'
+import { Table, Button, Tabs, Pagination} from 'antd'
 import { columns } from '../data/auditBasicData'
 import { auditType, auditStatus, degreeData} from "../data/dataMap"
 import { GetAuditList, GetNormalArticle } from "../../API/Api"
@@ -24,8 +24,8 @@ class AuditTable extends Component {
   }
   changeAuditType (value) {
     this.setState({
-      ...this.state,
-      type: this.state.auditType[value]
+      type: this.state.auditType[value],
+      dataSource: []
     })
     GetAuditList({type: this.state.auditType[value], status: 1})
       .then(res => JSON.parse(res))
@@ -79,19 +79,6 @@ class AuditTable extends Component {
   }
   componentDidMount () {
     this.changeAuditType('student')
-    // GetAuditList({type: this.state.type, status: this.state.status})
-    //   .then(res => JSON.parse(res))
-    //   .then(res => {
-    //     if (res.code === 0 && res.data.length > 0) {
-    //       this.setState({
-    //         dataSource: this.parseData(res.data)
-    //       })
-    //     } else {
-    //       this.setState({
-    //         dataSource: []
-    //       })
-    //     }
-    //   })
   }
   render() {
     const style = {
@@ -110,7 +97,7 @@ class AuditTable extends Component {
     return (
       <div>
         <br/>
-        <h4>审核管理</h4>
+        <h4>通用审核</h4>
         <Tabs size='large' type='line' onChange={this.changeAuditType}>
           <Tabs.TabPane key='student' tab='学生信息'>
             <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
@@ -121,14 +108,8 @@ class AuditTable extends Component {
           <Tabs.TabPane key='activity' tab='活动申请'>
             <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
           </Tabs.TabPane>
-          <Tabs.TabPane key='volunteer' tab='义工申请'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
-          </Tabs.TabPane>
-          <Tabs.TabPane key='withdraw' tab='提现申请'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
-          </Tabs.TabPane>
           <Tabs.TabPane key='article' tab='文章审核'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            <Table dataSource={this.state.dataSource} columns={columns} bordered={true}/>
           </Tabs.TabPane>
         </Tabs>
         <div style={style.buttonContainer}>

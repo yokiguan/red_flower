@@ -47,7 +47,9 @@ const infoDataMap = {
   flowerBalance: '小红花余额',
   flowerCounter: '小红花总数',
   attachNum: '附件数',
-  schoolId: '学校'
+  schoolId: '学校',
+  amount: '数额',
+  exchangeRate: '小红花汇率'
 }
 const articleData = {
   title: '标题',

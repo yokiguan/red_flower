@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon, Divider, Badge, Avatar, Breadcrumb } from 'antd'
 import {  BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
-import { StudentInfoList, TutorInfoList, AuditTable, Rate, Switch, ReCount, Banner, ArticleList, RubbishList, OptionLists, NotFound} from './Containers'
+import { StudentInfoList, TutorInfoList, AuditTable, Rate, Switch, ReCount, Banner, ArticleList, RubbishList, OptionLists, NotFound, ArticleGarbage, TradeAudit} from './Containers'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
 const fakeAuth = {
@@ -78,7 +78,8 @@ export default class App extends Component {
               mode="inline"
             >
               <SubMenu key="home" title={<span><Icon type="home" /><span>首页</span></span>}>
-                <Menu.Item key="audit"><Link to='/app/audit'>审核管理</Link></Menu.Item>
+                <Menu.Item key="audit"><Link to='/app/audit'>通用审核</Link></Menu.Item>
+                <Menu.Item key="trade"><Link to='/app/trade'>交易审核</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="info" title={<span><Icon type="idcard" /><span>信息管理</span></span>}>
                 <Menu.Item key="stu"><Link to='/app/info/stu'>学生列表</Link></Menu.Item>
@@ -86,7 +87,7 @@ export default class App extends Component {
               </SubMenu>
               <SubMenu key="article" title={<span><Icon type="book" /><span>文章管理</span></span>}>
                 <Menu.Item key="normal"><Link to='/app/article/normal'>过审文章</Link></Menu.Item>
-                <Menu.Item key="rubbish"><Link to='/app/article/rubbish'>垃圾箱</Link></Menu.Item>
+                <Menu.Item key="garbage"><Link to='/app/article/garbage'>垃圾箱</Link></Menu.Item>
               </SubMenu>
               <SubMenu key="message" title={<span><Icon type="notification" /><span>消息通知</span></span>}>
                 <Menu.Item key="send">发送短信</Menu.Item>
@@ -113,13 +114,14 @@ export default class App extends Component {
             </Header>
             <Content style={{ background: '#fff', textAlign: 'center' }}>
               <PrivateRoute path='/app/audit' component={AuditTable} />
+              <PrivateRoute path='/app/trade' component={TradeAudit} />
               <PrivateRoute path='/app/info/stu' component={StudentInfoList} />
               <PrivateRoute path='/app/info/tutor' component={TutorInfoList} />
               <SuperPrivateRoute path='/app/flower/switch' component={Switch}/>
               <SuperPrivateRoute path='/app/flower/rate' component={Rate}/>
               <SuperPrivateRoute path='/app/flower/recount' component={ReCount}/>
               <PrivateRoute path='/app/article/normal' component={ArticleList}/>
-              <PrivateRoute path='/app/article/rubbish' component={RubbishList}/>
+              <PrivateRoute path='/app/article/garbage' component={ArticleGarbage}/>
               <SuperPrivateRoute path='/app/setting/banner' component={Banner}/>
               <SuperPrivateRoute path='/app/setting/picker' component={OptionLists}/>
               <Route path='/app/404' component={NotFound}/>

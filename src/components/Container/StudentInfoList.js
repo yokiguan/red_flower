@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { columns } from '../data/studentBasicData'
-import { Table, Input} from 'antd'
-import { GetStuInfoList} from "../../API/Api"
-import { GetTutorInfoList, GetSchoolList, GetDirectionList } from "../../API/Api";
+import { Table, Input, Pagination} from 'antd'
+import {  GetStuInfoList, GetSchoolList, GetDirectionList } from "../../API/Api";
 const Search = Input.Search
 class StudentInfoList extends Component {
   constructor(props) {
@@ -10,23 +9,60 @@ class StudentInfoList extends Component {
     this.state = {
       dataSource: []
     }
+    this.schoolList = []
+    this.directionList = []
+  }
+  searchClick = (value) => {
+    GetStuInfoList({word: value})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        res.data.map(item => {
+          item.flowerNum = item.flowerNum || 0
+          item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
+          item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
+        })
+        this.setState({
+          ...this.state,
+          dataSource: res.data
+        })
+      })
+  }
+  pageChange = (page) => {
+    this.setState({
+      page: page
+    })
+    GetStuInfoList({page: page - 1})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        res.data.map(item => {
+          item.flowerNum = item.flowerNum || 0
+          item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
+          item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
+        })
+        this.setState({
+          dataSource: res.data
+        })
+      })
+      .catch(err => {
+        this.setState({
+          dataSource: []
+        })
+      })
   }
   componentDidMount () {
-    let schoolList = []
-    let directionList = []
     Promise.all([
       GetSchoolList()
         .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
-            schoolList[item.id] = item.schoolName
+            this.schoolList[item.id] = item.schoolName
           })
         }),
       GetDirectionList()
         .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
-            directionList[item.id] = item.directionName
+            this.directionList[item.id] = item.directionName
           })
         }),
     ])
@@ -36,11 +72,10 @@ class StudentInfoList extends Component {
           .then(res => {
             res.data.map(item => {
               item.flowerNum = item.flowerNum || 0
-              item.school = item.schoolId !== -1? schoolList[item.schoolId]: '未填写'
-              item.direction = item.direction !== -1? directionList[item.direction]: '未填写'
+              item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
+              item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
             })
             this.setState({
-              ...this.state,
               dataSource: res.data
             })
           })
@@ -56,8 +91,10 @@ class StudentInfoList extends Component {
     return (
       <div style={style.container}>
         <h4>学生信息列表</h4>
-        <Search placeholder='搜索姓名、学号、电话号、专业。' onSearch={value => console.log(value)} style={{width: 300, marginBottom: 20 + 'px'}}/>
-        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+        <Search placeholder='搜索姓名、学号、电话号、专业。' onSearch={this.searchClick} style={{width: 300, marginBottom: 20 + 'px'}}/>
+        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
+        <br/>
+        <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
       </div>
     )
   }

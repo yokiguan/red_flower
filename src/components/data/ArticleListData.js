@@ -13,21 +13,6 @@ export const columns = [
     title: '用户ID',
     dataIndex: 'userId',
     key: 'userId'
-  }, {
-    title: '身份',
-    dataIndex: 'role',
-    key: 'role',
-    render: (value) => {
-      if (value === 1) {
-        return (
-          <span>学生</span>
-        )
-      } else if (value === 2) {
-        return (
-          <span>导师</span>
-        )
-      }
-    }
   },{
     title: '标题',
     dataIndex: 'title',
