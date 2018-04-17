@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Input} from 'antd'
-import { infoDataMap, importantInfoData, otherInfoData, degreeData, sexData} from "../data/dataMap"
+import { infoDataMap, degreeData, sexData} from "../data/dataMap"
 import {transformTime} from "../../common/scripts/utils"
 
 class InfoForm extends Component {

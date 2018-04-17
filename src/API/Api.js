@@ -117,6 +117,9 @@ const DeleteArticle = (data) => {
 const GetWithdrawList = (data) => {
   return ajax('get', '/audit/asset', data)
 }
+const EditBanner = (data) => {
+  return ajax('put', '/banner', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -153,5 +156,6 @@ export {
   DeleteArticle,
   GetWithdrawList,
   VetoTrade,
-  AgreeTrade
+  AgreeTrade,
+  EditBanner
 }

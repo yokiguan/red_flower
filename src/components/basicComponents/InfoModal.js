@@ -18,43 +18,44 @@ class InfoModal extends Component {
     this.state = {
       visible: false
     }
-    GetQuestionList()
-      .then(res => JSON.parse(res))
-      .then(res => {
-        this.questionList = res.data
-      })
   }
   componentDidMount() {
     if (typeof this.props.studentId !== 'undefined') {
-      let studentData = {}
       GetStuInfo({id: this.props.studentId})
         .then(res => JSON.parse(res))
         .then(res => {
-          studentData = res.data
-          this.setState({
-            data: studentData
-          })
+          this.data = res.data
+          return GetQuestionList()
+        })
+        .then(res => JSON.parse(res))
+        .then(res => {
+          this.questionList = res.data
           return GetStuAnswer({id: this.props.studentId, answer: 'answer'})
         })
         .then(res => JSON.parse(res))
         .then(res => {
+          let answerList = res.data
           let questionAndAnswer = []
-          if (typeof res !== 'undefined' && typeof res.data !== 'undefined' && res.data.length > 0) {
-            res.data.map(item => {
-              this.questionList.map(value => {
-                if (value.id === item['questionId']) {
-                  questionAndAnswer.push({
-                    problem: value.title,
-                    answer: item['answerContent']
-                  })
-                }
+          this.questionList.map(problem => {
+            if (answerList.length === 0) {
+              questionAndAnswer.push({
+                problem: problem.title,
+                answer: '未作答'
               })
+            }
+            answerList.map(answer => {
+              if (answer.questionId === problem.id) {
+                questionAndAnswer.push({
+                  problem: problem.title,
+                  answer: answer.answerContent
+                })
+              }
             })
-            studentData['question'] = questionAndAnswer
-            this.setState({
-              data: studentData
-            })
-          }
+          })
+          this.data['question'] = questionAndAnswer
+          this.setState({
+            data: this.data
+          })
         })
     } else if( typeof this.props.tutorId !== 'undefined') {
       GetTutorInfo({id: this.props.tutorId})

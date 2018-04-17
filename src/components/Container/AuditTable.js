@@ -1,16 +1,13 @@
 import React, { Component } from 'react'
-import { Table, Button, Tabs, Pagination} from 'antd'
+import { Table, Button, Tabs} from 'antd'
 import { columns } from '../data/auditBasicData'
-import { auditType, auditStatus, degreeData} from "../data/dataMap"
-import { GetAuditList, GetNormalArticle } from "../../API/Api"
-import { normalizeTime, judgePullAjax, judgePushAjax } from '../../common/scripts/utils'
+import { auditType, auditStatus} from "../data/dataMap"
+import { GetAuditList, GetStuAnswer, GetQuestionList} from "../../API/Api"
+import { normalizeTime, judgePullAjax} from '../../common/scripts/utils'
 
 class AuditTable extends Component {
   constructor (props) {
     super(props)
-    this.parseData = this.parseData.bind(this)
-    this.changeAuditType = this.changeAuditType.bind(this)
-    this.changeAuditStatus = this.changeAuditStatus.bind(this)
     this.state = {
       type: 1,
       status: 2,
@@ -22,7 +19,7 @@ class AuditTable extends Component {
       }
     }
   }
-  changeAuditType (value) {
+  changeAuditType = (value) => {
     this.setState({
       type: this.state.auditType[value],
       dataSource: []
@@ -31,10 +28,43 @@ class AuditTable extends Component {
       .then(res => JSON.parse(res))
       .then(res => {
         if (judgePullAjax(res) && res.data.length > 0) {
+          this.dataSource = this.parseData(res.data)
           this.setState({
-            ...this.state,
-            dataSource: this.parseData(res.data)
+            dataSource: this.dataSource
           })
+          if (value === 'student') {
+            GetQuestionList()
+              .then(res => JSON.parse(res))
+              .then(res => {
+                this.questionList = res.data
+                return GetStuAnswer({id: this.dataSource[0].userId, answer: 'answer'})
+              })
+              .then(res => JSON.parse(res))
+              .then(res => {
+                let answerList = res.data
+                let questionAndAnswer = []
+                this.questionList.map(problem => {
+                  if (answerList.length === 0) {
+                    questionAndAnswer.push({
+                      problem: problem.title,
+                      answer: '未作答'
+                    })
+                  }
+                  answerList.map(answer => {
+                    if (answer.questionId === problem.id) {
+                      questionAndAnswer.push({
+                        problem: problem.title,
+                        answer: answer['answerContent']
+                      })
+                    }
+                  })
+                })
+                this.dataSource[0]['content']['question'] = questionAndAnswer
+                this.setState({
+                  dataSource: this.dataSource
+                })
+              })
+          }
         }
       })
       .catch(err => {
@@ -43,7 +73,7 @@ class AuditTable extends Component {
         })
       })
   }
-  changeAuditStatus (e) {
+  changeAuditStatus = (e) => {
     GetAuditList({type: this.state.type, status: e.target.dataset.id})
       .then(res => JSON.parse(res))
       .then(res => {
@@ -64,7 +94,7 @@ class AuditTable extends Component {
         })
       })
   }
-  parseData (data) {
+  parseData =  (data) => {
     const result = []
     data.map((item, index) => {
       item.status = auditStatus[item.status]

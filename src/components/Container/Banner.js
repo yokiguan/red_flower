@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Button, Input, Layout, Divider} from 'antd'
-import { AccountLogin, GetAuditList} from "../../API/Api";
-import Mock from '../../API/Mock/route'
+import { Button, Input, Layout, Divider, Upload} from 'antd'
+import { EditBanner} from "../../API/Api"
 
 const BannerItem = (props) => {
   console.log(props)
@@ -66,38 +65,37 @@ class Banner extends Component {
     }
     this.deleteBannerItem = this.deleteBannerItem.bind(this)
   }
-
+  componentDidMount() {
+    EditBanner(JSON.stringify({slotId: 1, bannerId: 50}))
+      .then(res => JSON.parse(res))
+      .then(res => {
+        console.log(res)
+      })
+  }
   deleteBannerItem () {
-    // AccountLogin({username: 'hwding', password: 'abc'})
-    //   .then(res => JSON.parse(res))
-    //   .then(res => {
-    //     console.log(res)
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
-    // GetAuditList({type: 1, status: 1})
-    //   .then(res => JSON.parse(res))
-    //   .then(res => {
-    //     console.log(res)
-    //   })
-    //   .catch(err => {
-    //     console.log(err)
-    //   })
+    EditBanner({slotId: 1, bannerId: 50})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        console.log(res)
+      })
   }
   render () {
     return (
       <Layout style={this.BannerContainerStyle}>
-        {
-          this.state.bannerItems.map((item, index) => {
-            return (
-              <div key={index}>
-                <BannerItem deleteBannerItem={this.deleteBannerItem}/>
-                <Divider/>
-              </div>
-            )
-          })
-        }
+        {/*{*/}
+          {/*this.state.bannerItems.map((item, index) => {*/}
+            {/*return (*/}
+              {/*<div key={index}>*/}
+                {/*<BannerItem deleteBannerItem={this.deleteBannerItem}/>*/}
+                {/*<Divider/>*/}
+              {/*</div>*/}
+            {/*)*/}
+          {/*})*/}
+        {/*}*/}
+        <Upload
+          actions="https://upload.qiniu.com"
+          listType="picture"
+        />
       </Layout>
     )
   }

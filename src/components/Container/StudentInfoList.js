@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { columns } from '../data/studentBasicData'
 import { Table, Input, Pagination} from 'antd'
-import {  GetStuInfoList, GetSchoolList, GetDirectionList } from "../../API/Api";
+import {  GetStuInfoList, GetSchoolList, GetDirectionList, GetStuInfo, GetStuAnswer, GetQuestionList } from "../../API/Api";
 const Search = Input.Search
 class StudentInfoList extends Component {
   constructor(props) {
@@ -64,7 +64,7 @@ class StudentInfoList extends Component {
           res.data.map(item => {
             this.directionList[item.id] = item.directionName
           })
-        }),
+        })
     ])
       .then(res => {
         GetStuInfoList()
@@ -75,6 +75,7 @@ class StudentInfoList extends Component {
               item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
               item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
             })
+            this.dataSource = res.data
             this.setState({
               dataSource: res.data
             })
