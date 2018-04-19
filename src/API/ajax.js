@@ -98,6 +98,16 @@ const config_mothods = {
       }
     }
   },
+  POST_RESTFUL: (url, data) => {
+    return {
+      method: 'POST',
+      url: url + '/' + data.id,
+      data: {},
+      headers: {
+        "Content-Type": 'application/json'
+      }
+    }
+  },
   DELETE_RESTFUL: (url, data) => {
     if (typeof data.value !== 'undefined') {
       let name = Object.keys(data.value)[0]
@@ -114,7 +124,7 @@ const config_mothods = {
       }
     }
     return {
-      method: 'PUT',
+      method: 'DELETE',
       url: url + '/' + data.id,
       data: {},
       headers: {

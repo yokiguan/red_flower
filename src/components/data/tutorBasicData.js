@@ -46,8 +46,8 @@ export const columns = [
     title: '是否为导师',
     dataIndex: 'isTutor',
     key: 'isTutor',
-    render: (value,record) => {
-      if (value === 2) {
+    render: (value) => {
+      if (value === 'true') {
         return <span>是</span>
       } else {
         return <span>否</span>

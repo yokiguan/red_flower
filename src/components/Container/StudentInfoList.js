@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { columns } from '../data/studentBasicData'
 import { Table, Input, Pagination} from 'antd'
-import {  GetStuInfoList, GetSchoolList, GetDirectionList, GetStuInfo, GetStuAnswer, GetQuestionList } from "../../API/Api";
+import {  GetStuInfoList, GetSchoolList, GetDirectionList, GetStudentScore } from "../../API/Api";
 const Search = Input.Search
 class StudentInfoList extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dataSource: []
+      dataSource: [],
+      page: 0
     }
     this.schoolList = []
     this.directionList = []
@@ -34,13 +35,19 @@ class StudentInfoList extends Component {
     GetStuInfoList({page: page - 1})
       .then(res => JSON.parse(res))
       .then(res => {
-        res.data.map(item => {
+        this.dataSource = res.data
+        this.dataSource.map((item, index) => {
           item.flowerNum = item.flowerNum || 0
           item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
           item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
-        })
-        this.setState({
-          dataSource: res.data
+          GetStudentScore({id: item.userId})
+            .then(res => JSON.parse(res))
+            .then(res => {
+              this.dataSource[index].score = res.data
+              this.setState({
+                dataSource: this.dataSource
+              })
+            })
         })
       })
       .catch(err => {
@@ -67,17 +74,22 @@ class StudentInfoList extends Component {
         })
     ])
       .then(res => {
-        GetStuInfoList()
+        GetStuInfoList({page: this.state.page})
           .then(res => JSON.parse(res))
           .then(res => {
-            res.data.map(item => {
+            this.dataSource = res.data
+            this.dataSource.map((item, index) => {
               item.flowerNum = item.flowerNum || 0
               item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
               item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
-            })
-            this.dataSource = res.data
-            this.setState({
-              dataSource: res.data
+              GetStudentScore({id: item.userId})
+                .then(res => JSON.parse(res))
+                .then(res => {
+                  this.dataSource[index].score = res.data
+                  this.setState({
+                    dataSource: this.dataSource
+                  })
+                })
             })
           })
       })

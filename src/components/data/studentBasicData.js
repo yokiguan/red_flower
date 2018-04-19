@@ -1,7 +1,7 @@
 import React from 'react'
 import InfoModal from "../basicComponents/InfoModal"
 import { degreeData} from "./dataMap"
-import { GetSchoolList } from "../../API/Api";
+import { GetStudentScore } from "../../API/Api";
 const SchoolList = [
   {
     text: '西安电子科技大学',

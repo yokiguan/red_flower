@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { InputNumber, Row, Button } from 'antd'
-import { GetStudentScore, UpdateStudentScore} from "../../API/Api";
+import { InputNumber, Row, Button, Modal } from 'antd'
+import { UpdateStudentScore, GetStudentScore} from "../../API/Api";
 
 export default class Score extends Component {
   constructor(props) {
     super(props)
     this.state = {
       score: 10,
-      userId: props.userId,
+      userId: props.studentId,
       isStudent: !props.hasOwnProperty('isTutor'),
       dataIsFromInfoList: !props.hasOwnProperty('personalIntro')
     }
@@ -20,23 +20,25 @@ export default class Score extends Component {
     })
   }
   handleSubmit() {
-    // UpdateStudentScore({userId: this.state.userId, score: this.state.userId})
-    //   .then(res => JSON.parse(res))
-    //   .then(res => {
-    //     console.log(res)
-    //   })
+    UpdateStudentScore({id: this.state.userId, value: {score: this.state.score}})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        let modal = Modal.success({
+          content: '成功打分， 该学生的分数为' + this.state.score
+        })
+        setTimeout(() => {
+          modal.destroy()
+        }, 2000)
+      })
   }
   componentDidMount() {
-    // GetStudentScore({userId: this.state.userId})
-    //   .then(res => JSON.parse(res))
-    //   .then(res => {
-    //     this.setState({
-    //       score: res.data
-    //     })
-    //   })
-    this.setState({
-      score: 19
-    })
+    GetStudentScore({id: this.state.userId})
+      .then(res => JSON.parse(res))
+      .then(res => {
+        this.setState({
+          score: res.data
+        })
+      })
   }
   render () {
     const style = {
@@ -50,6 +52,7 @@ export default class Score extends Component {
         <Row gutter={24} style={style.container}>
           <label>打分</label>
           <InputNumber value={this.state.score} onChange={this.handleInput} max={100} min={0}/>
+          &emsp;&emsp;
           <Button type="primary" onClick={this.handleSubmit}>提交</Button>
         </Row>
       )

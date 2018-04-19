@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Modal, Button } from 'antd'
-import { GetStuInfo, GetTutorInfo, GetStuAnswer, GetQuestionList } from '../../API/Api'
+import { GetStuInfo, GetTutorInfo, GetStuAnswer, GetQuestionList, CancelCertificateTutor, CertificateTutor } from '../../API/Api'
 import InfoForm from './InfoForm'
 import Score from '../Container/Score'
 const IsStudent = (props) => {
@@ -13,8 +13,6 @@ const IsStudent = (props) => {
 class InfoModal extends Component {
   constructor(props) {
     super(props)
-    this.hideModal = this.hideModal.bind(this)
-    this.showModal = this.showModal.bind(this)
     this.state = {
       visible: false
     }
@@ -61,26 +59,53 @@ class InfoModal extends Component {
       GetTutorInfo({id: this.props.tutorId})
         .then(res => JSON.parse(res))
         .then(res => {
+          this.userId = res.data.userId
           this.setState({
-            data: res.data
+            data: res.data,
+            isTutor: res.data.isTutor
           })
         })
     }
   }
-  hideModal() {
+  hideModal = () => {
     this.setState({
       visible: false
     })
   }
-  showModal() {
+  showModal = () => {
     this.setState({
       visible: true
     })
+  }
+  CancelTutor = () => {
+    CancelCertificateTutor({id: this.userId})
+      .then(res => {
+        let ref = Modal.success({
+          content: '成功取消导师资格，刷新页面即可显示'
+        })
+        setTimeout(() => {
+          ref.destroy()
+        }, 2000)
+      })
+  }
+  PassTutor = () => {
+    CertificateTutor({id: this.userId})
+      .then(res => {
+        let ref = Modal.success({
+          content: '成功授予导师资格，刷新页面即可显示'
+        })
+        setTimeout(() => {
+          ref.destroy()
+        }, 2000)
+      })
   }
   render() {
     return (
       <div>
         <Button onClick={this.showModal}>查看详情</Button>
+        &emsp;&emsp;
+        <Button onClick={this.PassTutor} hidden={!(typeof this.state.isTutor !== 'undefined' && this.state.isTutor === 0)}>设置为导师</Button>
+        <Button onClick={this.CancelTutor} hidden={!(typeof this.state.isTutor !== 'undefined' && this.state.isTutor === 1)}>取消导师资格</Button>
         <Modal
           title='查看详情'
           visible={this.state.visible}

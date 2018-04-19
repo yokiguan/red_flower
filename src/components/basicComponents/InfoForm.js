@@ -1,16 +1,25 @@
 import React, { Component } from 'react'
-import { Input} from 'antd'
+import { Input, Button} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
+import { CertificateTutor } from "../../API/Api";
 import {transformTime} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
   constructor(props) {
     super(props)
+    this.userId = props.userId
+    this.phone = props.phone
+    this.isTutor = props.isTutor
+    this.score = props.score
+    this.state = {
+      isTutor: this.isTutor,
+      phone: this.phone,
+      score: this.score
+    }
     this.infoDataName = Object.keys(props)
     this.infoDataValue = Object.values(props)
-    this.handleInput = this.handleInput.bind(this)
   }
-  handleInput(event) {
+  handleInput = (event) => {
   }
   render() {
     return (
@@ -73,7 +82,6 @@ class InfoForm extends Component {
                 case 'question':
                   return (
                     this.infoDataValue[index].map((item, index) => {
-                      console.log(item.problem)
                       return (
                           <div key={'problem-' + index }>
                             <label>{item.problem }：</label><Input.TextArea autosize={true} value={item.answer}  disabled={true}/>

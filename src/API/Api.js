@@ -25,10 +25,10 @@ const GetNormalArticle = (data) => {
   return ajax('get', '/article/normal', data)
 }
 const GetStudentScore = (data) => {
-  return ajax('get_restful', '', data)
+  return ajax('get_restful', '/stu/score', data)
 }
 const UpdateStudentScore = (data) => {
-  return ajax('post', '', data)
+  return ajax('put_restful', '/certificate/student', data)
 }
 const DownLoad = (data) => {
   return ajax('get', '', data)
@@ -120,6 +120,12 @@ const GetWithdrawList = (data) => {
 const EditBanner = (data) => {
   return ajax('put', '/banner', data)
 }
+const CertificateTutor = (data) => {
+  return ajax('post_restful', '/certificate/tutor', data)
+}
+const CancelCertificateTutor = (data) => {
+  return ajax('delete_restful', '/certificate/tutor', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -157,5 +163,7 @@ export {
   GetWithdrawList,
   VetoTrade,
   AgreeTrade,
-  EditBanner
+  EditBanner,
+  CertificateTutor,
+  CancelCertificateTutor,
 }
