@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd'
+import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd'
 import { AccountLogin } from '../../API/Api'
 import '../../styles/login.css'
 const FormItem = Form.Item;
@@ -16,17 +16,26 @@ class Login extends Component {
   handleSubmit = (e) => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log(values)
       if (!err) {
         localStorage.setItem('username', values.username)
       }
       AccountLogin({username: values.userName, password: values.password})
         .then(res => {
-          alert('登录成功')
-          window.location.href = '/app'
+          let modal = Modal.success({
+            content: '登录成功'
+          })
+          setTimeout(() => {
+            modal.destroy()
+            window.location.href = '/app'
+          }, 2000)
         })
         .catch(err => {
-          alert('登录失败')
+          let modal = Modal.info({
+            content: '密码错误，请重新输入密码'
+          })
+          setTimeout(() => {
+            modal.destroy()
+          }, 2000)
         })
     })
   };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
-import { EditTutorPhone, EditStuPhone} from "../../API/Api";
+import { EditTutorPhone, EditStuPhone, GetResume} from "../../API/Api";
 import {transformTime} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
@@ -45,6 +45,13 @@ class InfoForm extends Component {
           }, 3000)
         })
     }
+  }
+  getResume = () => {
+    const array = [36]
+    GetResume(JSON.stringify(array))
+      .then(res => {
+        console.log(res)
+      })
   }
   render() {
     return (
@@ -126,6 +133,10 @@ class InfoForm extends Component {
               }
             })
           }
+        </div>
+        <br/>
+        <div>
+          <Button onClick={this.getResume} style={{float: 'right'}}>下载简历</Button>
         </div>
       </section>
     )

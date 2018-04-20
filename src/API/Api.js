@@ -132,6 +132,9 @@ const EditStuPhone = (data) => {
 const EditTutorPhone = (data) => {
   return ajax('put_restful', '/tutor', data)
 }
+const GetResume = (data) => {
+  return ajax('post', '/generate', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -173,5 +176,6 @@ export {
   CertificateTutor,
   CancelCertificateTutor,
   EditStuPhone,
-  EditTutorPhone
+  EditTutorPhone,
+  GetResume
 }

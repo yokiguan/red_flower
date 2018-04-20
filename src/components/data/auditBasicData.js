@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Row } from 'antd'
+import { Button, Row, Modal } from 'antd'
 import BasicModal from "../basicComponents/Modal"
 import { VetoAuditItem, AgreeAuditItem} from '../../API/Api'
 const tableMark = (info) => {
@@ -14,13 +14,31 @@ const veto = (event) => {
     .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
-        alert('审核成功')
+        let modal = Modal.success({
+          content: '审核成功'
+        })
+        setTimeout(() => {
+          modal.destroy()
+          window.location.reload()
+        }, 2000)
       } else {
-        alert('审核失败')
+        let modal = Modal.info({
+          content: '审核失败'
+        })
+        setTimeout(() => {
+          modal.destroy()
+          window.location.reload()
+        }, 2000)
       }
     })
     .catch(err => {
-      alert('审核失败')
+      let modal = Modal.info({
+        content: '审核失败'
+      })
+      setTimeout(() => {
+        modal.destroy()
+        window.location.reload()
+      }, 2000)
     })
 }
 const agree = (event) => {
@@ -28,13 +46,31 @@ const agree = (event) => {
     .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
-        alert('审核成功')
+        let modal = Modal.success({
+          content: '审核成功'
+        })
+        setTimeout(() => {
+          modal.destroy()
+          window.location.reload()
+        }, 2000)
       } else {
-        alert('审核失败')
+        let modal = Modal.info({
+          content: '审核失败'
+        })
+        setTimeout(() => {
+          modal.destroy()
+          window.location.reload()
+        }, 2000)
       }
     })
     .catch(err => {
-      alert('审核失败')
+      let modal = Modal.info({
+        content: '审核失败'
+      })
+      setTimeout(() => {
+        modal.destroy()
+        window.location.reload()
+      }, 2000)
     })
 }
 const renderAction = (props) => {

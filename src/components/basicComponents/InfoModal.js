@@ -81,10 +81,14 @@ class InfoModal extends Component {
     CancelCertificateTutor({id: this.userId})
       .then(res => {
         let ref = Modal.success({
-          content: '成功取消导师资格，刷新页面即可显示'
+          content: '取消导师资格'
+        })
+        this.setState({
+          isTutor: 0
         })
         setTimeout(() => {
           ref.destroy()
+          window.location.reload()
         }, 2000)
       })
   }
@@ -92,10 +96,14 @@ class InfoModal extends Component {
     CertificateTutor({id: this.userId})
       .then(res => {
         let ref = Modal.success({
-          content: '成功授予导师资格，刷新页面即可显示'
+          content: '授予导师资格'
+        })
+        this.setState({
+          isTutor: 1
         })
         setTimeout(() => {
           ref.destroy()
+          window.location.reload()
         }, 2000)
       })
   }
