@@ -35,13 +35,13 @@ export const columns = [
     dataIndex: 'position',
     key: 'position'
   },{
-    title: '小红花充值数量',
-    dataIndex: 'flowerTotalNum',
-    key: 'flowerTotalNum'
+    title: '小红花余额',
+    dataIndex: 'balance',
+    key: 'balance'
   },{
-    title: '小红花赠送量',
-    dataIndex: 'flowerSendNum',
-    key: 'flowerSendNum'
+    title: '沙漏余额',
+    dataIndex: 'clock',
+    key: 'clock'
   },{
     title: '是否为导师',
     dataIndex: 'isTutor',

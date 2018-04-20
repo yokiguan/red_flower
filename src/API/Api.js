@@ -126,6 +126,12 @@ const CertificateTutor = (data) => {
 const CancelCertificateTutor = (data) => {
   return ajax('delete_restful', '/certificate/tutor', data)
 }
+const EditStuPhone = (data) => {
+  return ajax('put_restful', '/stu', data)
+}
+const EditTutorPhone = (data) => {
+  return ajax('put_restful', '/tutor', data)
+}
 export {
   AccountLogin,
   GetAuditList,
@@ -166,4 +172,6 @@ export {
   EditBanner,
   CertificateTutor,
   CancelCertificateTutor,
+  EditStuPhone,
+  EditTutorPhone
 }

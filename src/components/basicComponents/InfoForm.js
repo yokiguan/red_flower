@@ -1,25 +1,50 @@
 import React, { Component } from 'react'
-import { Input, Button} from 'antd'
+import { Input, Button, Modal} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
-import { CertificateTutor } from "../../API/Api";
+import { EditTutorPhone, EditStuPhone} from "../../API/Api";
 import {transformTime} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
   constructor(props) {
     super(props)
     this.userId = props.userId
-    this.phone = props.phone
     this.isTutor = props.isTutor
-    this.score = props.score
     this.state = {
       isTutor: this.isTutor,
-      phone: this.phone,
-      score: this.score
+      phone: props.phone,
     }
     this.infoDataName = Object.keys(props)
     this.infoDataValue = Object.values(props)
   }
   handleInput = (event) => {
+    this.setState({
+      phone: event.target.value
+    })
+  }
+  handleEditPhone = () => {
+    if (this.isTutor === 0) {
+      EditTutorPhone({id: this.userId + '/phone', value: { phone: this.state.phone}})
+        .then(res => JSON.parse(res))
+        .then(res => {
+          let modal = Modal.success({
+            content: '成功修改手机号码'
+          })
+          setTimeout(() => {
+            modal.destroy()
+          }, 3000)
+        })
+    } else {
+      EditStuPhone({id: this.userId + '/phone', value: { phone: this.state.phone}})
+        .then(res => JSON.parse(res))
+        .then(res => {
+          let modal = Modal.success({
+            content: '成功修改手机号码'
+          })
+          setTimeout(() => {
+            modal.destroy()
+          }, 3000)
+        })
+    }
   }
   render() {
     return (
@@ -67,7 +92,9 @@ class InfoForm extends Component {
                 case 'phone':
                   return (
                     <div key={item}>
-                      <label>{infoDataMap[item]}：</label><Input value={this.props[item]} onInput={this.handleInput} disabled={false}/>
+                      <label>{infoDataMap[item]}：</label><Input value={this.state.phone} onChange={this.handleInput} disabled={false}/>
+                      <br/>
+                      <Button onClick={this.handleEditPhone}>修改手机号码</Button>
                     </div>
                   )
                   break
