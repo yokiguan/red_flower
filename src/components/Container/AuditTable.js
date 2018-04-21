@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Tabs} from 'antd'
+import { Table, Button, Tabs, Spin} from 'antd'
 import { columns } from '../data/auditBasicData'
 import { auditType, auditStatus} from "../data/dataMap"
 import { GetAuditList, GetStuAnswer, GetQuestionList} from "../../API/Api"
@@ -9,6 +9,7 @@ class AuditTable extends Component {
   constructor (props) {
     super(props)
     this.state = {
+      loading: true,
       type: 1,
       status: 2,
       auditType: {
@@ -22,6 +23,7 @@ class AuditTable extends Component {
   changeAuditType = (value) => {
     this.setState({
       type: this.state.auditType[value],
+      loading: true,
       dataSource: []
     })
     GetAuditList({type: this.state.auditType[value], status: 1})
@@ -30,7 +32,8 @@ class AuditTable extends Component {
         if (judgePullAjax(res) && res.data.length > 0) {
           this.dataSource = this.parseData(res.data)
           this.setState({
-            dataSource: this.dataSource
+            dataSource: this.dataSource,
+            loading: false,
           })
           if (value === 'student') {
             GetQuestionList()
@@ -61,35 +64,46 @@ class AuditTable extends Component {
                 })
                 this.dataSource[0]['content']['question'] = questionAndAnswer
                 this.setState({
-                  dataSource: this.dataSource
+                  dataSource: this.dataSource,
+                  loading: false
                 })
               })
           }
+        } else {
+          this.setState({
+            loading: false
+          })
         }
       })
       .catch(err => {
         this.setState({
-          dataSource: []
+          dataSource: [],
+          loading: false
         })
       })
   }
   changeAuditStatus = (e) => {
+    this.setState({
+      loading: true
+    })
     GetAuditList({type: this.state.type, status: e.target.dataset.id})
       .then(res => JSON.parse(res))
       .then(res => {
         if (judgePullAjax(res) && res.data.length > 0) {
           this.setState({
-            ...this.state,
+            loading: false,
             dataSource: this.parseData(res.data)
           })
         } else {
           this.setState({
-            dataSource: []
+            dataSource: [],
+            loading: false
           })
         }
       })
       .catch(err => {
         this.setState({
+          loading: false,
           dataSource: []
         })
       })
@@ -130,16 +144,24 @@ class AuditTable extends Component {
         <h4>通用审核</h4>
         <Tabs size='large' type='line' onChange={this.changeAuditType}>
           <Tabs.TabPane key='student' tab='学生信息'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+              <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            </Spin>
           </Tabs.TabPane>
           <Tabs.TabPane key='tutor' tab='导师信息'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+              <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            </Spin>
           </Tabs.TabPane>
           <Tabs.TabPane key='activity' tab='活动申请'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+              <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            </Spin>
           </Tabs.TabPane>
           <Tabs.TabPane key='article' tab='文章审核'>
-            <Table dataSource={this.state.dataSource} columns={columns} bordered={true}/>
+            <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+              <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            </Spin>
           </Tabs.TabPane>
         </Tabs>
         <div style={style.buttonContainer}>

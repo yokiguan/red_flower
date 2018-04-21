@@ -31,10 +31,10 @@ const UpdateStudentScore = (data) => {
   return ajax('put_restful', '/certificate/student', data)
 }
 const DownLoad = (data) => {
-  return ajax('get', '', data)
+  return ajax('get', '/oss/down', data)
 }
 const UpLoad = (data) => {
-  return ajax('put', '', data)
+  return ajax('put', '/oss/up', data)
 }
 const QiNiuDownLoad = (data) => {
   return ajax('get', '', data)
@@ -136,6 +136,8 @@ const GetResume = (data) => {
   return ajax('post', '/generate', data)
 }
 export {
+  DownLoad,
+  UpLoad,
   AccountLogin,
   GetAuditList,
   VetoAuditItem,

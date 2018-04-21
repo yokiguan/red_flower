@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { columns } from '../data/ArticleListData'
-import { Table, Button, Pagination} from 'antd'
+import { Table, Button, Pagination, Spin} from 'antd'
 import { GetNormalArticle, DeleteArticle } from "../../API/Api"
 import { normalizeTime, judgePullAjax, judgePushAjax } from '../../common/scripts/utils'
 class ArticleList extends Component {
@@ -9,12 +9,14 @@ class ArticleList extends Component {
     this.state = {
       dataSource: [],
       selectedRowKeys: [],
-      page: 0
+      page: 0,
+      loading: true
     }
   }
   pageChange = (page) => {
     this.setState({
-      page: page
+      page: page,
+      loaing: true
     })
     GetNormalArticle({page: page - 1})
       .then(res => JSON.parse(res))
@@ -24,13 +26,18 @@ class ArticleList extends Component {
             item.createTime = normalizeTime(item.createTime)
           })
           this.setState({
-            dataSource: res.data
+            dataSource: res.data,
+            loading: false
           })
-        }
+        } else {}
+        this.setState({
+          loading: false
+        })
       })
       .catch(err => {
         this.setState({
-          dataSource: []
+          dataSource: [],
+          loading: false
         })
       })
   }
@@ -40,6 +47,9 @@ class ArticleList extends Component {
     })
   }
   onDeleteClick = () => {
+    this.setState({
+      loading: true
+    })
     const deleteArticleArray = []
     this.state.selectedRowKeys.map((item, index) => {
       deleteArticleArray.push({
@@ -52,7 +62,8 @@ class ArticleList extends Component {
         .then(() => {
           this.setState({
             dataSource: this.state.dataSource.filter(articleItem => articleItem.id !== item.articleId),
-            selectedRowKeys: this.state.selectedRowKeys.filter(selectedItem => selectedItem !== item.id)
+            selectedRowKeys: this.state.selectedRowKeys.filter(selectedItem => selectedItem !== item.id),
+            loading: false
           })
         })
     })
@@ -66,7 +77,12 @@ class ArticleList extends Component {
             item.createTime = normalizeTime(item.createTime)
           })
           this.setState({
-            dataSource: res.data
+            dataSource: res.data,
+            loading: false
+          })
+        } else {
+          this.setState({
+            loading: false
           })
         }
       })
@@ -87,13 +103,15 @@ class ArticleList extends Component {
     return (
       <div style={style.container}>
         <h4>过审文章</h4>
-        <Table dataSource={this.state.dataSource} columns={columns} bordered={true}  rowSelection={rowSelection} pagination={false}/>
-        <br/>
-        <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
-        <br/>
-        <Button onClick={this.onDeleteClick}>删除</Button>
-        <br/>
-        <br/>
+        <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+          <Table dataSource={this.state.dataSource} columns={columns} bordered={true}  rowSelection={rowSelection} pagination={false}/>
+          <br/>
+          <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+          <br/>
+          <Button onClick={this.onDeleteClick}>删除</Button>
+          <br/>
+          <br/>
+        </Spin>
       </div>
     )
   }

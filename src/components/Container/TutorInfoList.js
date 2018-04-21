@@ -1,18 +1,22 @@
 import React, { Component } from 'react'
 import { GetTutorInfoList, GetTradeList} from "../../API/Api";
 import { columns } from '../data/tutorBasicData'
-import { Table, Input, Pagination} from 'antd'
+import { Table, Input, Pagination, Spin} from 'antd'
 const Search = Input.Search
 class TutorInfoList extends Component {
   constructor(props) {
     super(props)
     this.state = {
       dataSource: [],
-      page: 1
+      page: 1,
+      loading: true
     }
     this.tradeList = []
   }
   searchClick = (value) => {
+    this.setState({
+      loading: true
+    })
     GetTutorInfoList({word: value})
       .then(res => JSON.parse(res))
       .then(res => {
@@ -20,14 +24,15 @@ class TutorInfoList extends Component {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'
         })
         this.setState({
-          ...this.state,
+          loading: false,
           dataSource: res.data
         })
       })
   }
   pageChange = (page) => {
     this.setState({
-      page: page
+      page: page,
+      loading: true
     })
     GetTutorInfoList({page: page - 1})
       .then(res => JSON.parse(res))
@@ -36,12 +41,14 @@ class TutorInfoList extends Component {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'
         })
         this.setState({
-          dataSource: res.data
+          dataSource: res.data,
+          loading: false,
         })
       })
       .catch(err => {
         this.setState({
-          dataSource: []
+          dataSource: [],
+          loading: false,
         })
       })
   }
@@ -60,7 +67,8 @@ class TutorInfoList extends Component {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'
         })
         this.setState({
-          dataSource: res.data
+          dataSource: res.data,
+          loading: false
         })
       })
 
@@ -76,9 +84,11 @@ class TutorInfoList extends Component {
       <div style={style.container}>
         <h4>导师信息列表</h4>
         <Search placeholder='搜索姓名、行业、电话号。' onSearch={this.searchClick} style={{width: 300, marginBottom: 20 + 'px'}}/>
-        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
-        <br/>
-        <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+        <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+          <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
+          <br/>
+          <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+        </Spin>
       </div>
     )
   }

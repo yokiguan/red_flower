@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox, Modal } from 'antd'
+import { Form, Icon, Input, Button, Modal } from 'antd'
+import md5 from 'js-md5'
 import { AccountLogin } from '../../API/Api'
 import '../../styles/login.css'
 const FormItem = Form.Item;
@@ -19,6 +20,10 @@ class Login extends Component {
       if (!err) {
         localStorage.setItem('username', values.username)
       }
+      const username = md5(values.userName)
+      const password = md5(values.password)
+      console.log(username)
+      console.log(password)
       AccountLogin({username: values.userName, password: values.password})
         .then(res => {
           let modal = Modal.success({
@@ -26,7 +31,7 @@ class Login extends Component {
           })
           setTimeout(() => {
             modal.destroy()
-            window.location.href = '/app'
+            window.location.href = '/#/app'
           }, 2000)
         })
         .catch(err => {

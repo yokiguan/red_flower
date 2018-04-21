@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { columns } from '../data/studentBasicData'
-import { Table, Input, Pagination} from 'antd'
+import { Table, Input, Pagination, Spin} from 'antd'
 import {  GetStuInfoList, GetSchoolList, GetDirectionList, GetStudentScore } from "../../API/Api";
 const Search = Input.Search
 class StudentInfoList extends Component {
@@ -8,12 +8,16 @@ class StudentInfoList extends Component {
     super(props)
     this.state = {
       dataSource: [],
-      page: 0
+      page: 0,
+      loading: true
     }
     this.schoolList = []
     this.directionList = []
   }
   searchClick = (value) => {
+    this.setState({
+      loading: true
+    })
     GetStuInfoList({word: value})
       .then(res => JSON.parse(res))
       .then(res => {
@@ -23,14 +27,16 @@ class StudentInfoList extends Component {
           item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
         })
         this.setState({
-          ...this.state,
+          loading: false,
           dataSource: res.data
+
         })
       })
   }
   pageChange = (page) => {
     this.setState({
-      page: page
+      page: page,
+      loading: true
     })
     GetStuInfoList({page: page - 1})
       .then(res => JSON.parse(res))
@@ -45,14 +51,16 @@ class StudentInfoList extends Component {
             .then(res => {
               this.dataSource[index].score = res.data
               this.setState({
-                dataSource: this.dataSource
+                dataSource: this.dataSource,
+                loading: false
               })
             })
         })
       })
       .catch(err => {
         this.setState({
-          dataSource: []
+          dataSource: [],
+          loading: false
         })
       })
   }
@@ -87,7 +95,8 @@ class StudentInfoList extends Component {
                 .then(res => {
                   this.dataSource[index].score = res.data
                   this.setState({
-                    dataSource: this.dataSource
+                    dataSource: this.dataSource,
+                    loading: false
                   })
                 })
             })
@@ -105,9 +114,11 @@ class StudentInfoList extends Component {
       <div style={style.container}>
         <h4>学生信息列表</h4>
         <Search placeholder='搜索姓名、学号、电话号、专业。' onSearch={this.searchClick} style={{width: 300, marginBottom: 20 + 'px'}}/>
-        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
-        <br/>
-        <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+        <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+          <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
+          <br/>
+          <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+        </Spin>
       </div>
     )
   }

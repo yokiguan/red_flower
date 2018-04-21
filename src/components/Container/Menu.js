@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Icon, Divider, Badge, Avatar, Breadcrumb } from 'antd'
-import {  BrowserRouter as Router, Link, Route, Redirect } from 'react-router-dom'
+import {  HashRouter as Router, Link, Route, Redirect } from 'react-router-dom'
 import { StudentInfoList, TutorInfoList, AuditTable, Rate, Switch, ReCount, Banner, ArticleList, RubbishList, OptionLists, NotFound, ArticleGarbage, TradeAudit} from './Containers'
 const { Header, Content, Footer, Sider } = Layout
 const SubMenu = Menu.SubMenu
@@ -88,9 +88,6 @@ export default class App extends Component {
               <SubMenu key="article" title={<span><Icon type="book" /><span>文章管理</span></span>}>
                 <Menu.Item key="normal"><Link to='/app/article/normal'>过审文章</Link></Menu.Item>
                 <Menu.Item key="garbage"><Link to='/app/article/garbage'>垃圾箱</Link></Menu.Item>
-              </SubMenu>
-              <SubMenu key="message" title={<span><Icon type="notification" /><span>消息通知</span></span>}>
-                <Menu.Item key="send">发送短信</Menu.Item>
               </SubMenu>
               <SubMenu key="flower" title={<span><Icon type="pay-circle" /><span>小红花管理(超级管理员)</span></span>}>
                 <Menu.Item key="rate"><Link to='/app/flower/rate'>小红花汇率</Link></Menu.Item>

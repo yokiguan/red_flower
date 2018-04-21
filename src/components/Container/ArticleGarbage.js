@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { columns } from '../data/ArticleListData'
-import { Table, Button, Pagination} from 'antd'
+import { Table, Pagination, Spin} from 'antd'
 import { GetArticleGarbage } from "../../API/Api"
 import { normalizeTime, judgePullAjax, judgePushAjax } from '../../common/scripts/utils'
 class ArticleGarbage extends Component {
@@ -8,12 +8,14 @@ class ArticleGarbage extends Component {
     super(props)
     this.state = {
       dataSource: [],
-      page: 0
+      page: 0,
+      loading: true
     }
   }
   pageChange = (page) => {
     this.setState({
-      page: page
+      page: page,
+      loading: true
     })
     GetArticleGarbage({page: page - 1})
       .then(res => JSON.parse(res))
@@ -23,13 +25,19 @@ class ArticleGarbage extends Component {
             item.createTime = normalizeTime(item.createTime)
           })
           this.setState({
-            dataSource: res.data
+            dataSource: res.data,
+            loading: false
+          })
+        } else {
+          this.setState({
+            loading: false
           })
         }
       })
       .catch(err => {
         this.setState({
-          dataSource: []
+          dataSource: [],
+          loading: false
         })
       })
   }
@@ -42,7 +50,12 @@ class ArticleGarbage extends Component {
             item.createTime = normalizeTime(item.createTime)
           })
           this.setState({
-            dataSource: res.data
+            dataSource: res.data,
+            loading: false
+          })
+        } else {
+          this.setState({
+            loading: false
           })
         }
       })
@@ -57,11 +70,13 @@ class ArticleGarbage extends Component {
     return (
       <div style={style.container}>
         <h4>文章垃圾箱</h4>
-        <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
-        <br/>
-        <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
-        <br/>
-        <br/>
+        <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+          <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
+          <br/>
+          <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+          <br/>
+          <br/>
+        </Spin>
       </div>
     )
   }

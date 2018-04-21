@@ -1,11 +1,13 @@
 function makeRequest(config) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest()
-  
+    console.log(config)
     xhr.open(config.method, config.url)
+    xhr.withCredentials = true
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
         resolve(xhr.response)
+        console.log('hello')
       } else {
         reject({
           status: xhr.status,
@@ -32,7 +34,7 @@ function makeRequest(config) {
 
 //  配置url
 function config_url(url) {
-  const baseUrl = 'http://localhost:3000'
+  const baseUrl = 'http://api.helloyzy.cn:8080'
   return baseUrl + url
 }
 
@@ -132,11 +134,11 @@ const config_mothods = {
       }
     }
   },
-  PUT: (url) => {
+  PUT: (url, data) => {
     return {
       method: 'PUT',
       url: url,
-      data: {},
+      data: data,
       headers: {
         "Content-Type": 'application/json'
       }
