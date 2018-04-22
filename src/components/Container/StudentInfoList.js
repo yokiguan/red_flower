@@ -19,7 +19,6 @@ class StudentInfoList extends Component {
       loading: true
     })
     GetStuInfoList({word: value})
-      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           item.flowerNum = item.flowerNum || 0
@@ -39,7 +38,6 @@ class StudentInfoList extends Component {
       loading: true
     })
     GetStuInfoList({page: page - 1})
-      .then(res => JSON.parse(res))
       .then(res => {
         this.dataSource = res.data
         this.dataSource.map((item, index) => {
@@ -47,7 +45,6 @@ class StudentInfoList extends Component {
           item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
           item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
           GetStudentScore({id: item.userId})
-            .then(res => JSON.parse(res))
             .then(res => {
               this.dataSource[index].score = res.data
               this.setState({
@@ -67,14 +64,12 @@ class StudentInfoList extends Component {
   componentDidMount () {
     Promise.all([
       GetSchoolList()
-        .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
             this.schoolList[item.id] = item.schoolName
           })
         }),
       GetDirectionList()
-        .then(res => JSON.parse(res))
         .then(res => {
           res.data.map(item => {
             this.directionList[item.id] = item.directionName
@@ -83,7 +78,6 @@ class StudentInfoList extends Component {
     ])
       .then(res => {
         GetStuInfoList({page: this.state.page})
-          .then(res => JSON.parse(res))
           .then(res => {
             this.dataSource = res.data
             this.dataSource.map((item, index) => {
@@ -91,7 +85,6 @@ class StudentInfoList extends Component {
               item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
               item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
               GetStudentScore({id: item.userId})
-                .then(res => JSON.parse(res))
                 .then(res => {
                   this.dataSource[index].score = res.data
                   this.setState({

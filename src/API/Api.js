@@ -13,10 +13,10 @@ const AgreeAuditItem = (data) => {
   return ajax('put_restful', '/audit/general', data)
 }
 const VetoTrade = (data) => {
-  return ajax('delete_restful', '/audit/asset/', data)
+  return ajax('delete_restful', '/audit/asset', data)
 }
 const AgreeTrade = (data) => {
-  return ajax('put_restful', '/audit/asset/', data)
+  return ajax('put_restful', '/audit/asset', data)
 }
 const ResetCounter = () => {
   return ajax('put', '/reset/counter')
@@ -31,10 +31,10 @@ const UpdateStudentScore = (data) => {
   return ajax('put_restful', '/certificate/student', data)
 }
 const DownLoad = (data) => {
-  return ajax('get', '/oss/down', data)
+  return ajax('get_restful', '/oss/down', data)
 }
 const UpLoad = (data) => {
-  return ajax('put', '/oss/up', data)
+  return ajax('get_restful', '/oss/up', data)
 }
 const QiNiuDownLoad = (data) => {
   return ajax('get', '', data)

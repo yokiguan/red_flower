@@ -16,7 +16,6 @@ export default class Rate extends Component {
   }
   componentDidMount() {
     GetFlowerRateAndMaxFlowerPerYear()
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.code !== 'undefined' && res.code === 0) {
           this.setState({
@@ -59,7 +58,6 @@ export default class Rate extends Component {
       opVal: this.state.NEW_MAX_FLOWER_PER_YEAR
     })
     EditFlowerRateAndMaxFlowerPerYear(JSON.stringify(data))
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.code  !== 'undefined' && res.code === 0) {
           alert('调整成功')

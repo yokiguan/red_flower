@@ -30,7 +30,6 @@ export default class ReCount extends Component {
   }
   handleClickOK() {
     ResetCounter()
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
           alert('重置成功')

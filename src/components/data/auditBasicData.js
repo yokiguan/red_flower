@@ -11,7 +11,6 @@ const Activity = {
 }
 const veto = (event) => {
   VetoAuditItem({id: event.target.dataset.id})
-    .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
         let modal = Modal.success({
@@ -43,7 +42,6 @@ const veto = (event) => {
 }
 const agree = (event) => {
   AgreeAuditItem({id: event.target.dataset.id})
-    .then(res => JSON.parse(res))
     .then(res => {
       if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
         let modal = Modal.success({
@@ -69,7 +67,7 @@ const agree = (event) => {
       })
       setTimeout(() => {
         modal.destroy()
-        window.location.reload()
+        // window.location.reload()
       }, 2000)
     })
 }

@@ -19,7 +19,6 @@ class ArticleList extends Component {
       loaing: true
     })
     GetNormalArticle({page: page - 1})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.data !== 'undefined') {
           res.data.map(item => {
@@ -70,7 +69,6 @@ class ArticleList extends Component {
   }
   componentDidMount() {
     GetNormalArticle({page: 0})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.data !== 'undefined') {
           res.data.map(item => {

@@ -27,7 +27,6 @@ class AuditTable extends Component {
       dataSource: []
     })
     GetAuditList({type: this.state.auditType[value], status: 1})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (judgePullAjax(res) && res.data.length > 0) {
           this.dataSource = this.parseData(res.data)
@@ -37,12 +36,10 @@ class AuditTable extends Component {
           })
           if (value === 'student') {
             GetQuestionList()
-              .then(res => JSON.parse(res))
               .then(res => {
                 this.questionList = res.data
                 return GetStuAnswer({id: this.dataSource[0].userId, answer: 'answer'})
               })
-              .then(res => JSON.parse(res))
               .then(res => {
                 let answerList = res.data
                 let questionAndAnswer = []
@@ -87,7 +84,6 @@ class AuditTable extends Component {
       loading: true
     })
     GetAuditList({type: this.state.type, status: e.target.dataset.id})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (judgePullAjax(res) && res.data.length > 0) {
           this.setState({

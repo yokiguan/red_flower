@@ -18,7 +18,6 @@ class ArticleGarbage extends Component {
       loading: true
     })
     GetArticleGarbage({page: page - 1})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.data !== 'undefined') {
           res.data.map(item => {
@@ -43,7 +42,6 @@ class ArticleGarbage extends Component {
   }
   componentDidMount() {
     GetArticleGarbage({page: 0})
-      .then(res => JSON.parse(res))
       .then(res => {
         if (typeof res.data !== 'undefined') {
           res.data.map(item => {

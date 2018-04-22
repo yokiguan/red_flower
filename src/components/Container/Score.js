@@ -21,7 +21,6 @@ export default class Score extends Component {
   }
   handleSubmit() {
     UpdateStudentScore({id: this.state.userId, value: {score: this.state.score}})
-      .then(res => JSON.parse(res))
       .then(res => {
         let modal = Modal.success({
           content: '成功打分， 该学生的分数为' + this.state.score
@@ -33,7 +32,6 @@ export default class Score extends Component {
   }
   componentDidMount() {
     GetStudentScore({id: this.state.userId})
-      .then(res => JSON.parse(res))
       .then(res => {
         this.setState({
           score: res.data

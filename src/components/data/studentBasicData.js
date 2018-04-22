@@ -8,16 +8,6 @@ const SchoolList = [
     value: '1'
   }
 ]
-// GetSchoolList()
-//   .then(res => JSON.parse(res))
-//   .then(res => {
-//     res.data.map(item => {
-//       SchoolList.push({
-//         text: item.schoolName,
-//         id: item.id
-//       })
-//     })
-//   })
 const columns = [
   {
     title: '姓名',

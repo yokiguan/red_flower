@@ -20,17 +20,14 @@ class InfoModal extends Component {
   componentDidMount() {
     if (typeof this.props.studentId !== 'undefined') {
       GetStuInfo({id: this.props.studentId})
-        .then(res => JSON.parse(res))
         .then(res => {
           this.data = res.data
           return GetQuestionList()
         })
-        .then(res => JSON.parse(res))
         .then(res => {
           this.questionList = res.data
           return GetStuAnswer({id: this.props.studentId, answer: 'answer'})
         })
-        .then(res => JSON.parse(res))
         .then(res => {
           let answerList = res.data
           let questionAndAnswer = []
@@ -54,10 +51,10 @@ class InfoModal extends Component {
           this.setState({
             data: this.data
           })
+          console.log('加载学生信息')
         })
     } else if( typeof this.props.tutorId !== 'undefined') {
       GetTutorInfo({id: this.props.tutorId})
-        .then(res => JSON.parse(res))
         .then(res => {
           this.userId = res.data.userId
           this.setState({

@@ -18,7 +18,6 @@ class TutorInfoList extends Component {
       loading: true
     })
     GetTutorInfoList({word: value})
-      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'
@@ -35,7 +34,6 @@ class TutorInfoList extends Component {
       loading: true
     })
     GetTutorInfoList({page: page - 1})
-      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'
@@ -54,14 +52,12 @@ class TutorInfoList extends Component {
   }
   componentDidMount () {
     GetTradeList()
-      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           this.tradeList[item.id] = item.tradeName
         })
         return GetTutorInfoList({page: this.state.page - 1})
       })
-      .then(res => JSON.parse(res))
       .then(res => {
         res.data.map(item => {
           item.trade = item.trade !== -1? this.tradeList[item.trade]: '未填写'

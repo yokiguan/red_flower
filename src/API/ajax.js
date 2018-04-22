@@ -6,7 +6,7 @@ function makeRequest(config) {
     xhr.withCredentials = true
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response)
+        resolve(JSON.parse(xhr.response))
         console.log('hello')
       } else {
         reject({
