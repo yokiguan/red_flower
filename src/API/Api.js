@@ -135,6 +135,9 @@ const EditTutorPhone = (data) => {
 const GetResume = (data) => {
   return ajax('post', '/generate', data)
 }
+const GetBanner = () => {
+  return ajax('get', '/banner')
+}
 export {
   DownLoad,
   UpLoad,
@@ -179,5 +182,6 @@ export {
   CancelCertificateTutor,
   EditStuPhone,
   EditTutorPhone,
-  GetResume
+  GetResume,
+  GetBanner
 }

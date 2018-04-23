@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Button, InputNumber, Layout, Divider, Upload, Icon, message} from 'antd'
-import { EditBanner, DownLoad, UpLoad} from "../../API/Api"
+import { EditBanner, DownLoad, UpLoad, GetBanner} from "../../API/Api"
 
 class BannerItem extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      articleId: 0,
+      articleId: props.info,
       imgUrl: ''
     }
     this.upload = {
@@ -41,6 +41,11 @@ class BannerItem extends Component {
         }
       },
     }
+  }
+  componentWillReceiveProps(props) {
+    this.setState({
+      articleId: props.info
+    })
   }
   handleChangeArticleId = (value) => {
     if (typeof value === 'number') {
@@ -115,9 +120,23 @@ class BannerItem extends Component {
 class Banner extends Component {
   constructor(props) {
     super(props)
+    this.info = []
     this.bannerItems = [1, 2, 3, 4]
+    this.state = {
+      info: []
+    }
   }
-
+  componentDidMount() {
+    GetBanner()
+      .then(res => {
+        res.data.forEach(item => {
+          this.info.push(item.b)
+        })
+        this.setState({
+          info: this.info
+        })
+      })
+  }
   render () {
     const BannerContainerStyle = {
       display: 'flex',
@@ -131,7 +150,10 @@ class Banner extends Component {
           this.bannerItems.map((item, index) => {
             return (
               <div key={index}>
-                <BannerItem deleteBannerItem={this.deleteBannerItem} index={item} />
+                <BannerItem
+                  index={item}
+                  info={typeof this.state.info[index] !== 'undefined'? this.state.info[index]: 0}
+                  />
                 <Divider/>
               </div>
             )

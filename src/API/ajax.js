@@ -1,13 +1,15 @@
 function makeRequest(config) {
   return new Promise((resolve, reject) => {
     let xhr = new XMLHttpRequest()
-    console.log(config)
     xhr.open(config.method, config.url)
     xhr.withCredentials = true
     xhr.onload = () => {
       if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(JSON.parse(xhr.response))
-        console.log('hello')
+        if (xhr.response === '') {
+          resolve(xhr.response)
+        } else {
+          resolve(JSON.parse(xhr.response))
+        }
       } else {
         reject({
           status: xhr.status,
