@@ -36,9 +36,6 @@ const DownLoad = (data) => {
 const UpLoad = (data) => {
   return ajax('get_restful', '/oss/up', data)
 }
-const QiNiuDownLoad = (data) => {
-  return ajax('get', '', data)
-}
 const GetStuInfoList = (data) => {
   return ajax('get', '/stu', data)
 }
@@ -99,10 +96,10 @@ const EditQuestionList = (data) => {
 const DeleteQuestionList = (data) => {
   return ajax('delete_restful', '/conf/question', data)
 }
-const GetFlowerRateAndMaxFlowerPerYear = () => {
+const GetFlowerRateAndMaxFlowerPerYearSwitch = () => {
   return ajax('get', '/op')
 }
-const EditFlowerRateAndMaxFlowerPerYear = (data) => {
+const EditFlowerRateAndMaxFlowerPerYearSwitch = (data) => {
   return ajax('put', '/op', data)
 }
 const GetStuAnswer = (data) => {
@@ -138,6 +135,18 @@ const GetResume = (data) => {
 const GetBanner = () => {
   return ajax('get', '/banner')
 }
+const GetInviteCode = (data) => {
+  return ajax('get', '/inviteCode', data)
+}
+const DeleteInviteCode = (data) => {
+  return ajax('delete_restful', '/inviteCode', data)
+}
+const AddInviteCode = (data) => {
+  return ajax('post', '/inviteCode', data)
+}
+const GetRole = () => {
+  return ajax('get', '/admin/role')
+}
 export {
   DownLoad,
   UpLoad,
@@ -170,8 +179,8 @@ export {
   DeleteSchoolList,
   DeleteTradeList,
   GetStuAnswer,
-  GetFlowerRateAndMaxFlowerPerYear,
-  EditFlowerRateAndMaxFlowerPerYear,
+  GetFlowerRateAndMaxFlowerPerYearSwitch,
+  EditFlowerRateAndMaxFlowerPerYearSwitch,
   GetArticleGarbage,
   DeleteArticle,
   GetWithdrawList,
@@ -183,5 +192,9 @@ export {
   EditStuPhone,
   EditTutorPhone,
   GetResume,
-  GetBanner
+  GetBanner,
+  GetInviteCode,
+  DeleteInviteCode,
+  AddInviteCode,
+  GetRole
 }

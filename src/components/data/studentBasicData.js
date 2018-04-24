@@ -2,12 +2,6 @@ import React from 'react'
 import InfoModal from "../basicComponents/InfoModal"
 import { degreeData} from "./dataMap"
 import { GetStudentScore } from "../../API/Api";
-const SchoolList = [
-  {
-    text: '西安电子科技大学',
-    value: '1'
-  }
-]
 const columns = [
   {
     title: '姓名',
@@ -20,33 +14,11 @@ const columns = [
   },{
     title: '学校',
     dataIndex: 'school',
-    key: 'school',
-    filters: SchoolList,
-    filterMultiple: true,
-    onFilter: (value, record) => record.schoolId.toString().indexOf(value) === 0
+    key: 'school'
   },{
     title: '学历',
     dataIndex: 'degree',
-    key: 'degree',
-    filters: [
-      {
-        text: '本科',
-        value: 1
-      },
-      {
-        text: '硕士',
-        value: 2
-      },
-      {
-        text: '博士',
-        value: 3
-      }
-    ],
-    render: (value) => {
-      return degreeData[value]
-    },
-    filterMultiple: true,
-    onFilter: (value, record) => record.degree.toString().indexOf(value) === 0
+    key: 'degree'
   },{
     title: '专业',
     dataIndex: 'profession',

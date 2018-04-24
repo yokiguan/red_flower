@@ -43,10 +43,37 @@ const judgePushAjax = (res) => {
 const judgePullAjax = (res) => {
   return typeof res !== 'undefined' && typeof res.code !== 'undefined' && res.code === 0
 }
+const DownLoadResume = (...userId) => {
+  return new Promise((resolve, reject) => {
+    let xhr = new XMLHttpRequest()
+    xhr.open('POST', 'http://api.helloyzy.cn:8080/generate')
+    xhr.withCredentials = true
+    xhr.responseType = 'blob'
+    xhr.onload = () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        resolve(xhr.response)
+      } else {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText
+        })
+      }
+    }
+    xhr.onerror = () => {
+      reject({
+        status: xhr.status,
+        statusText: xhr.statusText
+      })
+    }
+    xhr.setRequestHeader('Content-Type', 'application/json')
+    xhr.send(JSON.stringify(userId))
+  })
+}
 export {
   filtrate,
   normalizeTime,
   transformTime,
   judgePullAjax,
-  judgePushAjax
+  judgePushAjax,
+  DownLoadResume
 }

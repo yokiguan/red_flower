@@ -1,64 +1,49 @@
 import React, { Component } from 'react'
-import { Checkbox, Button, Modal } from 'antd'
+import { Checkbox, Button, Modal, message } from 'antd'
 import { ResetCounter } from '../../API/Api'
 const CheckboxGroup = Checkbox.Group
 export default class ReCount extends Component {
   constructor(props) {
     super(props)
-    this.handleCheckChange = this.handleCheckChange.bind(this)
-    this.handleButtonClick = this.handleButtonClick.bind(this)
-    this.handleClickOK = this.handleClickOK.bind(this)
-    this.handleClickCancel = this.handleClickCancel.bind(this)
     this.state = {
       isDisabled: true,
       visible: false,
       confirmLoading: false
     }
   }
-  handleCheckChange(value) {
+  handleCheckChange = (value) => {
     if (value.length === 5) {
       this.setState({
-        ...this.state,
         isDisabled: false
       })
     } else {
       this.setState({
-        ...this.state,
         isDisabled: true
       })
     }
   }
-  handleClickOK() {
+  handleClickOK = () => {
     ResetCounter()
       .then(res => {
-        if (typeof res.code !== 'undefined' && parseInt(res.code) === 0) {
-          alert('重置成功')
-        } else {
-          alert('重置失败')
-        }
-        this.setState({
-          ...this.state,
-          visible: false
-        })
+        console.log('测试')
+        message.success('重置成功')
+        window.location.reload()
       })
       .catch(err => {
-        alert('无权限')
+        message.error('重置失败')
         this.setState({
-          ...this.state,
           visible: false
         })
       })
   }
 
-  handleClickCancel() {
+  handleClickCancel = () => {
     this.setState({
-      ...this.state,
       visible: false
     })
   }
-  handleButtonClick() {
+  handleButtonClick = () => {
     this.setState({
-      ...this.state,
       visible: true
     })
   }

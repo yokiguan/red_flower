@@ -4,11 +4,16 @@ function makeRequest(config) {
     xhr.open(config.method, config.url)
     xhr.withCredentials = true
     xhr.onload = () => {
+      if (xhr.status === 401) {
+        alert('登录失效或无权访问，请重新登录')
+        localStorage.clear()
+        window.location.href = '/'
+      }
       if (xhr.status >= 200 && xhr.status < 300) {
-        if (xhr.response === '') {
-          resolve(xhr.response)
-        } else {
+        try {
           resolve(JSON.parse(xhr.response))
+        } catch(e) {
+          resolve(xhr.response)
         }
       } else {
         reject({
@@ -25,8 +30,8 @@ function makeRequest(config) {
     }
     if (config.headers) {
       Object.keys(config.headers).forEach(function (key) {
-        xhr.setRequestHeader(key, config.headers[key]);
-      });
+        xhr.setRequestHeader(key, config.headers[key])
+      })
     }
     if (typeof config.data !== 'undefined') {
       xhr.send(config.data)

@@ -35,9 +35,9 @@ class BannerItem extends Component {
         }
         if (info.file.status === 'done') {
           console.log(info)
-          message.success(`${info.file.name} file uploaded successfully`)
+          message.success(`${info.file.name} 图片上传成功`)
         } else if (info.file.status === 'error') {
-          message.error(`${info.file.name} file upload failed.`)
+          message.error(`${info.file.name} 图片上传失败.`)
         }
       },
     }

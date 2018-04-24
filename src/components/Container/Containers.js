@@ -7,11 +7,10 @@ import ReCount from './ReCount'
 import Banner from './Banner'
 import ArticleList from './ArticleList'
 import OptionLists from './OptionLists'
-import Login from './Login'
 import NotFound from './NotFound'
 import ArticleGarbage from './ArticleGarbage'
 import TradeAudit from './TradeAudit'
-
+import InviteCode from './InviteCode'
 export {
   AuditTable,
   StudentInfoList,
@@ -22,8 +21,8 @@ export {
   Banner,
   ArticleList,
   OptionLists,
-  Login,
   NotFound,
   ArticleGarbage,
-  TradeAudit
+  TradeAudit,
+  InviteCode
 }

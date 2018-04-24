@@ -1,12 +1,13 @@
 import React, { Component } from 'react'
-import { Input, Button, Modal, Spin} from 'antd'
+import { Input, Button, Modal, Spin, message} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
 import { EditTutorPhone, EditStuPhone, GetResume, DownLoad} from "../../API/Api";
-import {transformTime} from "../../common/scripts/utils"
+import {transformTime, DownLoadResume} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.userId = props.userId
     this.isTutor = props.isTutor
     this.avatar = ''
@@ -18,7 +19,11 @@ class InfoForm extends Component {
       avatar: this.avatar,
       phone: props.phone,
       infoDataName: Object.keys(props),
-      infoDataValue: Object.values(props)
+      infoDataValue: Object.values(props),
+      fileUrl: '',
+      isStudent: props.hasOwnProperty('schoolId'),
+      hasResume: false,
+      resumeLoading: false
     }
   }
   handleInput = (event) => {
@@ -59,11 +64,23 @@ class InfoForm extends Component {
     }
   }
   getResume = () => {
-    const array = []
-    array.push(this.userId)
-    GetResume(JSON.stringify(array))
+    this.setState({
+      resumeLoading: true
+    })
+    DownLoadResume(this.userId)
       .then(res => {
-        console.log(res)
+        this.setState({
+          fileUrl: window.URL.createObjectURL(res),
+          hasResume: true,
+          resumeLoading: false
+        })
+      })
+      .catch(err => {
+        message.error('获取简历失败')
+        this.setState({
+          resumeLoading: false,
+          hasResume: false,
+        })
       })
   }
   componentWillReceiveProps(props) {
@@ -74,12 +91,14 @@ class InfoForm extends Component {
           this.avatar = res.data
         }),
     ]).then(() => {
+      this.userId = props.userId
       this.setState({
         infoDataName: Object.keys(props),
         infoDataValue: Object.values(props),
         phone: props.phone,
         loading: false,
-        avatar: this.avatar
+        avatar: this.avatar,
+        isStudent: props.hasOwnProperty('schoolId'),isStudent: props.hasOwnProperty('schoolId')
       })
     })
 
@@ -176,17 +195,17 @@ class InfoForm extends Component {
             }
           </div>
           <br/>
-          <div>
-            <div>
-              <h4>个人附件(请在简历中查看)</h4>
-              {/*{this.state.attachList.map(item =>*/}
-              {/*<img src={item} style={style.img}/>*/}
-              {/*)}*/}
+          <Spin spinning={this.state.resumeLoading}>
+            <div hidden={!this.state.isStudent}>
+              <div>
+                <h4>个人附件(请在简历中查看)</h4>
+              </div>
+              <div>
+                <Button onClick={this.getResume} style={{float: 'right'}}>获取简历</Button>
+                <a download href={this.state.fileUrl} target='_blank' hidden={!this.state.hasResume}>下载简历</a>
+              </div>
             </div>
-            <div>
-              <Button onClick={this.getResume} style={{float: 'right'}}>下载简历</Button>
-            </div>
-          </div>
+          </Spin>
         </Spin>
       </section>
     )

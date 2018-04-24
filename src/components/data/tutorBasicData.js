@@ -13,19 +13,7 @@ export const columns = [
   },{
     title: '行业',
     dataIndex: 'trade',
-    key: 'trade',
-    filters: [
-      {
-        text: '互联网',
-        value: 1
-      },
-      {
-        text: '区块链',
-        value: 2
-      }
-    ],
-    filterMultiple: true,
-    onFilter: (value, record) => record.trade.toString().indexOf(value) === 0
+    key: 'trade'
   },{
     title: '公司',
     dataIndex: 'company',
@@ -56,11 +44,11 @@ export const columns = [
     filters: [
       {
         text: '是',
-        value: 2
+        value: true
       },
       {
         text: '否',
-        value: 1
+        value: false
       }
     ],
     filterMultiple: false,

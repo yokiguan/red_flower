@@ -27,6 +27,7 @@ export default class Score extends Component {
         })
         setTimeout(() => {
           modal.destroy()
+          window.location.reload()
         }, 2000)
       })
   }

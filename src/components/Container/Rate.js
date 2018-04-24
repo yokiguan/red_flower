@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Input, Button, InputNumber, Modal } from 'antd'
-import { GetFlowerRateAndMaxFlowerPerYear, EditFlowerRateAndMaxFlowerPerYear } from '../../API/Api'
+import { Button, InputNumber, Modal } from 'antd'
+import { GetFlowerRateAndMaxFlowerPerYearSwitch, EditFlowerRateAndMaxFlowerPerYearSwitch } from '../../API/Api'
 export default class Rate extends Component {
   constructor(props) {
     super(props)
@@ -15,7 +15,7 @@ export default class Rate extends Component {
     }
   }
   componentDidMount() {
-    GetFlowerRateAndMaxFlowerPerYear()
+    GetFlowerRateAndMaxFlowerPerYearSwitch()
       .then(res => {
         if (typeof res.code !== 'undefined' && res.code === 0) {
           this.setState({
@@ -57,7 +57,7 @@ export default class Rate extends Component {
       opKey: "MAX_FLOWER_PER_YEAR",
       opVal: this.state.NEW_MAX_FLOWER_PER_YEAR
     })
-    EditFlowerRateAndMaxFlowerPerYear(JSON.stringify(data))
+    EditFlowerRateAndMaxFlowerPerYearSwitch(JSON.stringify(data))
       .then(res => {
         if (typeof res.code  !== 'undefined' && res.code === 0) {
           alert('调整成功')
