@@ -67,7 +67,7 @@ class ArticleGarbage extends Component {
     }
     return (
       <div style={style.container}>
-        <h4>文章垃圾箱</h4>
+        <h3>文章垃圾箱</h3>
         <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
           <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
           <br/>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Modal, Spin } from 'antd'
-import md5 from 'js-md5'
+// import md5 from 'js-md5'
 import { AccountLogin, GetRole } from '../../API/Api'
 import '../../styles/login.css'
 const FormItem = Form.Item;
@@ -24,8 +24,8 @@ class Login extends Component {
       if (!err) {
         localStorage.setItem('username', values.username)
       }
-      const username = md5(values.userName)
-      const password = md5(values.password)
+      // const username = md5(values.userName)
+      // const password = md5(values.password)
       AccountLogin({username: values.userName, password: values.password})
         .then(res => {
           return GetRole()

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { Divider} from 'antd'
-import { GetSchoolList, GetDirectionList} from "../../API/Api";
 import OptionList from './OptionList'
 
 export default class OptionLists extends Component {

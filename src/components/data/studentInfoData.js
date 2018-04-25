@@ -1,5 +1,4 @@
 import React from 'react'
-import BasicModal from "../basicComponents/Modal";
 export const columns = [
   {
     title: '姓名',

@@ -78,7 +78,7 @@ class TutorInfoList extends Component {
     }
     return (
       <div style={style.container}>
-        <h4>导师信息列表</h4>
+        <h3>导师信息列表</h3>
         <Search placeholder='搜索姓名、行业、电话号。' onSearch={this.searchClick} style={{width: 300, marginBottom: 20 + 'px'}}/>
         <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
           <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>

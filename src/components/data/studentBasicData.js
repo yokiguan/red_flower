@@ -1,7 +1,6 @@
 import React from 'react'
 import InfoModal from "../basicComponents/InfoModal"
 import { degreeData} from "./dataMap"
-import { GetStudentScore } from "../../API/Api";
 const columns = [
   {
     title: '姓名',
@@ -18,7 +17,10 @@ const columns = [
   },{
     title: '学历',
     dataIndex: 'degree',
-    key: 'degree'
+    key: 'degree',
+    render: (value) => {
+      return  <span>{degreeData[value]}</span>
+    }
   },{
     title: '专业',
     dataIndex: 'profession',
@@ -28,9 +30,9 @@ const columns = [
     dataIndex: 'direction',
     key: 'direction'
   },{
-    title: '小红花数',
-    dataIndex: 'flowerNum',
-    key: 'flowerNum'
+    title: '小红花余额',
+    dataIndex: 'balance',
+    key: 'balance'
   },{
     title: '已做义工时间',
     dataIndex: 'workedTime',

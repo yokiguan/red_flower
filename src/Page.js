@@ -2,7 +2,6 @@ import React from 'react'
 import { HashRouter as Router, Route, Switch} from 'react-router-dom'
 import Login from './components/Container/Login'
 import App from './components/Container/Menu'
-import NotFound from './components/Container/NotFound'
 export default () => (
   <Router>
     <Switch>

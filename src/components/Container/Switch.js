@@ -104,7 +104,7 @@ export default class Switch extends Component {
     return (
       <section>
         <br/>
-        <h4>{this.state.nextState}小红花交易</h4>
+        <h3>{this.state.nextState}小红花交易</h3>
         <p>
           说明：
           1、关闭小红花交易系统，将同时停止海鲸小红花（小程序）中“捐赠善款”、“赠送小红花”、“申请奖学金”这3项功能。

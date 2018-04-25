@@ -93,7 +93,7 @@ export default class OptionList extends Component{
     return(
       <section style={{padding: 20 + 'px'}}>
         <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
-          <h4>{this.props.data.title}</h4>
+          <h3>{this.props.data.title}</h3>
           <p>{this.props.data.info}</p>
           <Option data={this.state.listData} edit={this.handleChange} delete={this.handleDelete} update={this.handleUpdate}/>
         </Spin>

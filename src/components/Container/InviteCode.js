@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Table, Button, Tabs, Spin, Pagination, Modal, Input} from 'antd'
+import { Table, Button, Tabs, Spin, Pagination, Modal} from 'antd'
 import { columns } from '../data/inviteCodeBasicData'
 import { GetInviteCode, AddInviteCode} from "../../API/Api"
 

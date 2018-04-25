@@ -137,7 +137,7 @@ class AuditTable extends Component {
     return (
       <div>
         <br/>
-        <h4>通用审核</h4>
+        <h3>通用审核</h3>
         <Tabs size='large' type='line' onChange={this.changeAuditType}>
           <Tabs.TabPane key='student' tab='学生信息'>
             <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>

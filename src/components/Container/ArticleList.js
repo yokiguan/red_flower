@@ -100,7 +100,7 @@ class ArticleList extends Component {
     }
     return (
       <div style={style.container}>
-        <h4>过审文章</h4>
+        <h3>过审文章</h3>
         <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
           <Table dataSource={this.state.dataSource} columns={columns} bordered={true}  rowSelection={rowSelection} pagination={false}/>
           <br/>
