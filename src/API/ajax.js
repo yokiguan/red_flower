@@ -141,7 +141,7 @@ const config_mothods = {
       }
     }
   },
-  PUT: (url, data) => {
+  PUT: (url, data = {}) => {
     return {
       method: 'PUT',
       url: url,

@@ -1,19 +1,18 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal, Spin, message} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
-import { EditTutorPhone, EditStuPhone, GetResume, DownLoad} from "../../API/Api";
+import { EditTutorPhone, EditStuPhone, DownLoad, GetTradeList, GetSchoolList, GetDirectionList, GetStuAnswer, GetQuestionList} from "../../API/Api";
 import {transformTime, DownLoadResume} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.userId = props.userId
     this.isTutor = props.isTutor
     this.avatar = ''
     this.attachList = []
     this.state = {
-      loading: typeof props.question === 'undefined' && typeof props.company === 'undefined' ? true: false,
+      loading: typeof props.question === 'undefined' && typeof props.company === 'undefined' && !props.hasOwnProperty('id'),
       isTutor: this.isTutor,
       attachList: this.attachList,
       avatar: this.avatar,
@@ -23,7 +22,7 @@ class InfoForm extends Component {
       fileUrl: '',
       isStudent: props.hasOwnProperty('schoolId'),
       hasResume: false,
-      resumeLoading: false
+      resumeLoading: false,
     }
   }
   handleInput = (event) => {
@@ -32,12 +31,69 @@ class InfoForm extends Component {
     })
   }
   componentDidMount() {
-    DownLoad({avatar: this.userId + '-avatar.jpg'})
-      .then(res => {
-        this.avatar = res.data
-        this.setState({
-          avatar: this.avatar
+    this.setState({
+      loading: true
+    })
+    const school = this.state.infoDataName.indexOf('schoolId')
+    const trade = this.state.infoDataName.indexOf('trade')
+    const direction = this.state.infoDataName.indexOf('direction')
+    const answer = []
+    Promise.all([
+      GetQuestionList()
+        .then(res => {
+          this.questionList = res.data
+        }),
+      GetSchoolList()
+        .then(res => {
+          this.schoolList = res.data
+        }),
+      GetDirectionList()
+        .then(res => {
+          this.directionList = res.data
+        }),
+      GetTradeList()
+        .then(res => {
+          this.tradeList = res.data
+        }),
+      DownLoad({avatar: this.userId + '-avatar.jpg'})
+        .then(res => {
+          this.avatar = res.data
+          this.setState({
+            avatar: this.avatar
+          })
         })
+    ])
+      .then(() => {
+        GetStuAnswer({id: this.props.userId, answer: 'answer'})
+          .then(res => {
+            this.answerList = res.data
+            this.answerList.map(answerItem => {
+              answer.push({
+                problem: this.questionList.filter(questionItem => questionItem.id === answerItem.questionId)[0].title,
+                answer: answerItem.answerContent
+              })
+            })
+            const name = this.state.infoDataName
+            const copy = this.state.infoDataValue
+            if (school !== -1) {
+              copy[school] = copy[school] !== -1? this.schoolList.filter(schoolItem => schoolItem.id === copy[school])[0].schoolName: '未填写'
+            }
+            if (direction !== -1) {
+              copy[direction] = copy[direction] !== -1? this.directionList.filter(directionItem => directionItem.id === copy[direction])[0].directionName: '未填写'
+            }
+            if (trade !== -1) {
+              copy[trade] = copy[trade] !== -1? this.tradeList.filter(tradeItem => tradeItem.id === copy[trade])[0].tradeName: '未填写'
+            }
+            if (answer.length > 0) {
+              copy.push(answer)
+              name.push('question')
+            }
+            this.setState({
+              loading: false,
+              infoDataValue: copy,
+              infoDataName: name
+            })
+          })
       })
   }
   handleEditPhone = () => {
@@ -124,7 +180,9 @@ class InfoForm extends Component {
               this.state.infoDataName.map((item, index) => {
                 switch (item) {
                   case 'isTutor':
+                  case 'id':
                   case 'status':
+                  case 'createTime':
                   case 'avatar':
                     return
                   case 'degree':
@@ -184,10 +242,16 @@ class InfoForm extends Component {
                       })
                     )
                     break
+                  case 'userRole':
+                    return (
+                      <div key={item}>
+                        <label>{infoDataMap[item]}：</label><Input value={this.props[item] === 2? '导师' : '学生'} disabled={true}/>
+                      </div>
+                    )
                   default:
                     return (
                       <div key={item}>
-                        <label>{infoDataMap[item]}：</label><Input value={this.props[item]} disabled={true}/>
+                        <label>{infoDataMap[item]}：</label><Input value={this.state.infoDataValue[index]} disabled={true}/>
                       </div>
                     )
                 }

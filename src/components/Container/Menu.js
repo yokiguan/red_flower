@@ -91,7 +91,6 @@ export default class App extends Component {
             theme={this.state.theme}
             onClick={this.handleClick}
             style={{ width: 256 }}
-            defaultOpenKeys={['rate']}
             selectedKeys={[this.state.current]}
             mode="inline"
           >

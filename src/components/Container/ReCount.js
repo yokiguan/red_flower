@@ -25,12 +25,12 @@ export default class ReCount extends Component {
   handleClickOK = () => {
     ResetCounter()
       .then(res => {
-        console.log('测试')
         message.success('重置成功')
-        window.location.reload()
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
       })
       .catch(err => {
-        message.error('重置失败')
         this.setState({
           visible: false
         })

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, InputNumber, Layout, Divider, Upload, Icon, message} from 'antd'
+import { Button, InputNumber, Layout, Divider, Upload, Icon, message, Spin} from 'antd'
 import { EditBanner, DownLoad, UpLoad, GetBanner} from "../../API/Api"
 
 class BannerItem extends Component {
@@ -7,7 +7,8 @@ class BannerItem extends Component {
     super(props)
     this.state = {
       articleId: props.info,
-      imgUrl: ''
+      imgUrl: '',
+      loading: true
     }
     this.upload = {
       name: 'file',
@@ -67,7 +68,8 @@ class BannerItem extends Component {
     DownLoad({banner: `banner-${this.props.index}.jpg`})
       .then(res => {
         this.setState({
-          imgUrl: res.data
+          imgUrl: res.data,
+          loading: false
         })
       })
   }
@@ -96,24 +98,26 @@ class BannerItem extends Component {
       }
     }
     return (
-      <div type='flex' gutter={16} style={BannerItemStyle.container}>
-        <img src={this.state.imgUrl} style={BannerItemStyle.image} alt={"当前轮播图" + this.props.index}/>
-        <div style={BannerItemStyle.info}>
-          <div>
-            <label>当前文章ID：</label>
-            <InputNumber value={this.state.articleId} onChange={this.handleChangeArticleId}/>
-          </div>
-          <div style={BannerItemStyle.buttonGroup}>
-            <Upload {...this.upload} style={BannerItemStyle.buttonGutter}>
-              <Button>
-                <Icon type="upload" /> 选择图片
-              </Button>
-            </Upload>
-            <br/>
-            <Button style={BannerItemStyle.buttonGutter} onClick={this.updateBanner}>更新</Button>
+      <Spin spinning={this.state.loading} style={{marginLeft: -600 + 'px'}}>
+        <div type='flex' gutter={16} style={BannerItemStyle.container}>
+          <img src={this.state.imgUrl} style={BannerItemStyle.image} alt={"当前轮播图" + this.props.index}/>
+          <div style={BannerItemStyle.info}>
+            <div>
+              <label>当前文章ID：</label>
+              <InputNumber value={this.state.articleId} onChange={this.handleChangeArticleId}/>
+            </div>
+            <div style={BannerItemStyle.buttonGroup}>
+              <Upload {...this.upload} style={BannerItemStyle.buttonGutter}>
+                <Button>
+                  <Icon type="upload" /> 选择图片
+                </Button>
+              </Upload>
+              <br/>
+              <Button style={BannerItemStyle.buttonGutter} onClick={this.updateBanner}>更新</Button>
+            </div>
           </div>
         </div>
-      </div>
+      </Spin>
     )
   }
 }

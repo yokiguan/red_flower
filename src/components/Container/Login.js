@@ -26,8 +26,6 @@ class Login extends Component {
       }
       const username = md5(values.userName)
       const password = md5(values.password)
-      console.log(username)
-      console.log(password)
       AccountLogin({username: values.userName, password: values.password})
         .then(res => {
           return GetRole()

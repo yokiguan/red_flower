@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, InputNumber, Modal } from 'antd'
+import { Button, InputNumber, Modal, message } from 'antd'
 import { GetFlowerRateAndMaxFlowerPerYearSwitch, EditFlowerRateAndMaxFlowerPerYearSwitch } from '../../API/Api'
 export default class Rate extends Component {
   constructor(props) {
@@ -18,11 +18,12 @@ export default class Rate extends Component {
     GetFlowerRateAndMaxFlowerPerYearSwitch()
       .then(res => {
         if (typeof res.code !== 'undefined' && res.code === 0) {
+          console.log(res.data.filter(item => item.opKey === 'EXCHANGE_RATE')[0])
           this.setState({
-            EXCHANGE_RATE: res.data[0].opVal,
-            MAX_FLOWER_PER_YEAR: res.data[1].opVal,
-            NEW_EXCHANGE_RATE: res.data[0].opVal,
-            NEW_MAX_FLOWER_PER_YEAR: res.data[1].opVal
+            EXCHANGE_RATE: res.data.filter(item => item.opKey === 'EXCHANGE_RATE')[0].opVal,
+            MAX_FLOWER_PER_YEAR: res.data.filter(item => item.opKey === 'MAX_FLOWER_PER_YEAR')[0].opVal,
+            NEW_EXCHANGE_RATE: res.data.filter(item => item.opKey === 'EXCHANGE_RATE')[0].opVal,
+            NEW_MAX_FLOWER_PER_YEAR: res.data.filter(item => item.opKey === 'MAX_FLOWER_PER_YEAR')[0].opVal
           })
         }
       })
@@ -43,7 +44,6 @@ export default class Rate extends Component {
   }
   handleButtonClick= () => {
     this.setState({
-      ...this.state,
       visible: true
     })
   }
@@ -51,27 +51,22 @@ export default class Rate extends Component {
     const data = []
     data.push({
       opKey: "EXCHANGE_RATE",
-      opVal: this.state.NEW_EXCHANGE_RATE
+      opVal: this.state.NEW_EXCHANGE_RATE.toString()
     })
     data.push({
       opKey: "MAX_FLOWER_PER_YEAR",
-      opVal: this.state.NEW_MAX_FLOWER_PER_YEAR
+      opVal: this.state.NEW_MAX_FLOWER_PER_YEAR.toString()
     })
     EditFlowerRateAndMaxFlowerPerYearSwitch(JSON.stringify(data))
       .then(res => {
-        if (typeof res.code  !== 'undefined' && res.code === 0) {
-          alert('调整成功')
-        } else {
-          alert('调整失败')
-        }
-        this.setState({
-          visible: false
-        })
+        message.success('修改成功')
+        setTimeout(() => {
+          window.location.reload()
+        }, 1500)
       })
   }
   handleClickCancel = () => {
     this.setState({
-      ...this.state,
       visible: false
     })
   }
@@ -106,6 +101,7 @@ export default class Rate extends Component {
           <label style={{width: 200 + 'px'}}>调整后的汇率:&emsp;</label>
           <InputNumber disabled={true} style={{width: 200}} value={this.state.NEW_EXCHANGE_RATE}/>
           <label>（元/朵）</label>
+          <br/>
           <br/>
           <label style={{width: 200 + 'px'}}>调整后的每年最大可收小红花数:&emsp;</label>
           <InputNumber disabled={true} style={{width: 200}} value={this.state.NEW_MAX_FLOWER_PER_YEAR}/>
