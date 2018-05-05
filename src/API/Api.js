@@ -129,9 +129,6 @@ const EditStuPhone = (data) => {
 const EditTutorPhone = (data) => {
   return ajax('put_restful', '/tutor', data)
 }
-const GetResume = (data) => {
-  return ajax('post', '/generate', data)
-}
 const GetBanner = () => {
   return ajax('get', '/banner')
 }
@@ -146,6 +143,9 @@ const AddInviteCode = (data) => {
 }
 const GetRole = () => {
   return ajax('get', '/admin/role')
+}
+const EditVoluntary = (data) => {
+  return ajax('put', '/edit/voluntary', data)
 }
 export {
   DownLoad,
@@ -191,7 +191,7 @@ export {
   CancelCertificateTutor,
   EditStuPhone,
   EditTutorPhone,
-  GetResume,
+  EditVoluntary,
   GetBanner,
   GetInviteCode,
   DeleteInviteCode,

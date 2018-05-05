@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal, Spin, message} from 'antd'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
-import { EditTutorPhone, EditStuPhone, DownLoad, GetTradeList, GetSchoolList, GetDirectionList, GetStuAnswer, GetQuestionList} from "../../API/Api";
+import { EditTutorPhone, EditStuPhone, DownLoad, GetTradeList, GetSchoolList, GetDirectionList, GetStuAnswer, GetQuestionList, EditVoluntary} from "../../API/Api";
 import {transformTime, DownLoadResume} from "../../common/scripts/utils"
 
 class InfoForm extends Component {
@@ -28,6 +28,11 @@ class InfoForm extends Component {
   handleInput = (event) => {
     this.setState({
       phone: event.target.value
+    })
+  }
+  handleInputWorkedTime = (event) => {
+    this.setState({
+      workedTime: event.target.value
     })
   }
   componentDidMount() {
@@ -119,6 +124,12 @@ class InfoForm extends Component {
         })
     }
   }
+  handleEditWorkedTime =() => {
+    EditVoluntary(JSON.stringify({stuId: this.userId, workedTime: this.state.workedTime}))
+      .then(res => {
+        console.log(res)
+      })
+  }
   getResume = () => {
     this.setState({
       resumeLoading: true
@@ -140,7 +151,6 @@ class InfoForm extends Component {
       })
   }
   componentWillReceiveProps(props) {
-    const attachList = []
     Promise.all([
       DownLoad({avatar: props.userId + '-avatar.jpg'})
         .then(res => {
@@ -153,6 +163,7 @@ class InfoForm extends Component {
         infoDataValue: Object.values(props),
         phone: props.phone,
         loading: false,
+        workedTime: props.workedTime,
         avatar: this.avatar,
         isStudent: props.hasOwnProperty('schoolId'),isStudent: props.hasOwnProperty('schoolId')
       })
@@ -223,6 +234,14 @@ class InfoForm extends Component {
                       </div>
                     )
                     break
+                  case 'workedTime':
+                    return (
+                      <div key={item}>
+                        <label>{infoDataMap[item]}：</label><Input value={this.state.workedTime} onChange={this.handleInputWorkedTime} disabled={false}/>
+                        <br/>
+                        <Button onClick={this.handleEditWorkedTime}>修改义工时间</Button>
+                      </div>
+                    )
                   case 'personalIntro':
                   case 'content':
                     return (
