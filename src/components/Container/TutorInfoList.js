@@ -84,6 +84,8 @@ class TutorInfoList extends Component {
           <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
           <br/>
           <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+          <br/>
+          <br/>
         </Spin>
       </div>
     )

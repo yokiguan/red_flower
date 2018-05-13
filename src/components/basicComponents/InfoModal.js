@@ -13,20 +13,27 @@ const IsStudent = (props) => {
 class InfoModal extends Component {
   constructor(props) {
     super(props)
+    if (typeof props.studentId !== 'undefined') {
+      this.isStudent = true
+      this.userId = props.studentId
+    } else if (typeof props.tutorId !== 'undefined') {
+      this.isStudent = false
+      this.userId = props.tutorId
+    }
     this.state = {
       visible: false
     }
   }
   componentDidMount() {
-    if (typeof this.props.studentId !== 'undefined') {
-      GetStuInfo({id: this.props.studentId})
+    if (this.isStudent) {
+      GetStuInfo({id: this.userId})
         .then(res => {
           this.data = res.data
           return GetQuestionList()
         })
         .then(res => {
           this.questionList = res.data
-          return GetStuAnswer({id: this.props.studentId, answer: 'answer'})
+          return GetStuAnswer({id: this.userId, answer: 'answer'})
         })
         .then(res => {
           let answerList = res.data
@@ -51,9 +58,8 @@ class InfoModal extends Component {
           this.setState({
             data: this.data
           })
-          console.log('加载学生信息')
         })
-    } else if( typeof this.props.tutorId !== 'undefined') {
+    } else {
       GetTutorInfo({id: this.props.tutorId})
         .then(res => {
           this.userId = res.data.userId

@@ -24,6 +24,7 @@ class InfoForm extends Component {
       hasResume: false,
       resumeLoading: false,
     }
+    console.log(`当前用户为${this.userId}`)
   }
   handleInput = (event) => {
     this.setState({
@@ -151,13 +152,13 @@ class InfoForm extends Component {
       })
   }
   componentWillReceiveProps(props) {
+    console.log(props.userId)
     Promise.all([
-      DownLoad({avatar: props.userId + '-avatar.jpg'})
+      DownLoad({avatar: this.userId + '-avatar.jpg'})
         .then(res => {
           this.avatar = res.data
         }),
     ]).then(() => {
-      this.userId = props.userId
       this.setState({
         infoDataName: Object.keys(props),
         infoDataValue: Object.values(props),

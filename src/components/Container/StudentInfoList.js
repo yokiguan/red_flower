@@ -20,16 +20,30 @@ class StudentInfoList extends Component {
     })
     GetStuInfoList({word: value})
       .then(res => {
-        res.data.map(item => {
+        res.data.forEach((item, index) => {
+          res.data[index].key = item.userId
+        })
+        this.dataSource = res.data
+        let scoreArray = []
+        this.dataSource.map((item, index) => {
+          item.key = item.userId
           item.flowerNum = item.flowerNum || 0
           item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
           item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
+          scoreArray.push(
+            GetStudentScore({id: item.userId})
+              .then(res => {
+                this.dataSource[index].score = res.data
+              })
+          )
         })
-        this.setState({
-          loading: false,
-          dataSource: res.data
-
-        })
+        Promise.all(scoreArray)
+          .then(res => {
+            this.setState({
+              dataSource: this.dataSource,
+              loading: false
+            })
+          })
       })
   }
   pageChange = (page) => {
@@ -39,20 +53,30 @@ class StudentInfoList extends Component {
     })
     GetStuInfoList({page: page - 1})
       .then(res => {
+        res.data.forEach((item, index) => {
+          res.data[index].key = item.userId
+        })
         this.dataSource = res.data
+        let scoreArray = []
         this.dataSource.map((item, index) => {
+          item.key = item.userId
           item.flowerNum = item.flowerNum || 0
           item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
           item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
-          GetStudentScore({id: item.userId})
-            .then(res => {
-              this.dataSource[index].score = res.data
-              this.setState({
-                dataSource: this.dataSource,
-                loading: false
+          scoreArray.push(
+            GetStudentScore({id: item.userId})
+              .then(res => {
+                this.dataSource[index].score = res.data
               })
-            })
+          )
         })
+        Promise.all(scoreArray)
+          .then(res => {
+            this.setState({
+              dataSource: this.dataSource,
+              loading: false
+            })
+          })
       })
       .catch(err => {
         this.setState({
@@ -79,20 +103,30 @@ class StudentInfoList extends Component {
       .then(res => {
         GetStuInfoList({page: this.state.page})
           .then(res => {
+            res.data.forEach((item, index) => {
+              res.data[index].key = item.userId
+            })
             this.dataSource = res.data
+            let scoreArray = []
             this.dataSource.map((item, index) => {
+              item.key = item.userId
               item.flowerNum = item.flowerNum || 0
               item.school = item.schoolId !== -1? this.schoolList[item.schoolId]: '未填写'
               item.direction = item.direction !== -1? this.directionList[item.direction]: '未填写'
-              GetStudentScore({id: item.userId})
+              scoreArray.push(
+                GetStudentScore({id: item.userId})
                 .then(res => {
                   this.dataSource[index].score = res.data
-                  this.setState({
-                    dataSource: this.dataSource,
-                    loading: false
-                  })
                 })
+              )
             })
+            Promise.all(scoreArray)
+              .then(res => {
+                this.setState({
+                  dataSource: this.dataSource,
+                  loading: false
+                })
+              })
           })
       })
   }
@@ -111,6 +145,8 @@ class StudentInfoList extends Component {
           <Table dataSource={this.state.dataSource} columns={columns} bordered={true} pagination={false}/>
           <br/>
           <Pagination current={this.state.page} onChange={this.pageChange} total={100}/>
+          <br/>
+          <br/>
         </Spin>
       </div>
     )
