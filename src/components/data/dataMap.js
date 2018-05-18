@@ -49,7 +49,8 @@ const infoDataMap = {
   attachNum: '附件数',
   schoolId: '学校',
   amount: '数额',
-  exchangeRate: '小红花汇率'
+  exchangeRate: '小红花汇率',
+  bankBranch: '开户行'
 }
 const articleData = {
   title: '标题',

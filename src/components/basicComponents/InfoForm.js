@@ -128,7 +128,12 @@ class InfoForm extends Component {
   handleEditWorkedTime =() => {
     EditVoluntary(JSON.stringify({stuId: this.userId, workedTime: this.state.workedTime}))
       .then(res => {
-        console.log(res)
+        let modal = Modal.success({
+          content: '成功修改义工时间'
+        })
+        setTimeout(() => {
+          modal.destroy()
+        }, 3000)
       })
   }
   getResume = () => {
@@ -152,7 +157,7 @@ class InfoForm extends Component {
       })
   }
   componentWillReceiveProps(props) {
-    console.log(props.userId)
+    console.log(props)
     Promise.all([
       DownLoad({avatar: this.userId + '-avatar.jpg'})
         .then(res => {
