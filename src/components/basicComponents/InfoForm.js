@@ -13,6 +13,7 @@ class InfoForm extends Component {
     this.avatar = ''
     this.attachList = []
     this.state = {
+      username: props.name,
       loading: typeof props.question === 'undefined' && typeof props.company === 'undefined' && !props.hasOwnProperty('id'),
       isTutor: this.isTutor,
       attachList: this.attachList,
@@ -23,7 +24,8 @@ class InfoForm extends Component {
       fileUrl: '',
       isStudent: props.hasOwnProperty('schoolId'),
       hasResume: false,
-      resumeLoading: false
+      resumeLoading: false,
+      workedTime: props.workedTime || 0
     }
     console.log(`当前用户为${this.userId}`)
   }
@@ -46,10 +48,6 @@ class InfoForm extends Component {
     const direction = this.state.infoDataName.indexOf('direction')
     const answer = []
     Promise.all([
-      GetQuestionList()
-        .then(res => {
-          this.questionList = res.data
-        }),
       GetSchoolList()
         .then(res => {
           this.schoolList = res.data
@@ -64,36 +62,26 @@ class InfoForm extends Component {
         })
     ])
       .then(() => {
-        GetStuAnswer({id: this.props.userId, answer: 'answer'})
-          .then(res => {
-            this.answerList = res.data
-            this.answerList.map(answerItem => {
-              answer.push({
-                problem: this.questionList.filter(questionItem => questionItem.id === answerItem.questionId)[0].title,
-                answer: answerItem.answerContent
-              })
-            })
-            const name = this.state.infoDataName
-            const copy = this.state.infoDataValue
-            if (school !== -1) {
-              copy[school] = copy[school] !== -1? this.schoolList.filter(schoolItem => schoolItem.id === copy[school])[0].schoolName: '未填写'
-            }
-            if (direction !== -1) {
-              copy[direction] = copy[direction] !== -1? this.directionList.filter(directionItem => directionItem.id === copy[direction])[0].directionName: '未填写'
-            }
-            if (trade !== -1) {
-              copy[trade] = copy[trade] !== -1? this.tradeList.filter(tradeItem => tradeItem.id === copy[trade])[0].tradeName: '未填写'
-            }
-            if (answer.length > 0) {
-              copy.push(answer)
-              name.push('question')
-            }
-            this.setState({
-              loading: false,
-              infoDataValue: copy,
-              infoDataName: name
-            })
-          })
+        const name = this.state.infoDataName
+        const copy = this.state.infoDataValue
+        if (school !== -1) {
+          copy[school] = copy[school] !== -1? this.schoolList.filter(schoolItem => schoolItem.id === copy[school])[0].schoolName: '未填写'
+        }
+        if (direction !== -1) {
+          copy[direction] = copy[direction] !== -1? this.directionList.filter(directionItem => directionItem.id === copy[direction])[0].directionName: '未填写'
+        }
+        if (trade !== -1) {
+          copy[trade] = copy[trade] !== -1? this.tradeList.filter(tradeItem => tradeItem.id === copy[trade])[0].tradeName: '未填写'
+        }
+        if (answer.length > 0) {
+          copy.push(answer)
+          name.push('question')
+        }
+        this.setState({
+          loading: false,
+          infoDataValue: copy,
+          infoDataName: name
+        })
       })
     DownLoad({avatar: this.props.userId + '-avatar.jpg'})
       .then(res => {
@@ -162,24 +150,6 @@ class InfoForm extends Component {
     console.log('图片错误')
     this.setState({
       avatar: avatar
-    })
-  }
-  componentWillReceiveProps(props) {
-    Promise.all([
-      DownLoad({avatar: this.userId + '-avatar.jpg'})
-        .then(res => {
-          this.avatar = res.data
-        }),
-    ]).then(() => {
-      this.setState({
-        infoDataName: Object.keys(props),
-        infoDataValue: Object.values(props),
-        phone: props.phone,
-        loading: false,
-        workedTime: props.workedTime,
-        avatar: this.avatar,
-        isStudent: props.hasOwnProperty('schoolId')
-      })
     })
   }
   render() {
@@ -297,7 +267,7 @@ class InfoForm extends Component {
               </div>
               <div>
                 <Button onClick={this.getResume} style={{float: 'right'}}>获取简历</Button>
-                <a download href={this.state.fileUrl} target='_blank' hidden={!this.state.hasResume}>下载简历</a>
+                <a download={`${this.state.username}.pdf`} href={this.state.fileUrl} target='_blank' hidden={!this.state.hasResume}>下载简历</a>
               </div>
             </div>
           </Spin>

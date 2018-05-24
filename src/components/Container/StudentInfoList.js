@@ -40,9 +40,13 @@ class StudentInfoList extends Component {
         Promise.all(scoreArray)
           .then(res => {
             this.setState({
-              dataSource: this.dataSource,
-              loading: false
+              dataSource: this.dataSource
             })
+            setTimeout(() => {
+              this.setState({
+                loading: false
+              })
+            }, 1000)
           })
       })
   }

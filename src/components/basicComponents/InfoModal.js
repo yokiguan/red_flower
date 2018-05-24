@@ -21,7 +21,8 @@ class InfoModal extends Component {
       this.userId = props.tutorId
     }
     this.state = {
-      visible: false
+      visible: false,
+      infoHidden: true
     }
   }
   componentDidMount() {
@@ -38,14 +39,14 @@ class InfoModal extends Component {
         .then(res => {
           let answerList = res.data
           let questionAndAnswer = []
-          this.questionList.map(problem => {
+          this.questionList.forEach(problem => {
             if (answerList.length === 0) {
               questionAndAnswer.push({
                 problem: problem.title,
                 answer: '未作答'
               })
             }
-            answerList.map(answer => {
+            answerList.forEach(answer => {
               if (answer.questionId === problem.id) {
                 questionAndAnswer.push({
                   problem: problem.title,
@@ -56,7 +57,8 @@ class InfoModal extends Component {
           })
           this.data['question'] = questionAndAnswer
           this.setState({
-            data: this.data
+            data: this.data,
+            infoHidden: false
           })
         })
     } else {
@@ -113,7 +115,7 @@ class InfoModal extends Component {
   render() {
     return (
       <div>
-        <Button onClick={this.showModal}>查看详情</Button>
+        <Button onClick={this.showModal} hidden={this.state.infoHidden}>查看详情</Button>
         &emsp;&emsp;
         <Button onClick={this.PassTutor} hidden={!(typeof this.state.isTutor !== 'undefined' && this.state.isTutor === 0)}>设置为导师</Button>
         <Button onClick={this.CancelTutor} hidden={!(typeof this.state.isTutor !== 'undefined' && this.state.isTutor === 1)}>取消导师资格</Button>
