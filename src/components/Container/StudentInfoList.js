@@ -49,7 +49,8 @@ class StudentInfoList extends Component {
   pageChange = (page) => {
     this.setState({
       page: page,
-      loading: true
+      loading: true,
+      dataSource: []
     })
     GetStuInfoList({page: page - 1})
       .then(res => {

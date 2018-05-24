@@ -31,7 +31,8 @@ class TutorInfoList extends Component {
   pageChange = (page) => {
     this.setState({
       page: page,
-      loading: true
+      loading: true,
+      dataSource: []
     })
     GetTutorInfoList({page: page - 1})
       .then(res => {

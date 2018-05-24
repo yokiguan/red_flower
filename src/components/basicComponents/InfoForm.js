@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Input, Button, Modal, Spin, message} from 'antd'
+import avatar from '../../images/avatar.png'
 import { infoDataMap, degreeData, sexData} from "../data/dataMap"
 import { EditTutorPhone, EditStuPhone, DownLoad, GetTradeList, GetSchoolList, GetDirectionList, GetStuAnswer, GetQuestionList, EditVoluntary} from "../../API/Api";
 import {transformTime, DownLoadResume} from "../../common/scripts/utils"
@@ -22,7 +23,7 @@ class InfoForm extends Component {
       fileUrl: '',
       isStudent: props.hasOwnProperty('schoolId'),
       hasResume: false,
-      resumeLoading: false,
+      resumeLoading: false
     }
     console.log(`当前用户为${this.userId}`)
   }
@@ -60,13 +61,6 @@ class InfoForm extends Component {
       GetTradeList()
         .then(res => {
           this.tradeList = res.data
-        }),
-      DownLoad({avatar: this.userId + '-avatar.jpg'})
-        .then(res => {
-          this.avatar = res.data
-          this.setState({
-            avatar: this.avatar
-          })
         })
     ])
       .then(() => {
@@ -100,6 +94,13 @@ class InfoForm extends Component {
               infoDataName: name
             })
           })
+      })
+    DownLoad({avatar: this.props.userId + '-avatar.jpg'})
+      .then(res => {
+        this.avatar = res.data
+        this.setState({
+          avatar: this.avatar
+        })
       })
   }
   handleEditPhone = () => {
@@ -142,6 +143,7 @@ class InfoForm extends Component {
     })
     DownLoadResume(this.userId)
       .then(res => {
+        console.log(window.URL.createObjectURL(res))
         this.setState({
           fileUrl: window.URL.createObjectURL(res),
           hasResume: true,
@@ -156,8 +158,13 @@ class InfoForm extends Component {
         })
       })
   }
+  handleImgError = () => {
+    console.log('图片错误')
+    this.setState({
+      avatar: avatar
+    })
+  }
   componentWillReceiveProps(props) {
-    console.log(props)
     Promise.all([
       DownLoad({avatar: this.userId + '-avatar.jpg'})
         .then(res => {
@@ -171,16 +178,15 @@ class InfoForm extends Component {
         loading: false,
         workedTime: props.workedTime,
         avatar: this.avatar,
-        isStudent: props.hasOwnProperty('schoolId'),isStudent: props.hasOwnProperty('schoolId')
+        isStudent: props.hasOwnProperty('schoolId')
       })
     })
-
   }
   render() {
     const style = {
       avatar: {
         borderRadius: 50 + '%',
-        width: 200 + 'px'
+        width: 100 + 'px'
       },
       img: {
         width: 100 + 'px',
@@ -190,7 +196,7 @@ class InfoForm extends Component {
     return (
       <section>
         <Spin spinning={this.state.loading}>
-          <img src={this.state.avatar} style={style.avatar} alt="用户头像" />
+          <img src={this.state.avatar} style={style.avatar} alt="用户头像" onError={this.handleImgError}/>
           <div>
             <h1>{this.state.infoDataName.avatar}</h1>
             {
