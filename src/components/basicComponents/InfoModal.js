@@ -67,7 +67,8 @@ class InfoModal extends Component {
           this.userId = res.data.userId
           this.setState({
             data: res.data,
-            isTutor: res.data.isTutor
+            isTutor: res.data.isTutor,
+            infoHidden: false
           })
         })
     }

@@ -27,7 +27,6 @@ class InfoForm extends Component {
       resumeLoading: false,
       workedTime: props.workedTime || 0
     }
-    console.log(`当前用户为${this.userId}`)
   }
   handleInput = (event) => {
     this.setState({
@@ -131,7 +130,6 @@ class InfoForm extends Component {
     })
     DownLoadResume(this.userId)
       .then(res => {
-        console.log(window.URL.createObjectURL(res))
         this.setState({
           fileUrl: window.URL.createObjectURL(res),
           hasResume: true,
@@ -139,7 +137,7 @@ class InfoForm extends Component {
         })
       })
       .catch(err => {
-        message.error('获取简历失败')
+        message.error('用户信息不全，无法获取简历')
         this.setState({
           resumeLoading: false,
           hasResume: false,
@@ -147,7 +145,6 @@ class InfoForm extends Component {
       })
   }
   handleImgError = () => {
-    console.log('图片错误')
     this.setState({
       avatar: avatar
     })
