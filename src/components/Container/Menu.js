@@ -6,11 +6,13 @@ const { Header, Content, Sider } = Layout
 const SubMenu = Menu.SubMenu
 const Role = {
   'ROLE_PLAIN': '普通管理员' ,
-  'ROLE_SUPER': '超级管理员'
+  'ROLE_SUPER': '超级管理员',
+  'ROLE_LOW': '管理员'
 }
 const Auth = {
   isPlain: false,
   isSuper: false,
+  isLow: false,
   user: ''
 }
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -37,13 +39,26 @@ const SuperPrivateRoute = ({ component: Component, ...rest }) => (
     )
   )}/>
 )
+const SecondPrivateRoute = ({ component: Component, ...rest}) => (
+  <Route {...rest} render={props => (
+    Auth.isPlain || Auth.isLow ? (
+      <Component {...props}/>
+    ) : (
+      <Redirect to={{
+        pathname: '/app/404',
+        state: { from: props.location }
+      }}/>
+    )
+  )}/>
+)
 export default class App extends Component {
   constructor(props) {
     super(props)
-    if (localStorage.getItem('Role') === 'ROLE_PLAIN' || localStorage.getItem('Role') === 'ROLE_SUPER') {
+    if (localStorage.getItem('Role') === 'ROLE_PLAIN' || localStorage.getItem('Role') === 'ROLE_SUPER' || localStorage.getItem('Role') === 'ROLE_LOW') {
       Auth.user = Role[localStorage.getItem('Role')]
       Auth.isSuper = localStorage.getItem('Role') === 'ROLE_SUPER'
       Auth.isPlain = localStorage.getItem('Role') === 'ROLE_PLAIN'
+      Auth.isLow = localStorage.getItem('Role') === 'ROLE_LOW'
     } else {
       window.location.href = '/'
     }
@@ -131,8 +146,22 @@ export default class App extends Component {
             </SubMenu>
           </Menu>
         )
+      } else {
+        return <Menu
+          theme={this.state.theme}
+          onClick={this.handleClick}
+          style={{ width: 256 }}
+          defaultOpenKeys={['audit']}
+          selectedKeys={[this.state.current]}
+          mode="inline"
+        >
+          <SubMenu key="info" title={<span><Icon type="idcard"/><span>信息管理</span></span>}>
+            <Menu.Item key="stu"><Link to='/app/info/stu'>学生列表</Link></Menu.Item>
+          </SubMenu>
+        </Menu>
       }
     }
+
     return (
       <Router>
         <Layout>
@@ -150,7 +179,7 @@ export default class App extends Component {
             <Content style={{ background: '#fff', textAlign: 'center' }}>
               <PrivateRoute path='/app/audit' component={AuditTable} />
               <PrivateRoute path='/app/trade' component={TradeAudit} />
-              <PrivateRoute path='/app/info/stu' component={StudentInfoList} />
+              <SecondPrivateRoute path='/app/info/stu' component={StudentInfoList} />
               <PrivateRoute path='/app/info/tutor' component={TutorInfoList} />
               <SuperPrivateRoute path='/app/flower/switch' component={Switch}/>
               <SuperPrivateRoute path='/app/flower/rate' component={Rate}/>

@@ -137,7 +137,7 @@ class InfoForm extends Component {
         })
       })
       .catch(err => {
-        message.error('用户信息不全，无法获取简历')
+        message.error('简历下载功能暂未开放')
         this.setState({
           resumeLoading: false,
           hasResume: false,

@@ -5,9 +5,9 @@ function makeRequest(config) {
     xhr.withCredentials = true
     xhr.onload = () => {
       if (xhr.status === 401) {
-        alert('登录失效或无权访问，请重新登录')
-        localStorage.clear()
-        window.location.href = '/'
+        // alert('登录失效或无权访问，请重新登录')
+        // localStorage.clear()
+        // window.location.href = '/'
       }
       if (xhr.status >= 200 && xhr.status < 300) {
         try {
