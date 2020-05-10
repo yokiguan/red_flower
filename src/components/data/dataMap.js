@@ -49,6 +49,7 @@ const infoDataMap = {
   attachNum: '附件数',
   schoolId: '学校',
   amount: '数额',
+  time: '捐赠时间',
   exchangeRate: '小红花汇率',
   bankBranch: '开户行'
 }
@@ -59,7 +60,7 @@ const articleData = {
 const otherInfoData = ['personalIntro', 'answer', 'problem']
 const importantInfoData = ['bankNumber', 'stuNumber', 'idNum', 'flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime']
 const basicInfoData = ['name', 'phone', 'degree', 'profession', 'position', 'field', 'score', 'company', 'direction', 'workedTime', 'school','flowerNum', 'flowerTotalNum', 'flowerSendNum', 'workedTime', 'trade']
-const auditType = ['未知', '学生信息', '导师信息', '文章', '活动']
+const auditType = ['未知', '学生信息', '导师信息', '文章', '活动','捐赠']
 const auditStatus = ['未提交', '审核中', '通过审核', '未通过审核']
 const degreeData = ['未填写', '本科', '硕士', '博士']
 const sexData = ['未填写', '男', '女']

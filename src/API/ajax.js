@@ -202,6 +202,16 @@ function config_params(method, url, data) {
 }
 
 const ajax = (method, url, data) => {
+  if(method==='getdonate')
+  return makeRequest({
+    method: 'GET',
+    url: 'http://redflower.whalefoundation.cn:8000'+url+config_queryString(data),
+    data:{},
+    headers: {
+      "Content-Type": 'application/json'
+    }
+  })
+  else
   return makeRequest(config_params(config_method(method), config_url(url), data))
 }
 

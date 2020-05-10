@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Table, Button, Tabs, Spin} from 'antd'
+import { Table, Button, Tabs,Pagination, Spin} from 'antd'
+import {donates} from '../data/DonateListData'
 import { columns } from '../data/auditBasicData'
 import { auditType, auditStatus} from "../data/dataMap"
-import { GetAuditList, GetStuAnswer, GetQuestionList} from "../../API/Api"
+import { GetAuditList, GetStuAnswer, GetQuestionList,GetDonate} from "../../API/Api"
 import { normalizeTime, judgePullAjax} from '../../common/scripts/utils'
 
 class AuditTable extends Component {
@@ -12,13 +13,42 @@ class AuditTable extends Component {
       loading: true,
       type: 1,
       status: 2,
+      page:0,
       auditType: {
         student: 1,
         tutor: 2,
         article: 3,
-        activity: 4
+        activity: 4,
+        donate:5
       }
     }
+  }
+  pageChange = (page) => {
+    this.setState({
+      page: page,
+      loaing: true
+    })
+    GetDonate({pageSize:10,pageIndex:page})
+      .then(res => {
+        if (typeof res.data !== 'undefined') {
+          res.data.map(item => {
+            item.createTime = normalizeTime(item.createTime)
+          })
+          this.setState({
+            dataSource: res.data,
+            loading: false
+          })
+        } else {}
+        this.setState({
+          loading: false
+        })
+      })
+      .catch(err => {
+        this.setState({
+          dataSource: [],
+          loading: false
+        })
+      })
   }
   changeAuditType = (value) => {
     this.setState({
@@ -26,8 +56,33 @@ class AuditTable extends Component {
       loading: true,
       dataSource: []
     })
+    if(this.state.auditType[value]===5){
+      GetDonate({pageSize:10,pageIndex:0})
+      .then(res => {
+        if (typeof res.data !== 'undefined') {
+          res.data.map(item => {
+            item.createTime = normalizeTime(item.createTime)
+          })
+          this.setState({
+            dataSource: res.data,
+            loading: false
+          })
+        } else {}
+        this.setState({
+          loading: false
+        })
+      })
+      .catch(err => {
+        this.setState({
+          dataSource: [],
+          loading: false
+        })
+      })
+    }
+    else
     GetAuditList({type: this.state.auditType[value], status: 1})
       .then(res => {
+        console.log(res)
         if (judgePullAjax(res) && res.data.length > 0) {
           this.dataSource = this.parseData(res.data)
           this.setState({
@@ -157,6 +212,12 @@ class AuditTable extends Component {
           <Tabs.TabPane key='article' tab='文章审核'>
             <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
               <Table dataSource={this.state.dataSource} columns={columns} bordered={true} />
+            </Spin>
+          </Tabs.TabPane>
+          <Tabs.TabPane key='donate' tab='捐赠数据'>
+            <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
+              <Table dataSource={this.state.dataSource} columns={donates} bordered={true} />
+              <Pagination current={this.state.page} onChange={this.pageChange} total={10}/>
             </Spin>
           </Tabs.TabPane>
         </Tabs>

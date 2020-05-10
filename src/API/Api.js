@@ -105,6 +105,9 @@ const EditFlowerRateAndMaxFlowerPerYearSwitch = (data) => {
 const GetStuAnswer = (data) => {
   return ajax('get_restful', '/stu', data)
 }
+const GetDonate = (data) => {
+  return ajax('getdonate', '/donate', data)
+}
 const GetArticleGarbage = (data) => {
   return ajax('get', '/article/garbage', data)
 }
@@ -181,6 +184,7 @@ export {
   GetStuAnswer,
   GetFlowerRateAndMaxFlowerPerYearSwitch,
   EditFlowerRateAndMaxFlowerPerYearSwitch,
+  GetDonate,
   GetArticleGarbage,
   DeleteArticle,
   GetWithdrawList,
