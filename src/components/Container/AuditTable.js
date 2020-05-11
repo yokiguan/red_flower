@@ -13,7 +13,9 @@ class AuditTable extends Component {
       loading: true,
       type: 1,
       status: 2,
-      page:0,
+      page:1,
+      pagesize:10,
+      donateData:[],
       auditType: {
         student: 1,
         tutor: 2,
@@ -25,18 +27,16 @@ class AuditTable extends Component {
   }
   pageChange = (page) => {
     this.setState({
-      page: page,
+      page: page-1,
       loaing: true
     })
-    GetDonate({pageSize:10,pageIndex:page})
+    GetDonate({pageSize:10,pageIndex:page-1})
       .then(res => {
         if (typeof res.data !== 'undefined') {
-          res.data.map(item => {
-            item.createTime = normalizeTime(item.createTime)
-          })
           this.setState({
-            dataSource: res.data,
-            loading: false
+            donateData: res.data,
+            loading: false,
+            pagesize:res.page_num
           })
         } else {}
         this.setState({
@@ -60,12 +60,10 @@ class AuditTable extends Component {
       GetDonate({pageSize:10,pageIndex:0})
       .then(res => {
         if (typeof res.data !== 'undefined') {
-          res.data.map(item => {
-            item.createTime = normalizeTime(item.createTime)
-          })
           this.setState({
-            dataSource: res.data,
-            loading: false
+            donateData: res.data,
+            loading: false,
+            pagesize:res.page_num
           })
         } else {}
         this.setState({
@@ -133,6 +131,7 @@ class AuditTable extends Component {
           loading: false
         })
       })
+
   }
   changeAuditStatus = (e) => {
     this.setState({
@@ -216,8 +215,8 @@ class AuditTable extends Component {
           </Tabs.TabPane>
           <Tabs.TabPane key='donate' tab='捐赠数据'>
             <Spin style={{marginLeft: -600 + 'px'}} spinning={this.state.loading}>
-              <Table dataSource={this.state.dataSource} columns={donates} bordered={true} />
-              <Pagination current={this.state.page} onChange={this.pageChange} total={10}/>
+              <Table dataSource={this.state.donateData} columns={donates} bordered={true} />
+              <Pagination current={this.state.page} onChange={this.pageChange} total={this.state.pagesize*10}/>
             </Spin>
           </Tabs.TabPane>
         </Tabs>
