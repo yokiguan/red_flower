@@ -6,7 +6,7 @@
   "dependencies": {
     "ajv": "^6.4.0",
     "antd": "^3.4.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "babel-plugin-import": "^1.6.7",
     "js-md5": "^0.7.3",
     "mock": "^0.1.1",
